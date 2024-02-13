@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+<p>teacher pispis</p>
+
+<table>Student
+    <tr>
+        <td>Name</td>
+        <td>Country</td>
+        <td>Birthday</td>
+        <td>Phone</td>
+        <td>Speed</td>
+
+        <td>Pass lessons</td>
+    </tr>
+        {% for info in student %}
+        <tr>
+            <td><a href="{{ url_for('main.information', id=info.id) }}">{{ info.name }}</a></td>
+            <td>{{ info.country }}</td>
+            <td>{{ info.date_of_birth }}</td>
+            <td>{{ info.phone_number }}</td>
+            <td>{{ info.speed }}</td>
+            <td>{{ info.pass_lesson }}</td>
+            <td><a href="{{ url_for('main.create_lesson', stud=info.id) }}">pass 1 lessons</a></td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+{% endblock %}

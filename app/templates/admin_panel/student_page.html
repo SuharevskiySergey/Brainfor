@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block app_content %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in get_flashed_messages(with_categories=true) %}
+                <span>{{ message }}</span>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <div style="width: 30%">
+        <form action="" method="post" novalidate>
+            {{ form.csrf_token() }}
+            <p>
+                {{ form.name.label }}<br>
+                {{ form.name(size=32) }}
+            </p>
+            <p>
+                {{ form.country.label }}<br>
+                {{ form.country(size=32) }}
+            </p>
+            <p>
+                {{ form.date_of_birth.label }}<br>
+                {{ form.date_of_birth(size=32) }}
+            </p>
+            <p>
+                {{ form.phone_number.label }}<br>
+                {{ form.phone_number(size=32) }}
+            </p>
+            <p>
+                {{ form.speed.label }}<br>
+                {{ form.speed(size=32) }}
+            </p>
+            <p>
+                {{ form.source.label }}<br>
+                {{ form.source(size=32) }}
+            </p>
+            <p>
+                {{ form.prize.label }}<br>
+                {{ form.prize(size=32) }}
+            </p>
+            <p>
+                {{ form.submit }}
+            </p>
+
+        </form>
+    </div>
+{% endblock %}

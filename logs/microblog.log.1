@@ -1,0 +1,106 @@
+2024-01-26 05:53:45,152 ERROR: Exception on / [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
+Traceback (most recent call last):
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "C:\Users\abifa\Desktop\Brainfor\app\main\routes.py", line 15, in index
+    return render_template('index.html')
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\templating.py", line 152, in render_template
+    return _render(app, template, context)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\templating.py", line 133, in _render
+    rv = template.render(context)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\jinja2\environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\abifa\Desktop\Brainfor\app\templates\index.html", line 1, in top-level template code
+    {% extends 'base.html' %}
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\jinja2\environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "C:\Users\abifa\Desktop\Brainfor\app\templates\base.html", line 39, in template
+    {% endblock %}
+jinja2.exceptions.TemplateSyntaxError: Unexpected end of template. Jinja was looking for the following tags: 'endif'. The innermost block that needs to be closed is 'if'.
+2024-01-30 08:05:36,439 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-01-30 22:51:26,353 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-01-30 22:51:47,453 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-01-30 22:51:55,333 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-01-30 22:55:49,302 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-01-30 22:55:57,482 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-02-02 05:17:24,652 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-02-02 12:08:02,383 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-02-03 16:24:05,237 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-02-03 16:24:25,758 ERROR: Exception on /del_teach/2/1 [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
+Traceback (most recent call last):
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\abifa\Desktop\Brainfor\app\main\teacher_panel\teacher_routes.py", line 43, in del_teacher
+    i = Teacher_To_Student.remove.filter(Teacher_To_Student.id_Student == stud).filter(Teacher_To_Student.id_Teacher == teach).first()
+AttributeError: type object 'Teacher_To_Student' has no attribute 'remove'
+2024-02-03 16:24:44,628 ERROR: Exception on /del_teach/2/1 [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
+Traceback (most recent call last):
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\abifa\Desktop\Brainfor\app\main\teacher_panel\teacher_routes.py", line 43, in del_teacher
+    Teacher_To_Student.remove.filter(Teacher_To_Student.id_Student == stud).filter(Teacher_To_Student.id_Teacher == teach).first()
+AttributeError: type object 'Teacher_To_Student' has no attribute 'remove'
+2024-02-03 16:24:49,846 ERROR: Exception on /del_teach/2/1 [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
+Traceback (most recent call last):
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\abifa\Desktop\Brainfor\app\main\teacher_panel\teacher_routes.py", line 43, in del_teacher
+    Teacher_To_Student.remove.filter(Teacher_To_Student.id_Student == stud).filter(Teacher_To_Student.id_Teacher == teach).first()
+AttributeError: type object 'Teacher_To_Student' has no attribute 'remove'
+2024-02-03 16:27:03,250 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-02-03 16:27:09,063 ERROR: Exception on /del_teach/2/1 [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
+Traceback (most recent call last):
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\abifa\Desktop\Brainfor\app\main\teacher_panel\teacher_routes.py", line 43, in del_teacher
+    db.session.remove(Teacher_To_Student).filter(Teacher_To_Student.id_Student == stud, Teacher_To_Student.id_Teacher == teach)
+TypeError: remove() takes 1 positional argument but 2 were given
+2024-02-03 16:29:16,609 ERROR: Exception on /del_teach/2/1 [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
+Traceback (most recent call last):
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "C:\Users\abifa\Desktop\Brainfor\app\main\teacher_panel\teacher_routes.py", line 43, in del_teacher
+TypeError: remove() takes 1 positional argument but 2 were given
+2024-02-05 12:40:34,883 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-02-05 13:04:21,886 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-02-05 16:00:15,655 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]

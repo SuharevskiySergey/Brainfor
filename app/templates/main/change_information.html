@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+
+{% block app_content %}
+<h1> Change my data</h1>
+    <div style="width: 30%">
+        <form action="" method="post" novalidate>
+            {{ form.csrf_token() }}
+            <p>
+                {{ form.name.label }}<br>
+                {{ form.name(size=32) }}
+            </p>
+            <p>
+                {{ form.country.label }}<br>
+                {{ form.country(size=32) }}
+            </p>
+            <p>
+                {{ form.date_of_birth.label }}<br>
+                {{ form.date_of_birth(size=32) }}
+            </p>
+            <p>
+                {{ form.phone_number.label }}<br>
+                {{ form.phone_number(size=32) }}
+            </p>
+            {% if role > 2 %}
+            <p>
+                {{ form.speed.label }}<br>
+                {{ form.speed(size=32) }}
+            </p>
+            <p>
+                {{ form.source.label }}<br>
+                {{ form.source(size=32) }}
+            </p>
+            <p>
+                {{ form.prize.label }}<br>
+                {{ form.prize(size=32) }}
+            </p>
+            {% endif %}
+            <p>
+                {{ form.submit }}
+            </p>
+
+        </form>
+    </div>
+
+{% endblock %}

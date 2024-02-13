@@ -1,0 +1,19 @@
+2024-02-05 17:18:11,348 ERROR: Exception on /teacher_panel [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
+Traceback (most recent call last):
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
+    response = self.full_dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+  File "C:\Users\abifa\Desktop\Brainfor\app\main\teacher_panel\teacher_routes.py", line 22, in teacher_panel
+    print(student[0].name)
+IndexError: list index out of range
+2024-02-07 20:23:08,777 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-02-07 20:24:04,240 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-02-07 20:24:18,304 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-02-07 21:36:43,516 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]

@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% block app_content %}
+
+<h1>Information</h1>
+<a href="{{ url_for('main.change_info', id=info.id) }}">change information</a>
+<h2> General info</h2>
+
+
+    <p>Name - {{ info.name }}</p>
+    <p>Country - {{ info.country }}</p>
+    <p>Phone - {{ info.phone_number }}</p>
+    <p> Birthday - {{ info.date_of_birth }}</p>
+    <p> Source - {{ info.source }}</p>
+
+{% if role > 1%}
+    <p> Speed - {{ info.speed }}</p>
+    <h2>info for teacher</h2>
+    <p> teachers rate (not yet)</p>
+{% endif %}
+
+
+{% if role >2 %}
+    <h2>Only for admin+</h2>
+
+    <p>Price per lesson - {{ info.value }}</p>
+    <p>Money paid - {{ info.pay_already }}</p>
+    <p>Lessons left (not yet)</p>
+    <p>Lessons passed - {{ info.pass_lesson }}</p>
+
+{% endif %}
+<div style="color: black; background-color: gray; width: 200px; height: 100px;">
+    {% for gra in graph %}
+        <p> {{gra.alt_key[gra.weekday]}} {{gra.hour}}:{{gra.minute}} <a href="{{ url_for('main.dell_graph',id = gra.id) }}">delete</a> </p>
+    {% endfor %}
+    <a href="{{url_for('main.add_graficks', id=info.id)}}">add_graph </a>
+</div>
+
+{% if role > 1 and info.role() == 1 %}
+    <div style="color: black; background-color: green; width: 200px; height: 100px;">Teacher:
+
+
+        {% for teacher in teachers %}
+            <a href="{{ url_for('main.information', id = teacher.id) }}">{{ teacher.name }}</a><a href="{{ url_for('main.del_teacher', stud=info.id , teach=teacher.id_user) }}"> delete</a>
+        {% endfor %}
+        <a href="{{ url_for('main.chouse_teacher',id=info.id) }}">add new</a>
+
+        </div>
+    <p>Lessons executed</p>
+    <table>
+        {% for lesson in lessons %}
+            <tr>
+                <td>{{ lesson.teacher_name() }}</td>
+                <td>{{ lesson.datetime }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p>teacher when was</p>
+{% endif %}
+
+{% if role > 1 and info.role()==2 %}
+    <p>Executed lesson</p>
+
+    {% for week in lessons %}
+    <table>
+        <tr>
+            <td>Monday</td>
+            <td>Tuesday</td>
+            <td>Wednesday</td>
+            <td>Thursday</td>
+            <td>Friday</td>
+            <td>Saturday</td>
+            <td>Sunday</td>
+        </tr>
+        <tr>
+            {% for i in range(6) %}
+            <td>
+                    <ul>
+                    {% for less in week[i]%}
+                        <li>
+                        {{ less.student_name() }}
+                        {{ less.daytime_output() }}
+                        </li>
+                    {% endfor %}
+                    </ul>
+            </td>
+            {% endfor %}
+        </tr>
+    </table>
+    {% endfor %}
+
+{% endif %}
+
+{% endblock %}

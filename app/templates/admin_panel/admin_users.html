@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+    <p> view on users </p>
+    <a href="{{ url_for('main.admin_panel_main') }}">administration student </a>
+    <table>
+        <tr>
+            <td>Name</td>
+            <td>Country</td>
+            <td>Phone</td>
+            <td>Birthday</td>
+            <td>Speed</td>
+            <td>Source</td>
+            <td>Price</td>
+            <td>Pay for tutoring</td>
+            <td>Pay for tutoring</td>
+            <td>Email</td>
+            <td>Role</td>
+        </tr>
+        {% for user in users_info %}
+        <tr>
+            <td>{{ user.Info.name }}</td>
+            <td>{{ user.Info.country }}</td>
+            <td>{{ user.Info.phone_number }}</td>
+            <td>{{ user.Info.date_of_birth }}</td>
+            <td>{{ user.Info.speed }}</td>
+            <td>{{ user.Info.source }}</td>
+            <td>{{ user.Info.price }}</td>
+            <td>{{ user.Info.speed }}</td>
+            <td>{{ user.Info.finish_lesson }}</td>
+            <td>{{ user.User.email }}</td>
+            <td>
+                {% if user.User.role == 1 %}
+                     Student
+                {% elif  user.User.role == 2 %}
+                    Teacher
+                {% elif  user.User.role == 3 %}
+                    Admin
+                {% endif %}
+            </td>
+            <td><a href="{{ url_for('main.make_teacher', id=user.User.id) }}">make teacher </a></td>
+            <td><a href="{{ url_for('main.make_admin', id=user.User.id) }}">make admin </a></td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
