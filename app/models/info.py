@@ -22,6 +22,7 @@ class Info(db.Model):
     finish_lesson = db.Column(db.Integer)
     lesson = db.relationship('Lesson', backref='lessons', lazy='dynamic')
     teacher = db.relationship('Teacher_To_Student', backref='teacher', lazy='dynamic')
+    graphiks = db.relationship('Graficks', backref='graphiks', lazy='dynamic')
     #teacher
 
     was_pay_for_lesson = db.Column(db.Integer)
@@ -35,6 +36,12 @@ class Info(db.Model):
             temp = 1
 
         return temp
+
+    def has_teacher(self):
+        if db.session.query(Teacher_To_Student).filter(Teacher_To_Student.id_Student == self.id).first():
+            return True
+        else:
+            return False
 
 
 class Lesson(db.Model):
@@ -81,3 +88,15 @@ class Graficks(db.Model):
     minute = db.Column(db.Integer)
     key = {'Monday': 0, 'Tuesday': 1, 'Wednessday': 2, 'Thirthday': 3, 'Friday': 4, 'Sartuday': 5, 'Sunday': 6}
     alt_key = {0: 'Monday', 1:'Tuesday', 2: 'Wednessday', 3: 'Thirthday', 4: 'Friday', 5:'Sartuday', 6:'Sunday'}
+
+
+class
+
+
+class Cource(db.Model):
+    __tablename__ = "Cource"
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    to_student = db.Column(db.Integer, db.ForeignKey('info.id'))
+
+    def __init__(self):
+        for i in range(80):

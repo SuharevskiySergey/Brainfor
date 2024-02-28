@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+1 2 3 4 mother fucker<br>
+Graphicks {{ info.name }}
+<table>
+    <tr>
+        <td>Monday</td>
+        <td>Tuesday</td>
+        <td>Wednesday</td>
+        <td>Thursday</td>
+        <td>Friday</td>
+        <td>Sarturday</td>
+        <td>Sunday</td>
+    </tr>
+    <tr>
+    {% for day in range(7) %}
+        <td>
+            <ul>
+            {% for temp in output[day]%}
+                <li style="{% if temp.Graficks.id_user == info.id %} background-color: gray  {% endif %}">
+                    <p><a href="{{ url_for('main.setup_lesson') }}">{{ temp.Graficks.hour }}:{{ temp.Graficks.minute }} </a>-  <a href="{{ url_for('main.information',id=temp.id) }}">{{ temp.name }}</a></p>
+                </li>
+            {% endfor %}
+            </ul>
+        </td>
+    {% endfor %}
+    </tr>
+</table>
+
+{% endblock %}

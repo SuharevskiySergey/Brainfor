@@ -13,7 +13,7 @@ def admin_panel_main():
     if current_user.role < 2:
         return redirect(url_for('main.index'))
 
-    infos = db.session.query(Info).order_by(Info.id_user).all()
+    infos = db.session.query(Info).filter(Info.id_user == None).order_by(Info.id_user).all()
 
     return render_template('admin_panel/admin_panel_main.html', infos=infos)
 

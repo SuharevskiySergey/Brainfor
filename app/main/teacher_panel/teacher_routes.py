@@ -61,6 +61,7 @@ def add_teach_to_student(teach, id):
 
 
 @bp.route('/chouse_teacher/<int:id>')
+@login_required
 def chouse_teacher(id):
     if current_user.role < 2:
         return redirect(url_for('main.index'))
@@ -68,3 +69,9 @@ def chouse_teacher(id):
     teachers = db.session.query(User, Info).filter(User.role > 1).join(Info).all()
 
     return render_template('teachers_panel/chouse_teacher.html', teachers=teachers, id=id)
+
+
+@bp.route('/setup_lesson/')
+@login_required
+def setup_lesson():
+    return render_template('main/setap_lesson.html')

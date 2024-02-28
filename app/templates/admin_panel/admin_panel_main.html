@@ -18,6 +18,9 @@
             <td>{{ info.pay_already }}</td>
             <td>{{ info.pass_lesson }}</td>
             <td>{{ info.was_pay_for_lesson }}</td>
+            {% if info.has_teacher() == False %}
+            <td><p>Hasn't teacher</p></td>
+            {% endif %}
         </tr>
         {% endfor %}
 

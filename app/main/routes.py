@@ -137,3 +137,41 @@ def dell_graph(id):
     db.session.delete(to_dell)
     db.session.commit()
     return redirect(url_for('main.information', id=togo))
+
+
+@login_required
+@bp.route('/graphicks/<int:id>')
+def graphic(id):
+    def retern_hour(list_elem):
+        return list_elem.Graficks.hour
+
+    output = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
+    info = db.session.query(Info).filter(Info.id == id).first()
+    if db.session.query(Info.id_user):
+        tempgraph = db.session.query(Graficks, Info.name, Info.id).filter(Graficks.id_user == info.id)\
+            .join(Info).all()
+        for i in tempgraph:
+            output[i.Graficks.weekday].append(i)
+
+        stud = []
+        for t in db.session.query(Teacher_To_Student.id_Student).filter(Teacher_To_Student.id_Teacher == info.id_user).all():
+            stud.append(t.id_Student)
+
+        tempss = db.session.query(Graficks, Info.name, Info.id).filter(Graficks.id_user.in_(stud))\
+            .join(Info).all()
+        for i in tempss:
+            output[i.Graficks.weekday].append(i)
+
+
+        #sort
+        for day in range(7):
+            output[day].sort(key=retern_hour)
+
+    else:
+        tempgraph = db.session.query(Graficks).filter(Graficks.id_user == id).all()
+        for temp in tempgraph:
+             output[temp.weekday].append(temp)
+
+    return render_template('/main/graphics.html', output=output, info=info)
+
+
