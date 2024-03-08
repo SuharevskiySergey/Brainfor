@@ -23,7 +23,7 @@ class Info(db.Model):
     lesson = db.relationship('Lesson', backref='lessons', lazy='dynamic')
     teacher = db.relationship('Teacher_To_Student', backref='teacher', lazy='dynamic')
     graphiks = db.relationship('Graficks', backref='graphiks', lazy='dynamic')
-    #teacher
+    coursess = db.relationship('Cource', backref='cource', lazy='dynamic')
 
     was_pay_for_lesson = db.Column(db.Integer)
 
@@ -87,16 +87,34 @@ class Graficks(db.Model):
     hour = db.Column(db.Integer)
     minute = db.Column(db.Integer)
     key = {'Monday': 0, 'Tuesday': 1, 'Wednessday': 2, 'Thirthday': 3, 'Friday': 4, 'Sartuday': 5, 'Sunday': 6}
-    alt_key = {0: 'Monday', 1:'Tuesday', 2: 'Wednessday', 3: 'Thirthday', 4: 'Friday', 5:'Sartuday', 6:'Sunday'}
+    alt_key = {0: 'Monday', 1: 'Tuesday', 2: 'Wednessday', 3: 'Thirthday', 4: 'Friday', 5: 'Sartuday', 6: 'Sunday'}
 
 
-class
+class Part_Course(db.Model):
+    __tablename__ = 'partcourses'
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    id_course = db.Column(db.Integer, db.ForeignKey('cource.id'))
+    number = db.Column(db.Integer)
+
+    rypma = db.Column(db.DateTime, default=datetime.utcnow())
+    sympfany = db.Column(db.DateTime, default=datetime.utcnow())
+    repeated = db.Column(db.DateTime, default=datetime.utcnow())
+    proninciation = db.Column(db.DateTime, default=datetime.utcnow())
+    speacking = db.Column(db.DateTime, default=datetime.utcnow())
 
 
 class Cource(db.Model):
-    __tablename__ = "Cource"
+    __tablename__ = "cource"
     id = db.Column(db.Integer, primary_key=True, index=True)
+    created = db.Column(db.DateTime, default=datetime.utcnow())
     to_student = db.Column(db.Integer, db.ForeignKey('info.id'))
+    party_course = db.relationship('Part_Course', backref='party', lazy='dynamic')
 
-    def __init__(self):
-        for i in range(80):
+    def initialization(self):
+        set = []
+        for i in range(81):
+            s = Part_Course(rypma=self.created, sympfany=self.created, repeated=self.created,
+                            proninciation=self.created, speacking=self.created)
+            set.append(Part_Course(number=i, id_course=self.id))
+
+        db.session.add_all(set)

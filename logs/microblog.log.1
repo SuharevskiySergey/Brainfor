@@ -1,4 +1,4 @@
-2024-01-26 05:53:45,152 ERROR: Exception on / [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
+2024-02-28 20:40:31,235 ERROR: Exception on / [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
 Traceback (most recent call last):
   File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
     response = self.full_dispatch_request()
@@ -8,35 +8,50 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_login\utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "C:\Users\abifa\Desktop\Brainfor\app\main\routes.py", line 15, in index
-    return render_template('index.html')
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\templating.py", line 152, in render_template
-    return _render(app, template, context)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\templating.py", line 133, in _render
-    rv = template.render(context)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\jinja2\environment.py", line 1301, in render
-    self.environment.handle_exception()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\jinja2\environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "C:\Users\abifa\Desktop\Brainfor\app\templates\index.html", line 1, in top-level template code
-    {% extends 'base.html' %}
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\jinja2\environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "C:\Users\abifa\Desktop\Brainfor\app\templates\base.html", line 39, in template
-    {% endblock %}
-jinja2.exceptions.TemplateSyntaxError: Unexpected end of template. Jinja was looking for the following tags: 'endif'. The innermost block that needs to be closed is 'if'.
-2024-01-30 08:05:36,439 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-01-30 22:51:26,353 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-01-30 22:51:47,453 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-01-30 22:51:55,333 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-01-30 22:55:49,302 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-01-30 22:55:57,482 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-02 05:17:24,652 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-02 12:08:02,383 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-03 16:24:05,237 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-03 16:24:25,758 ERROR: Exception on /del_teach/2/1 [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_login\utils.py", line 284, in decorated_view
+    elif not current_user.is_authenticated:
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\werkzeug\local.py", line 316, in __get__
+    obj = instance._get_current_object()  # type: ignore[misc]
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\werkzeug\local.py", line 520, in _get_current_object
+    return get_name(local())  # type: ignore
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "C:\Users\abifa\Desktop\Brainfor\app\models\user.py", line 11, in load_user
+    return User.query.get(int(id))
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    self._raw_columns = [
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\query.py", line 289, in <listcomp>
+    coercions.expect(
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 406, in expect
+    insp._post_inspect
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2707, in _post_inspect
+    self._check_configure()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2386, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 4199, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 4240, in _do_configure_registries
+    mapper._post_configure_properties()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2403, in _post_configure_properties
+    prop.init()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\interfaces.py", line 579, in init
+    self.do_init()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 1640, in do_init
+    self._generate_backref()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\relationships.py", line 2071, in _generate_backref
+    raise sa_exc.ArgumentError(
+sqlalchemy.exc.ArgumentError: Error creating backref 'cource' on relationship 'Part_Course.course': property of that name exists on mapper 'Mapper[Cource(cource)]'
+2024-02-28 20:45:16,645 ERROR: Exception on / [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
 Traceback (most recent call last):
   File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
     response = self.full_dispatch_request()
@@ -46,61 +61,59 @@ Traceback (most recent call last):
     rv = self.dispatch_request()
   File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
     return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "C:\Users\abifa\Desktop\Brainfor\app\main\teacher_panel\teacher_routes.py", line 43, in del_teacher
-    i = Teacher_To_Student.remove.filter(Teacher_To_Student.id_Student == stud).filter(Teacher_To_Student.id_Teacher == teach).first()
-AttributeError: type object 'Teacher_To_Student' has no attribute 'remove'
-2024-02-03 16:24:44,628 ERROR: Exception on /del_teach/2/1 [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
-Traceback (most recent call last):
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
-    response = self.full_dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "C:\Users\abifa\Desktop\Brainfor\app\main\teacher_panel\teacher_routes.py", line 43, in del_teacher
-    Teacher_To_Student.remove.filter(Teacher_To_Student.id_Student == stud).filter(Teacher_To_Student.id_Teacher == teach).first()
-AttributeError: type object 'Teacher_To_Student' has no attribute 'remove'
-2024-02-03 16:24:49,846 ERROR: Exception on /del_teach/2/1 [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
-Traceback (most recent call last):
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
-    response = self.full_dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "C:\Users\abifa\Desktop\Brainfor\app\main\teacher_panel\teacher_routes.py", line 43, in del_teacher
-    Teacher_To_Student.remove.filter(Teacher_To_Student.id_Student == stud).filter(Teacher_To_Student.id_Teacher == teach).first()
-AttributeError: type object 'Teacher_To_Student' has no attribute 'remove'
-2024-02-03 16:27:03,250 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-03 16:27:09,063 ERROR: Exception on /del_teach/2/1 [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
-Traceback (most recent call last):
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
-    response = self.full_dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "C:\Users\abifa\Desktop\Brainfor\app\main\teacher_panel\teacher_routes.py", line 43, in del_teacher
-    db.session.remove(Teacher_To_Student).filter(Teacher_To_Student.id_Student == stud, Teacher_To_Student.id_Teacher == teach)
-TypeError: remove() takes 1 positional argument but 2 were given
-2024-02-03 16:29:16,609 ERROR: Exception on /del_teach/2/1 [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
-Traceback (most recent call last):
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
-    response = self.full_dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "C:\Users\abifa\Desktop\Brainfor\app\main\teacher_panel\teacher_routes.py", line 43, in del_teacher
-TypeError: remove() takes 1 positional argument but 2 were given
-2024-02-05 12:40:34,883 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-05 13:04:21,886 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-05 16:00:15,655 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_login\utils.py", line 284, in decorated_view
+    elif not current_user.is_authenticated:
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\werkzeug\local.py", line 316, in __get__
+    obj = instance._get_current_object()  # type: ignore[misc]
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\werkzeug\local.py", line 520, in _get_current_object
+    return get_name(local())  # type: ignore
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_login\utils.py", line 25, in <lambda>
+    current_user = LocalProxy(lambda: _get_user())
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_login\utils.py", line 372, in _get_user
+    current_app.login_manager._load_user()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_login\login_manager.py", line 364, in _load_user
+    user = self._user_callback(user_id)
+  File "C:\Users\abifa\Desktop\Brainfor\app\models\user.py", line 11, in load_user
+    return User.query.get(int(id))
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_sqlalchemy\model.py", line 22, in __get__
+    return cls.query_class(
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\query.py", line 276, in __init__
+    self._set_entities(entities)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\query.py", line 288, in _set_entities
+    self._raw_columns = [
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\query.py", line 289, in <listcomp>
+    coercions.expect(
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\sql\coercions.py", line 406, in expect
+    insp._post_inspect
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\util\langhelpers.py", line 1253, in __get__
+    obj.__dict__[self.__name__] = result = self.fget(obj)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2707, in _post_inspect
+    self._check_configure()
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 2386, in _check_configure
+    _configure_registries({self.registry}, cascade=True)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 4199, in _configure_registries
+    _do_configure_registries(registries, cascade)
+  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\sqlalchemy\orm\mapper.py", line 4236, in _do_configure_registries
+    raise e
+sqlalchemy.exc.InvalidRequestError: One or more mappers failed to initialize - can't proceed with initialization of other mappers. Triggering mapper: 'Mapper[Part_Course(part__course)]'. Original exception was: Error creating backref 'cource' on relationship 'Part_Course.course': property of that name exists on mapper 'Mapper[Cource(cource)]'
+2024-03-03 03:44:29,537 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 03:44:36,516 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 03:45:07,257 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 03:45:11,989 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 03:47:37,554 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 03:47:49,624 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 03:50:26,666 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 03:50:31,929 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:01:37,300 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:01:43,946 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:04:06,945 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:04:13,925 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:09:36,645 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:09:43,784 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:17:55,748 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:18:03,881 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:18:27,213 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:18:29,711 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:27:16,865 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:27:24,244 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:52:55,612 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]

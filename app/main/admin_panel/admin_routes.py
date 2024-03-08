@@ -5,6 +5,7 @@ from flask_login import login_required, current_user
 from app.models.info import Info
 from app.models.user import User
 from app.main.forms import InfoForm
+from app.models.info import Cource
 
 
 @bp.route('/admin_panel_main')
@@ -39,6 +40,11 @@ def add_new():
         info = Info(name=form.name.data, date_of_birth=form.date_of_birth.data, country=form.country.data,
                     phone_number=form.phone_number.data)
         db.session.add(info)
+        db.session.commit()
+        course = Cource(to_student=info.id)
+        db.session.add(course)
+        db.session.commit()
+        course.initialization()
         db.session.commit()
         return redirect(url_for('main.admin_panel_main'))
 
@@ -85,3 +91,16 @@ def make_admin(id):
 def admin_user(id):
     user = db.session.query(User, Info).join(Info).filter_by(User.id == id).first()
     form = user
+
+@bp.route('/temp')
+@login_required
+def temp():
+    s = [2, 5, 6, 9]
+    for i in s:
+        course = Cource(to_student=i)
+        db.session.add(course)
+        db.session.commit()
+        course = db.session.query(Cource).filter(Cource.to_student == i).first()
+        course.initialization()
+        db.session.commit()
+    return redirect(url_for('main.index'))

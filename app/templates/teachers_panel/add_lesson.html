@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+teacher krasavcik
+
+<div>
+    <form action="" method="post">
+        <table>
+            <tr>
+                <td>№</td>
+                <td>rypma</td>
+                <td>sympfany</td>
+                <td>repeated</td>
+                <td>proninciation</td>
+                <td>reading</td>
+            </tr>
+
+        {{ form.csrf_token() }}
+        {% for part in form.parts %}
+        <tr>
+            <td>{{ part.number }}</td>
+            <td>{{ part.rypma() }}</td>
+            <td>{{ part.sympfany() }}</td>
+            <td>{{ part.repeated() }}</td>
+            <td>{{ part.proninciation() }}</td>
+            <td>{{ part.reading() }}</td>
+
+        </tr>
+        {% endfor %}
+
+        {{ form.submit }}
+    </table>
+    </form>
+</div>
+
+{% endblock %}

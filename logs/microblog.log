@@ -1,67 +1,11 @@
-2024-02-05 17:18:11,348 ERROR: Exception on /teacher_panel [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
-Traceback (most recent call last):
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
-    response = self.full_dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask_login\utils.py", line 290, in decorated_view
-    return current_app.ensure_sync(func)(*args, **kwargs)
-  File "C:\Users\abifa\Desktop\Brainfor\app\main\teacher_panel\teacher_routes.py", line 22, in teacher_panel
-    print(student[0].name)
-IndexError: list index out of range
-2024-02-07 20:23:08,777 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-07 20:24:04,240 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-07 20:24:18,304 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-07 21:36:43,516 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-16 23:52:08,164 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-18 13:12:39,061 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-18 14:03:31,932 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-26 03:55:28,262 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-26 04:09:08,098 ERROR: Exception on /graphicks/2 [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
-Traceback (most recent call last):
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
-    response = self.full_dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "C:\Users\abifa\Desktop\Brainfor\app\main\routes.py", line 153, in graphic
-    return render_template('/main/graphics.html', output, info)
-TypeError: render_template() takes 1 positional argument but 3 were given
-2024-02-27 14:20:02,898 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-27 14:23:45,406 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
-2024-02-27 14:25:18,347 ERROR: Exception on /graphicks/3 [GET] [in c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py:825]
-Traceback (most recent call last):
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 1455, in wsgi_app
-    response = self.full_dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 869, in full_dispatch_request
-    rv = self.handle_user_exception(e)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 867, in full_dispatch_request
-    rv = self.dispatch_request()
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\app.py", line 852, in dispatch_request
-    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
-  File "C:\Users\abifa\Desktop\Brainfor\app\main\routes.py", line 175, in graphic
-    return render_template('/main/graphics.html', output=output, info=info)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\flask\templating.py", line 151, in render_template
-    template = app.jinja_env.get_or_select_template(template_name_or_list)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\jinja2\environment.py", line 1081, in get_or_select_template
-    return self.get_template(template_name_or_list, parent, globals)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\jinja2\environment.py", line 1010, in get_template
-    return self._load_template(name, globals)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\jinja2\environment.py", line 969, in _load_template
-    template = self.loader.load(self, name, self.make_globals(globals))
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\jinja2\loaders.py", line 138, in load
-    code = environment.compile(source, name, filename)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\jinja2\environment.py", line 768, in compile
-    self.handle_exception(source=source_hint)
-  File "c:\users\abifa\desktop\brainfor\venv\lib\site-packages\jinja2\environment.py", line 936, in handle_exception
-    raise rewrite_traceback_stack(source=source)
-  File "C:\Users\abifa\Desktop\Brainfor\app\templates\main\graphics.html", line 22, in template
-    <p><a href="{{ url_for(main.teacher_panel.setap_lesson()' }}">{{ temp.Graficks.hour }}:{{ temp.Graficks.minute }} </a>-  <a href="{{ url_for('main.information',id=temp.id) }}">{{ temp.name }}</a></p>
-jinja2.exceptions.TemplateSyntaxError: expected token ',', got 'string'
+2024-03-03 04:52:58,900 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:53:18,680 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:53:38,163 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 04:53:43,653 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 05:50:59,865 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 05:51:07,517 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 05:51:13,351 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 05:51:19,406 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 05:53:17,352 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 05:53:23,407 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-03-03 05:53:28,374 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]

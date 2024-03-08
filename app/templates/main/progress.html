@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+    suprice motherfucker
+<table>
+    <tr>
+        <td>№:</td>
+        <td>ryma</td>
+        <td>sympfany</td>
+        <td>repeated</td>
+        <td>proninciation</td>
+        <td>speacking</td>
+    </tr>
+    {% for part in party %}
+    <tr>
+        {% if part.number != 80 %}
+        <td>{{ part.number + 1 }}</td>
+        {% if part.rypma != party[80].rypma %}
+        <td>{{ part.rypma }}</td>
+        {% else %}
+        <td> - </td>
+        {% endif%}
+        {% if part.sympfany != party[80].sympfany %}
+        <td>{{ part.sympfany }}</td>
+        {% else %}
+        <td> - </td>
+        {% endif%}
+        {% if part.repeated != party[80].repeated %}
+        <td>{{ part.repeated }}</td>
+        {% else %}
+        <td> - </td>
+        {% endif%}
+        {% if part.proninciation != party[80].proninciation %}
+        <td>{{ part.proninciation }}</td>
+        {% else %}
+        <td> - </td>
+        {% endif%}
+        {% if part.speacking != party[80].speacking %}
+        <td>{{ part.speacking }}</td>
+        {% else %}
+        <td> - </td>
+        {% endif%}
+        {% endif %}
+    </tr>
+    {% endfor %}
+
+</table>
+{% endblock %}

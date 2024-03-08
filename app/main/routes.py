@@ -9,6 +9,8 @@ from app.main.forms import InfoForm
 from app.models.info import Info
 from app.models.info import Graficks
 from app.main.forms import GraphForm
+from app.models.info import Cource, Part_Course
+
 
 @bp.route('/')
 @bp.route('/index')
@@ -114,7 +116,7 @@ def change_info():
 @login_required
 @bp.route('/add_graph_to/<int:id>', methods=['GET', 'POST'])
 def add_graficks(id):
-    if current_user.role<3:
+    if current_user.role < 3:
         return redirect(url_for('main.index'))
     form = GraphForm()
     if form.validate_on_submit():
@@ -174,4 +176,14 @@ def graphic(id):
 
     return render_template('/main/graphics.html', output=output, info=info)
 
+@bp.route('/processing/<int:id>')
+@login_required
+def secsesfuly(id):
+    if current_user.role<2:
+        return redirect(url_for('main.index'))
 
+    course = db.session.query(Cource).filter(Cource.to_student == id).first()
+    party = db.session.query(Part_Course)\
+        .filter(Part_Course.id_course == course.id)\
+        .order_by(Part_Course.number).all()
+    return render_template('/main/progress.html', party=party, course=course)
