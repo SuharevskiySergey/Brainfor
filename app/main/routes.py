@@ -43,7 +43,7 @@ def information():
     if info.role() == 1:
         lessons = db.session.query(Lesson).filter(Lesson.student == user_id).all()
     else:
-        lessons_all = db.session.query(Lesson).filter(Lesson.teacher == info.id_user).order_by(Lesson.datetime.desc()).all()
+        lessons_all = db.session.query(Lesson).filter(Lesson.teacher == info.id_user).order_by(Lesson.datetimes.desc()).all()
 
         j = 0
         lessons = []
@@ -52,13 +52,24 @@ def information():
         #[lesson ...]
         for i in range(len(lessons_all)-1):
 
-            lessons[j][lessons_all[i].datetime.weekday()].append(lessons_all[i])
+            lessons[j][lessons_all[i].datetimes.weekday()].append(lessons_all[i])
 
-            if lessons_all[i].datetime.weekday() < lessons_all[i+1].datetime.weekday() or \
-                    (lessons_all[i].datetime - lessons_all[i+1].datetime).days > 6:
+            if lessons_all[i].datetimes.weekday() < lessons_all[i+1].datetimes.weekday() or \
+                    (lessons_all[i].datetimes - lessons_all[i+1].datetimes).days > 6:
                 #lessons.append(week[j])
                 j += 1
                 lessons.append({0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []})
+        #addinglast
+        if len(lessons_all) > 1:
+            if lessons_all[-2].datetimes.weekday() < lessons_all[-1].datetimes.weekday() or \
+                    (lessons_all[-2].datetimes - lessons_all[-1].datetimes).days > 6:
+                lessons.append({0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []})
+                lessons[-1][lessons_all[-1].datetimes.weekday()].append(lessons_all[-1])
+            else:
+                lessons[-1][lessons_all[-1].datetimes.weekday()].append(lessons_all[-1])
+        elif len(lessons_all) == 1:
+            lessons[-1][lessons_all[-1].datetimes.weekday()].append(lessons_all[-1])
+
         # without last
 
     graph = db.session.query(Graficks).filter(Graficks.id_user == user_id).all()
@@ -67,11 +78,11 @@ def information():
                            lessons=lessons, day=0, graph=graph)
 
 
-@bp.route('/change_info/', methods=['GET', 'POST'])
+@bp.route('/change_info/<int:user_id>', methods=['GET', 'POST'])
 @login_required
-def change_info():
+def change_info(user_id):
 
-    user_id = request.args.get('id', db.session.query(Info).filter(Info.id_user == current_user.id).first().id, type=int)
+    # user_id = request.args.get('id', db.session.query(Info).filter(Info.id_user == current_user.id).first().id, type=int)
 
     info = db.session.query(Info).filter(Info.id == user_id).first()
 
@@ -79,27 +90,23 @@ def change_info():
         return redirect(url_for('main.index'))
 
     form = InfoForm()
-
+    print('$')
     if form.validate_on_submit():
+        print('@')
         #print(form.date_of_birth.data)
         info.name = form.name.data,
         info.country = form.country.data
         info.date_of_birth = form.date_of_birth.data
         info.phone_number = form.phone_number.data
-
-        info.speed = form.speed.data
-        info.source = form.source.data
-        info.value = form.prize.data
-
+        if current_user.role > 3:
+            info.speed = form.speed.data
+            info.source = form.source.data
+            info.value = form.prize.data
+        print('!')
         db.session.add(info)
         db.session.commit()
-
-        return redirect(url_for('main.information', id=info.id))
-
-    # speed = StringField('Speed')
-    # sourse = StringField('Sourse')
-    # prize = IntegerField('Prize')
-    # submit = SubmitField('Submit')
+        print('#')
+        return redirect(url_for('main.information', id=user_id))
 
     form.name.data = info.name
     form.country.data = info.country
@@ -163,7 +170,6 @@ def graphic(id):
             .join(Info).all()
         for i in tempss:
             output[i.Graficks.weekday].append(i)
-
 
         #sort
         for day in range(7):

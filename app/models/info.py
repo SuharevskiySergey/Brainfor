@@ -43,6 +43,13 @@ class Info(db.Model):
         else:
             return False
 
+    def get_teacher(self):
+        conection = db.session.query(Teacher_To_Student.id_Teacher).filter(Teacher_To_Student.id_Student == self.id).all()
+        teacher = []
+        for con in conection:
+            teacher.append(db.session.query(Info.name).filter(Info.id_user == con.id_Teacher).first().name)
+        return teacher
+
 
 class Lesson(db.Model):
     __tablename__ = 'lessons'
@@ -50,13 +57,13 @@ class Lesson(db.Model):
     teacher = db.Column(db.Integer, db.ForeignKey('user.id'))
     student = db.Column(db.Integer, db.ForeignKey('info.id'))
     prize = db.Column(db.Integer)
-    datetime = db.Column(db.DateTime, default=datetime.utcnow())
+    datetimes = db.Column(db.DateTime, default=datetime.utcnow())
 
-    def __init__(self, student, teacher):
+    def __init__(self, student, teacher, datetimes):
         self.student = student
         self.teacher = teacher
         self.prize = db.session.query(Info).filter(Info.id == student).first().value
-        self.datetime = datetime.utcnow()
+        self.datetimes = datetimes
 
     def teacher_name(self):
         return db.session.query(Info).filter(Info.id_user == self.teacher).first().name
@@ -65,7 +72,7 @@ class Lesson(db.Model):
         return db.session.query(Info).filter(Info.id == self.student).first().name
 
     def daytime_output(self):
-        return self.datetime.strftime("%d.%m.%Y %H:%M")
+        return self.datetimes.strftime("%d.%m.%Y %H:%M")
 
 
 class Teacher_To_Student(db.Model):

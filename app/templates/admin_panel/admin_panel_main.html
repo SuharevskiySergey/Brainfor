@@ -2,9 +2,24 @@
 {% block app_content %}
 
     <p>Student administration</p>
-    <a href="{{ url_for('main.admin_users') }}">admin for Users</a>
+    <a href="{{ url_for('main.admin_users') }}">Role settings</a>
+    <a href="{{ url_for('main.sudo_graph') }}">All Lesson</a>
     <p></p>
-    <table>User
+    <table>Students
+        <tr>
+            <td>№</td>
+            <td>Name</td>
+            <td>Country</td>
+            <td>birthday</td>
+            <td>phone</td>
+            <td>speed</td>
+            <td>value</td>
+            <td>source</td>
+            <td>pay allredy</td>
+            <td>pass lesson</td>
+            <td></td>
+            <td>teacher</td>
+        </tr>
         {% for info in infos %}
         <tr>
             <td> {{ info.id }}</td>
@@ -20,6 +35,8 @@
             <td>{{ info.was_pay_for_lesson }}</td>
             {% if info.has_teacher() == False %}
             <td><p>Hasn't teacher</p></td>
+            {% else  %}
+            <td>{{ info.get_teacher() }}</td>
             {% endif %}
         </tr>
         {% endfor %}

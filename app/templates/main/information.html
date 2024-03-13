@@ -2,7 +2,7 @@
 {% block app_content %}
 
 <h1>Information</h1>
-<a href="{{ url_for('main.change_info', id=info.id) }}">change information</a>
+<a href="{{ url_for('main.change_info', user_id=info.id) }}">change information</a>
 <a href="{{ url_for('main.graphic', id=info.id) }}">Grahicks</a>
 
     <a href="{{ url_for('main.secsesfuly', id=info.id) }}">processing</a>

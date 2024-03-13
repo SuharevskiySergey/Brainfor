@@ -1,7 +1,9 @@
 from app.main import bp
 from app import db
 from flask_login import login_required, current_user
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, flash
+from datetime import datetime, timedelta
+
 #models
 from app.models.info import Info
 from app.models.user import User
@@ -31,39 +33,99 @@ def create_lesson_post(graphid):
     course = db.session.query(Cource).filter(Cource.to_student == graph.id_user).first()
     party = db.session.query(Part_Course).filter(Part_Course.id_course == course.id).order_by(Part_Course.number).all()
 
-    parts =[]
-    for j in range(80):
-        number = j+1
-        if party[j].rypma != party[80].rypma:
-            rypma = (True)
-        else:
-            rypma = (False)
 
-        if party[j].sympfany == party[80].sympfany:
-            sympfany = (False)
-        else:
-            sympfany = (True)
-
-        if party[j].repeated == party[80].repeated:
-            repeated = (False)
-        else:
-            repeated = (True)
-        if party[j].proninciation == party[80].proninciation:
-            proninciation = (False)
-        else:
-            proninciation = (True)
-        if party[j].speacking == party[80].speacking:
-            reading = (False)
-        else:
-            reading = (True)
-
-        parts.append({'rypma': rypma, 'sympfany': sympfany, 'repeated': repeated, 'proninciation': proninciation,
-                            'reading': reading, 'number': number})
 
     if form.validate_on_submit():
         print('#')
+
+
+        get_parts = form.parts.data
+        today = datetime.utcnow()
+        delta = timedelta(days=today.weekday() - graph.weekday,
+                          hours=today.hour - graph.hour,
+                          minutes=today.minute - graph.minute,
+                          seconds=today.second,
+                          microseconds=today.microsecond)
+
+        if db.session.query(Lesson).filter(Lesson.teacher == current_user.id).filter(Lesson.student == graph.id_user).filter(Lesson.datetimes == today - delta).first():
+            flash('this lesson is alredy exist')
+            print('error')
+            return redirect(url_for('main.information'))
+
+        parts = []
+        for j in range(80):
+            number = j
+            if party[j].rypma != party[80].rypma:
+                rypma = (True)
+            else:
+                rypma = (False)
+
+            if party[j].sympfany == party[80].sympfany:
+                sympfany = (False)
+            else:
+                sympfany = (True)
+
+            if party[j].repeated == party[80].repeated:
+                repeated = (False)
+            else:
+                repeated = (True)
+            if party[j].proninciation == party[80].proninciation:
+                proninciation = (False)
+            else:
+                proninciation = (True)
+            if party[j].speacking == party[80].speacking:
+                reading = (False)
+            else:
+                reading = (True)
+
+            parts.append({'rypma': rypma, 'sympfany': sympfany, 'repeated': repeated, 'proninciation': proninciation,
+                          'reading': reading, 'number': number})
+
+
+
+        for i in range(80):
+
+            if get_parts[i]['rypma'] != parts[i]['rypma']:
+                if get_parts[i]['rypma']:
+                    party[i].rypma = today - delta
+                else:
+                    party[i].rypma = party[80].rypma
+
+            if get_parts[i]['sympfany'] != parts[i]['sympfany']:
+                if get_parts[i]['sympfany']:
+                    party[i].sympfany = today - delta
+                else:
+                    party[i].sympfany = party[80].sympfany
+
+            if get_parts[i]['repeated'] != parts[i]['repeated']:
+                if get_parts[i]['repeated']:
+                    party[i].repeated = today - delta
+                else:
+                    party[i].repeated = party[80].repeated
+
+            if get_parts[i]['proninciation'] != parts[i]['proninciation']:
+                if get_parts[i]['proninciation']:
+                    party[i].proninciation = today - delta
+                else:
+                    party[i].proninciation = party[80].rypma
+
+            if get_parts[i]['reading'] != parts[i]['reading']:
+                if get_parts[i]['reading']:
+                    party[i].reading = today - delta
+                else:
+                    party[i].reading = party[80].rypma
+
+        db.session.add_all(party)
+
+        lesson = Lesson(student=graph.id_user, teacher=current_user.id, datetimes=today - delta)
+
+        db.session.add(lesson)
+        db.session.commit()
+
         return redirect(url_for('main.information'))
-    print('!')
+    else:
+        print('Form errors:', form.errors)
+        print('!')
     return redirect(url_for('main.information',))
 
 
@@ -90,7 +152,7 @@ def create_lesson_get(graphid):
 
     parts = []
     for j in range(80):
-        number = j+1
+        number = str(j+1)
         if party[j].rypma != party[80].rypma:
             rypma = (True)
         else:
@@ -114,8 +176,8 @@ def create_lesson_get(graphid):
         else:
             reading = (True)
 
-        parts.append({'rypma': rypma, 'sympfany': sympfany, 'repeated': repeated, 'proninciation': proninciation,
-                            'reading': reading, 'number': number})
+        parts.append({'ids': j+1, 'rypma': rypma, 'sympfany': sympfany, 'repeated': repeated, 'proninciation': proninciation,
+                            'reading': reading})
 
     form.process(data={'parts': parts})
     # for i in range(5):

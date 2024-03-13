@@ -6,6 +6,7 @@ from app.models.info import Info
 from app.models.user import User
 from app.main.forms import InfoForm
 from app.models.info import Cource
+from app.models.info import Graficks
 
 
 @bp.route('/admin_panel_main')
@@ -38,7 +39,10 @@ def add_new():
 
     if form.validate_on_submit():
         info = Info(name=form.name.data, date_of_birth=form.date_of_birth.data, country=form.country.data,
-                    phone_number=form.phone_number.data)
+                    phone_number=form.phone_number.data, speed=form.speed.data, source=form.source.data,
+                    value=form.prize.data)
+
+
         db.session.add(info)
         db.session.commit()
         course = Cource(to_student=info.id)
@@ -104,3 +108,42 @@ def temp():
         course.initialization()
         db.session.commit()
     return redirect(url_for('main.index'))
+
+
+@bp.route('/sudo_graph')
+@login_required
+def sudo_graph():
+    role = request.args.get('role', 'student', type=str)
+    graph = db.session.query(Graficks, Info)\
+        .order_by(Graficks.weekday)\
+        .order_by(Graficks.hour)\
+        .order_by(Graficks.minute).join(Info).all()
+
+    teacher_id = [i.id for i in db.session.query(User.id).filter(User.role == 2).all()]
+    teacher_info = db.session.query(Info).filter(Info.id_user.in_(teacher_id)).all()
+
+    to_total = {0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}}
+    day = graph[0].Graficks.weekday
+    to_total[0] = {i.name: 0 for i in teacher_info}
+    to_total[0]['Total '] = 0
+    for g in graph:
+        if day < g.Graficks.weekday:
+            day = g.Graficks.weekday
+            to_total[day] = {i.name: 0 for i in teacher_info}
+            to_total[day]['Total '] = 0
+
+        if role == 'student':
+            if not g.Info.id_user:
+                for teac in g.Info.get_teacher():
+                    to_total[day][teac] += 1
+                    to_total[day]['Total '] += 1
+            else:
+                continue
+
+        if role == 'teacher':
+            if g.Info.id_user:
+                print('#')
+                to_total[day][g.Info.name] += 1
+
+    print(to_total)
+    return render_template('admin_panel/sudo_graph.html', graph=graph, les=len(graph), rolee=role, to_total=to_total)

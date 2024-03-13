@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block app_content %}
+<a href="{{ url_for('main.sudo_graph', role='student') }}">All lessons</a>
+<a href="{{ url_for('main.sudo_graph', role='teacher') }}">Teacher's free time</a>
+<table>
+    <tr>
+        {% for j in range(7) %}
+        <td>
+            <ul>
+                {% if to_total['Total '] != 0 %}
+                    <li>Total {{ to_total[j]['Total '] }}</li>
+                {% endif %}
+                {% for key in to_total[j] %}
+
+                    {% if to_total[j][key] != 0 %}
+                        {% if key != 'Total ' %}
+                            <li>{{ key }}:{{ to_total[j][key] }}</li>
+                        {% endif %}
+                    {% endif %}
+
+                {% endfor %}
+            </ul>
+        </td>
+
+        {% endfor %}
+    </tr>
+    <tr>
+        <td>Monday</td>
+        <td>Tuesday</td>
+        <td>Wednesday</td>
+        <td>Thursday</td>
+        <td>Friday</td>
+        <td>Sarturday</td>
+        <td>Sunday</td>
+    </tr>
+    <tr>
+        <td>
+        {% for i in range(les) %}
+
+                    {% if i>1  %}
+                        {% if graph[i].Graficks.weekday > graph[i-1].Graficks.weekday %}
+                            {% for j in range (graph[i].Graficks.weekday-graph[i-1].Graficks.weekday)%}
+                                </td><td>
+                            {% endfor %}
+                        {% endif %}
+                    {% endif %}
+        <ul>
+            {% if not graph[i].Info.id_user and rolee == 'student'%}
+            <li>
+                        {{ graph[i].Graficks.hour }}
+                        {{ graph[i].Graficks.minute }}
+                        {{ graph[i].Info.name }}
+                        {{ graph[i].Info.get_teacher()[0] }}
+                    {% endif %}
+
+                {% if rolee== 'teacher' and graph[i].Info.id_user%}
+                    <li>
+                            {{ graph[i].Graficks.hour }}
+                            {{ graph[i].Graficks.minute }}
+                            {{ graph[i].Info.name }}
+                {% endif %}
+                </li>
+            </ul>
+        {% endfor %}
+        </td>
+    </tr>
+</table>
+{% endblock %}

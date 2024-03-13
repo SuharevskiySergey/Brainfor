@@ -5,6 +5,7 @@ teacher krasavcik
 
 <div>
     <form action="" method="post">
+        {{ form.csrf_token() }}
         <table>
             <tr>
                 <td>№</td>
@@ -15,10 +16,9 @@ teacher krasavcik
                 <td>reading</td>
             </tr>
 
-        {{ form.csrf_token() }}
         {% for part in form.parts %}
         <tr>
-            <td>{{ part.number }}</td>
+            <td>{{ part.ids() }}{{ part.ids.data }}</td>
             <td>{{ part.rypma() }}</td>
             <td>{{ part.sympfany() }}</td>
             <td>{{ part.repeated() }}</td>
