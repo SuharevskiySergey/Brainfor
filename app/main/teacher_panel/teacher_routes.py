@@ -116,8 +116,12 @@ def create_lesson_post(graphid):
                     party[i].reading = party[80].rypma
 
         db.session.add_all(party)
-
-        lesson = Lesson(student=graph.id_user, teacher=current_user.id, datetimes=today - delta)
+        t_prize = db.session.query(Info.value).filter(Info.id_user == current_user.id).first().value or 0
+        lesson = Lesson(student=graph.id_user,
+                        teacher=current_user.id,
+                        datetimes=today - delta,
+                        prize=db.session.query(Info).filter(Info.id == graph.id_user).first().value,
+                        teacher_prize=t_prize)
 
         db.session.add(lesson)
         db.session.commit()
@@ -141,15 +145,6 @@ def create_lesson_get(graphid):
     course = db.session.query(Cource).filter(Cource.to_student == graph.id_user).first()
     party = db.session.query(Part_Course).filter(Part_Course.id_course == course.id).order_by(Part_Course.number).all()
     form = ProcessForm()
-    # les = Lesson(student=stud, teacher=current_user.id)
-    # db.session.add(les)
-    # db.session.commit()
-
-    # if form.validate_on_submit():
-    #
-    #     print('#')
-    #     return redirect(url_for('main.create_lesson_get', graphid=graphid))
-
     parts = []
     for j in range(80):
         number = str(j+1)

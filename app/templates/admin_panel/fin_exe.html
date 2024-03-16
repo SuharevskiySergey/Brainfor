@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block app_content %}
+suprice you motherfucker
+<div>
+        <form action="" method="post" novalidate>
+            {{ form.csrf_token() }}
+            <p>from: {{ form.from_field() }} till: {{ form.till_field() }} {{ form.submit }} </p>
+        </form>
+</div>
+{% if form %}
+{% if totaly %}
+<table>
+    <tr>
+        <td></td>
+        <td>Total</td>
+        {% for day in days %}
+            <td>{{day}}</td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <td>Total</td>
+        <td>
+            get-{{ totaly['Total']['get'] }}<br>
+            paid-{{ totaly['Total']['paid'] }}<br>
+            count-{{ totaly['Total']['count'] }}<br>
+        </td>
+        {% for row1 in to_output %}
+        <td>
+            get-{{ row1['Total']['get'] }}<br>
+            paid-{{ row1['Total']['paid'] }}<br>
+            count-{{ row1['Total']['count'] }}<br>
+        </td>
+        {% endfor %}
+    </tr>
+    {% for teacher in teachers %}
+    <tr>
+        <td> {{ teacher }}</td>
+        <td>
+            get-{{ totaly[teacher]['get'] }}<br>
+            paid-{{ totaly[teacher]['paid'] }}<br>
+            count-{{ totaly[teacher]['count'] }}<br>
+        </td>
+        {% for row1 in to_output %}
+            <td>
+                get-{{ row1[teacher]['get'] }}<br>
+                paid-{{ row1[teacher]['paid'] }}<br>
+                count-{{ row1[teacher]['count'] }}<br>
+            </td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+{% endif %}
+{% endblock %}

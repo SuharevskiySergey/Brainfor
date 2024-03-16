@@ -1,12 +1,15 @@
 from app.main import bp
 from app import db, login
-from flask import render_template, url_for, redirect, request
+from flask import render_template, url_for, redirect, request, flash
 from flask_login import login_required, current_user
 from app.models.info import Info
 from app.models.user import User
 from app.main.forms import InfoForm
 from app.models.info import Cource
 from app.models.info import Graficks
+from app.main.admin_panel.forms import ChoiseTimeForm
+from datetime import datetime, timedelta
+from app.models.info import Lesson
 
 
 @bp.route('/admin_panel_main')
@@ -147,3 +150,88 @@ def sudo_graph():
 
     print(to_total)
     return render_template('admin_panel/sudo_graph.html', graph=graph, les=len(graph), rolee=role, to_total=to_total)
+
+
+@bp.route('/finansal', methods=['POST'])
+@login_required
+def finansal_post():
+    if current_user.role < 4:
+        return redirect('main.index')
+    form =ChoiseTimeForm()
+    if form.validate_on_submit():
+
+        start = form.from_field.data
+        finish = form.till_field.data
+        if finish <= start:
+            flash('incorrect data')
+            return redirect(url_for('main.finansal_get'))
+
+        delta = timedelta(days=1)
+
+        to_output =[]
+        days = []
+        totaly = {i.name: {'get': 0, 'paid': 0, 'count': 0} for i in db.session.query(Info).filter(
+            Info.id_user.in_([j.id for j in db.session.query(User).filter(User.role == 2).all()])).all()}
+        totaly['Total'] = {'get': 0, 'paid': 0, 'count': 0}
+        while start < finish:
+            days.append(start)
+            to_output.append({i.name: {'get': 0, 'paid': 0, 'count': 0} for i in db.session.query(Info)
+                             .filter(Info.id_user.in_([j.id for j in db.session.query(User)
+                                                      .filter(User.role == 2).all()])).all()})
+            to_output[-1]['Total'] = {'get': 0, 'paid': 0, 'count': 0}
+            lessons_day = db.session.query(Lesson).filter(Lesson.datetimes > start, Lesson.datetimes < start+delta).all()
+
+            for lesson in lessons_day:
+                geting = lesson.prize
+                paying = lesson.teacher_prize
+                to_output[-1][db.session.query(Info).filter(Info.id_user == lesson.teacher).first().name]['get'] += geting
+                to_output[-1][db.session.query(Info).filter(Info.id_user == lesson.teacher).first().name]['paid'] += paying
+                to_output[-1][db.session.query(Info).filter(Info.id_user == lesson.teacher).first().name]['count'] +=1
+                to_output[-1]['Total']['get'] += geting
+                to_output[-1]['Total']['paid'] += paying
+                to_output[-1]['Total']['count'] += 1
+                totaly['Total']['get'] += geting
+                totaly['Total']['paid'] += paying
+                totaly['Total']['count'] += 1
+                totaly[db.session.query(Info).filter(Info.id_user == lesson.teacher).first().name][
+                    'get'] += geting
+                totaly[db.session.query(Info).filter(Info.id_user == lesson.teacher).first().name][
+                    'paid'] += paying
+                totaly[db.session.query(Info).filter(Info.id_user == lesson.teacher).first().name]['count'] += 1
+
+            start = start+delta
+
+            teachers = [i.name for i in db.session.query(Info).filter(
+                Info.id_user.in_([s.id for s in db.session.query(User).filter(User.role == 2).all()])).all()]
+
+        return render_template('admin_panel/fin_exe.html',
+                               form=form,days=days,
+                               to_output=to_output, teachers=teachers,
+                               totaly = totaly)
+    else:
+        print(form.errors)
+
+    return redirect(url_for('main.finansal_get'))
+
+
+@bp.route('/finansal')
+@login_required
+def finansal_get():
+    if current_user.role<4:
+        return redirect(url_for('main.index'))
+
+    form = ChoiseTimeForm()
+    now = datetime.utcnow()
+    starttime = now - timedelta(days=now.weekday(),
+                                hours=now.hour,
+                                minutes=now.minute,
+                                seconds=now.second,
+                                microseconds=now.microsecond)
+    finishtime = now - timedelta(days=now.weekday() - 7,
+                                 hours=now.hour,
+                                 minutes=now.minute,
+                                 seconds=now.second,
+                                 microseconds=now.microsecond)
+    lessons = db.session.query(Lesson).filter(Lesson.datetimes > starttime).filter(Lesson.datetimes < finishtime).all()
+    print(lessons)
+    return render_template('admin_panel/fin_exe.html', form=form)

@@ -57,13 +57,16 @@ class Lesson(db.Model):
     teacher = db.Column(db.Integer, db.ForeignKey('user.id'))
     student = db.Column(db.Integer, db.ForeignKey('info.id'))
     prize = db.Column(db.Integer)
+    teacher_prize = db.Column(db.Integer)
     datetimes = db.Column(db.DateTime, default=datetime.utcnow())
 
-    def __init__(self, student, teacher, datetimes):
+    def __init__(self, student, teacher, datetimes, prize, teacher_prize):
         self.student = student
         self.teacher = teacher
         self.prize = db.session.query(Info).filter(Info.id == student).first().value
         self.datetimes = datetimes
+        self.prize=prize
+        self.teacher_prize = teacher_prize
 
     def teacher_name(self):
         return db.session.query(Info).filter(Info.id_user == self.teacher).first().name
