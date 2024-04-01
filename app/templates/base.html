@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Test School</title>
+
 </head>
 <body>
 <header>
+    <div class="header__conteiner">
 	{% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul>
@@ -32,6 +34,7 @@
 
 
 			</nav>
+    </div>
 </header>
 <main>
 {% block app_content %}
