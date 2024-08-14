@@ -16,6 +16,7 @@ from app.models.info import Cource, Part_Course
 @bp.route('/index')
 @login_required
 def index():
+    return redirect(url_for("main.information"))
     return render_template('index.html')
 
 
@@ -85,16 +86,22 @@ def change_info(user_id):
     # user_id = request.args.get('id', db.session.query(Info).filter(Info.id_user == current_user.id).first().id, type=int)
 
     info = db.session.query(Info).filter(Info.id == user_id).first()
-
+    form = InfoForm()
     if current_user.role < 3 and info.id_user != current_user.id:
         return redirect(url_for('main.index'))
 
-    form = InfoForm()
+
     print('$')
+    print(info.name)
+    print(form.name.data)
+    if current_user.role<3:
+        form.source.data = info.source
+        form.speed.data = info.speed
+        form.prize.data = info.value
     if form.validate_on_submit():
         print('@')
         #print(form.date_of_birth.data)
-        info.name = form.name.data,
+        info.name = form.name.data
         info.country = form.country.data
         info.date_of_birth = form.date_of_birth.data
         info.phone_number = form.phone_number.data
@@ -102,6 +109,7 @@ def change_info(user_id):
             info.speed = form.speed.data
             info.source = form.source.data
             info.value = form.prize.data
+
         print('!')
         db.session.add(info)
         db.session.commit()

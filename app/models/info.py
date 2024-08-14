@@ -13,9 +13,9 @@ class Info(db.Model):
     date_of_birth = db.Column(db.Date())
     phone_number = db.Column(db.String(20))
 
-    speed = db.Column(db.String(120))
-    value = db.Column(db.Integer)
-    source = db.Column(db.String(100))
+    speed = db.Column(db.String(120), default="none")
+    value = db.Column(db.Integer, default=0)
+    source = db.Column(db.String(100), default="Slow")
     pay_already = db.Column(db.Integer, default=0)
     pass_lesson = db.Column(db.Integer, default=0)
 

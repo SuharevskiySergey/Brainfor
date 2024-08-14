@@ -12,6 +12,20 @@ from datetime import datetime, timedelta
 from app.models.info import Lesson
 
 
+@bp.route('/admin_panel_teachers')
+@login_required
+def admin_panel_teachers():
+    if current_user.role < 2:
+        return redirect(url_for('main.index'))
+    teach = db.session.query(User.id).filter(User.role==2).all()
+    teach_id = []
+    for i in teach:
+        teach_id.append(i.id)
+    infos = db.session.query(Info).filter(Info.id_user.in_(teach_id)).order_by(Info.id_user).all()
+
+    return render_template('admin_panel/admin_teachers.html', infos=infos)
+
+
 @bp.route('/admin_panel_main')
 @login_required
 def admin_panel_main():
@@ -157,7 +171,7 @@ def sudo_graph():
 def finansal_post():
     if current_user.role < 4:
         return redirect('main.index')
-    form =ChoiseTimeForm()
+    form = ChoiseTimeForm()
     if form.validate_on_submit():
 
         start = form.from_field.data
@@ -168,7 +182,7 @@ def finansal_post():
 
         delta = timedelta(days=1)
 
-        to_output =[]
+        to_output = []
         days = []
         totaly = {i.name: {'get': 0, 'paid': 0, 'count': 0} for i in db.session.query(Info).filter(
             Info.id_user.in_([j.id for j in db.session.query(User).filter(User.role == 2).all()])).all()}
