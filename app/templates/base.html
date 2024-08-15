@@ -22,11 +22,11 @@
 			<nav>
 				{% if not current_user.is_authenticated %}
                 	<a href="/login/">Log in</a>
-				{% else %}
-                    <a href="/">Profile</a>
+				    {% else %}
+                        <a href="/">Profile</a>
 
-				    <a href="/logout">Logout</a>
-				{% endif %}
+				        <a href="/logout">Logout</a>
+
                 <br>
                 {% if current_user.role > 2 %}
                     <a href="{{url_for('main.admin_panel_main')}}"> admin panel</a>
@@ -36,6 +36,7 @@
                     <a href="{{ url_for('main.finansal_get') }}">Finances</a>
                 {% elif current_user.role == 2 %}
                     <a href="{{ url_for('main.teacher_panel') }}">Teacher panel</a>
+                {% endif %}
                 {% endif %}
 
 

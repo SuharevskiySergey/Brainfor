@@ -159,10 +159,10 @@ def sudo_graph():
 
         if role == 'teacher':
             if g.Info.id_user:
-                print('#')
+                # print('#')
                 to_total[day][g.Info.name] += 1
 
-    print(to_total)
+    # print(to_total)
     return render_template('admin_panel/sudo_graph.html', graph=graph, les=len(graph), rolee=role, to_total=to_total)
 
 
@@ -219,7 +219,7 @@ def finansal_post():
                 Info.id_user.in_([s.id for s in db.session.query(User).filter(User.role == 2).all()])).all()]
 
         return render_template('admin_panel/fin_exe.html',
-                               form=form,days=days,
+                               form=form, days=days,
                                to_output=to_output, teachers=teachers,
                                totaly = totaly)
     else:
@@ -247,5 +247,5 @@ def finansal_get():
                                  seconds=now.second,
                                  microseconds=now.microsecond)
     lessons = db.session.query(Lesson).filter(Lesson.datetimes > starttime).filter(Lesson.datetimes < finishtime).all()
-    print(lessons)
+    # print(lessons)
     return render_template('admin_panel/fin_exe.html', form=form)
