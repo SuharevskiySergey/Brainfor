@@ -32,8 +32,11 @@ def admin_panel_main():
     if current_user.role < 2:
         return redirect(url_for('main.index'))
 
-    infos = db.session.query(Info).filter(Info.id_user == None).order_by(Info.id_user).all()
-    #users_info = db.session.query(User, Info).join(Info).all()
+    infose = db.session.query(Info).filter(Info.id_user == None).order_by(Info.id_user).all()
+    infos = []
+    for info in infose:
+        graph = db.session.query(Graficks).filter(Graficks.id_user== info.id).all()
+        infos.append([info, graph])
 
     return render_template('admin_panel/admin_panel_main.html', infos=infos)
 
@@ -160,10 +163,8 @@ def sudo_graph():
 
         if role == 'teacher':
             if g.Info.id_user:
-                # print('#')
                 to_total[day][g.Info.name] += 1
 
-    # print(to_total)
     return render_template('admin_panel/sudo_graph.html', graph=graph, les=len(graph), rolee=role, to_total=to_total)
 
 
@@ -225,7 +226,6 @@ def finansal_post():
                                totaly = totaly)
     else:
         pass
-        # print(form.errors)
 
     return redirect(url_for('main.finansal_get'))
 
@@ -249,5 +249,4 @@ def finansal_get():
                                  seconds=now.second,
                                  microseconds=now.microsecond)
     lessons = db.session.query(Lesson).filter(Lesson.datetimes > starttime).filter(Lesson.datetimes < finishtime).all()
-    # print(lessons)
     return render_template('admin_panel/fin_exe.html', form=form)

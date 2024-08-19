@@ -20,22 +20,44 @@
         {% for info in infos %}
         <tr>
             <td> {{ info.id }}</td>
-            <td><a href="{{ url_for('main.information', id=info.id) }}">{{ info.name }}</a></td>
-            <td>{{ info.country }}</td>
-            <td>{{ info.date_of_birth }}</td>
-            <td>{{ info.phone_number }}</td>
-            <td>{{ info.speed }}</td>
-            <td>{{ info.value }}</td>
-            <td>{{ info.source }}</td>
-            <td>{{ info.pay_already }}</td>
-            <td>{{ info.pass_lesson }}</td>
-            <td>{{ info.was_pay_for_lesson }}</td>
-            {% if info.has_teacher() == False %}
+            <td><a href="{{ url_for('main.information', id=info[0].id) }}">{{ info[0].name }}</a></td>
+            <td>{{ info[0].country }}</td>
+            <td>{{ info[0].date_of_birth }}</td>
+            <td>{{ info[0].phone_number }}</td>
+            <td>{{ info[0].speed }}</td>
+            <td>{{ info[0].value }}</td>
+            <td>{{ info[0].source }}</td>
+            <td>{{ info[0].pay_already }}</td>
+            <td>{{ info[0].pass_lesson }}</td>
+            <td>{{ info[0].was_pay_for_lesson }}</td>
+            {% if info[0].has_teacher() == False %}
             <td><p>Hasn't teacher</p></td>
             {% else  %}
-            <td>{{ info.get_teacher() }}</td>
+            <td>{{ info[0].get_teacher() }}</td>
             {% endif %}
-            <td><a href="{{ url_for('main.secsesfuly', id=info.id) }}">Lessons</a> </td>
+            <td>
+                {% for g in info[1] %}
+
+                    {% if g.weekday==0 %}
+                        Monday
+                    {% elif g.weekday==1 %}
+                        Tuesday
+                    {% elif g.weekday==2 %}
+                        Wednesday
+                    {% elif g.weekday==3 %}
+                        Thursday
+                    {% elif g.weekday==4 %}
+                        Friday
+                    {% elif g.weekday==5 %}
+                        Sarturday
+                    {% elif g.weekday==6 %}
+                        Sanday
+                    {% endif %}
+                    {{g.hour}}:{{g.minute}}
+                {% endfor %}
+
+            </td>
+            <td><a href="{{ url_for('main.secsesfuly', id=info[0].id) }}">Lessons</a> </td>
         </tr>
         {% endfor %}
 
