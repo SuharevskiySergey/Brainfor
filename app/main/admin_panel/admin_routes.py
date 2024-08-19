@@ -33,6 +33,7 @@ def admin_panel_main():
         return redirect(url_for('main.index'))
 
     infos = db.session.query(Info).filter(Info.id_user == None).order_by(Info.id_user).all()
+    #users_info = db.session.query(User, Info).join(Info).all()
 
     return render_template('admin_panel/admin_panel_main.html', infos=infos)
 

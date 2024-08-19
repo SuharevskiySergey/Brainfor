@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 {% block app_content %}
 
-    <p>Student administration</p>
     <p></p>
     <table>Students
         <tr>
@@ -36,7 +35,7 @@
             {% else  %}
             <td>{{ info.get_teacher() }}</td>
             {% endif %}
-            <td><a href="{{ url_for('main.secsesfuly', id=info.id) }}">procesing</a> </td>
+            <td><a href="{{ url_for('main.secsesfuly', id=info.id) }}">Lessons</a> </td>
         </tr>
         {% endfor %}
 

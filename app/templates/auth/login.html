@@ -22,8 +22,7 @@
         <p class="option__input">{{ form.remember_me() }} {{ form.remember_me.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
-    <p>New User? <a href="{{ url_for('auth.registration') }}">Click to Register!</a></p>
-    <p>Forgot You Password?
-    <a href="{{ url_for('auth.reset_password_request') }}">Click to Reset IT</a> </p>
+     <a href="{{ url_for('auth.registration') }}">Register</a>
+    <a href="{{ url_for('auth.reset_password_request') }}">Forgot password</a>
     </div>
 {% endblock %}
