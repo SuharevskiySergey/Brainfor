@@ -13,7 +13,7 @@ class Info(db.Model):
     date_of_birth = db.Column(db.Date())
     phone_number = db.Column(db.String(20))
 
-    speed = db.Column(db.String(120), default="none")
+    speed = db.Column(db.String(120), default="Slow")
     value = db.Column(db.Integer, default=0)
     source = db.Column(db.String(100), default="Slow")
     pay_already = db.Column(db.Integer, default=0)

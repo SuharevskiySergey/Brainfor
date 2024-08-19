@@ -12,9 +12,8 @@
             <td>birthday</td>
             <td>phone</td>
             <td>value</td>
-            <td>source</td>
-            <td>pay allredy</td>
-            <td>pass lesson</td>
+            <td>Paid</td>
+            <td>Passed</td>
         </tr>
         {% for info in infos %}
         <tr>
@@ -24,7 +23,6 @@
             <td>{{ info.date_of_birth }}</td>
             <td>{{ info.phone_number }}</td>
             <td>{{ info.value }}</td>
-            <td>{{ info.source }}</td>
             <td>{{ info.pay_already }}</td>
             <td>{{ info.pass_lesson }}</td>
 
@@ -32,5 +30,4 @@
         {% endfor %}
 
     </table>
-    <a href="{{ url_for('main.add_new') }}"> Create new student</a>
 {% endblock %}

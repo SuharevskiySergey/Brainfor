@@ -94,7 +94,7 @@ def change_info(user_id):
     print('$')
     print(info.name)
     print(form.name.data)
-    if current_user.role<3:
+    if current_user.role < 3:
         form.source.data = info.source
         form.speed.data = info.speed
         form.prize.data = info.value

@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-    <p> view on users </p>
-    <a href="{{ url_for('main.admin_panel_main') }}">administration student </a>
+    <p> Administrations users </p>
     <table>
         <tr>
             <td>Name</td>
@@ -27,10 +26,14 @@
                     Teacher
                 {% elif  user.User.role == 3 %}
                     Admin
+                {% elif  user.User.role == 4 %}
+                    Superadmin
                 {% endif %}
             </td>
+            {% if user.User.role < 4 %}
             <td><a href="{{ url_for('main.make_teacher', id=user.User.id) }}">make teacher </a></td>
             <td><a href="{{ url_for('main.make_admin', id=user.User.id) }}">make admin </a></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </table>

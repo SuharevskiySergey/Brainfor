@@ -223,7 +223,8 @@ def finansal_post():
                                to_output=to_output, teachers=teachers,
                                totaly = totaly)
     else:
-        print(form.errors)
+        pass
+        # print(form.errors)
 
     return redirect(url_for('main.finansal_get'))
 

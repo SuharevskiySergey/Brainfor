@@ -8,15 +8,15 @@
             <td>№</td>
             <td>Name</td>
             <td>Country</td>
-            <td>birthday</td>
-            <td>phone</td>
-            <td>speed</td>
-            <td>value</td>
-            <td>source</td>
-            <td>pay allredy</td>
-            <td>pass lesson</td>
+            <td>Birthday</td>
+            <td>Phone</td>
+            <td>Speed</td>
+            <td>Value</td>
+            <td>Source</td>
+            <td>Paid</td>
+            <td>Passed</td>
             <td></td>
-            <td>teacher</td>
+            <td>Teacher</td>
         </tr>
         {% for info in infos %}
         <tr>
@@ -36,6 +36,7 @@
             {% else  %}
             <td>{{ info.get_teacher() }}</td>
             {% endif %}
+            <td><a href="{{ url_for('main.secsesfuly', id=info.id) }}">procesing</a> </td>
         </tr>
         {% endfor %}
 
