@@ -107,10 +107,13 @@ class Part_Course(db.Model):
     number = db.Column(db.Integer)
 
     rypma = db.Column(db.DateTime, default=datetime.utcnow())
-    sympfany = db.Column(db.DateTime, default=datetime.utcnow())
-    repeated = db.Column(db.DateTime, default=datetime.utcnow())
-    proninciation = db.Column(db.DateTime, default=datetime.utcnow())
-    speacking = db.Column(db.DateTime, default=datetime.utcnow())
+    repetition = db.Column(db.DateTime, default=datetime.utcnow())
+    reading = db.Column(db.DateTime, default=datetime.utcnow())
+    speaking = db.Column(db.DateTime, default=datetime.utcnow())
+    qetion = db.Column(db.DateTime, default=datetime.utcnow())
+    topics = db.Column(db.DateTime, default=datetime.utcnow())
+    associations = db.Column(db.DateTime, default=datetime.utcnow())
+    grammar = db.Column(db.DateTime, default=datetime.utcnow())
 
 
 class Cource(db.Model):
@@ -123,8 +126,8 @@ class Cource(db.Model):
     def initialization(self):
         set = []
         for i in range(81):
-            s = Part_Course(rypma=self.created, sympfany=self.created, repeated=self.created,
-                            proninciation=self.created, speacking=self.created)
+            s = Part_Course(rypma=self.created, repetition=self.created, reading=self.created, speaking=self.created,
+                            qetion=self.created, topics=self.created, associations=self.created, grammar=self.created,)
             set.append(Part_Course(number=i, id_course=self.id))
 
         db.session.add_all(set)

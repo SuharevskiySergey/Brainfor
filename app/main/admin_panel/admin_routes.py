@@ -173,6 +173,7 @@ def sudo_graph():
 def finansal_post():
     if current_user.role < 4:
         return redirect('main.index')
+
     form = ChoiseTimeForm()
     if form.validate_on_submit():
 

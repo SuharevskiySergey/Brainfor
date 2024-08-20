@@ -9,21 +9,27 @@ teacher krasavcik
         <table>
             <tr>
                 <td>№</td>
-                <td>rypma</td>
-                <td>sympfany</td>
-                <td>repeated</td>
-                <td>proninciation</td>
-                <td>reading</td>
+                <td>Rhymes</td>
+                <td>Repetition</td>
+                <td>Reading</td>
+                <td>Speaking</td>
+                <td>Q&A</td>
+                <td>Topics</td>
+                <td>Associations</td>
+                <td>Grammar</td>
             </tr>
 
         {% for part in form.parts %}
         <tr>
             <td>{{ part.ids() }}{{ part.ids.data }}</td>
             <td>{{ part.rypma() }}</td>
-            <td>{{ part.sympfany() }}</td>
-            <td>{{ part.repeated() }}</td>
-            <td>{{ part.proninciation() }}</td>
+            <td>{{ part.repetition() }}</td>
             <td>{{ part.reading() }}</td>
+            <td>{{ part.speaking() }}</td>
+            <td>{{ part.qetion() }}</td>
+            <td>{{ part.topics() }}</td>
+            <td>{{ part.associations() }}</td>
+            <td>{{ part.grammar() }}</td>
 
         </tr>
         {% endfor %}

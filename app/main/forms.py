@@ -33,10 +33,14 @@ class GraphForm(FlaskForm):
 class PartyForm(wtforms.Form):
     ids = wtforms.fields.HiddenField('ids')
     rypma = wtforms.fields.BooleanField('rypma', default=False)
-    sympfany = wtforms.fields.BooleanField('sympfany', default=False)
-    repeated = wtforms.fields.BooleanField('repeated', default=False)
-    proninciation = wtforms.fields.BooleanField('proninciation', default=False)
-    reading = wtforms.fields.BooleanField('reading', default=False)
+    repetition = wtforms.fields.BooleanField('rypma', default=False)
+    reading = wtforms.fields.BooleanField('rypma', default=False)
+    speaking = wtforms.fields.BooleanField('rypma', default=False)
+    qetion = wtforms.fields.BooleanField('rypma', default=False)
+    topics = wtforms.fields.BooleanField('rypma', default=False)
+    associations = wtforms.fields.BooleanField('rypma', default=False)
+    grammar = wtforms.fields.BooleanField('rypma', default=False)
+
 
 
 class ProcessForm(FlaskForm):

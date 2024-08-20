@@ -60,26 +60,44 @@ def create_lesson_post(graphid):
             else:
                 rypma = (False)
 
-            if party[j].sympfany == party[80].sympfany:
-                sympfany = (False)
+            if party[j].repetition != party[80].repetition:
+                repetition = (True)
             else:
-                sympfany = (True)
+                repetition = (False)
 
-            if party[j].repeated == party[80].repeated:
-                repeated = (False)
-            else:
-                repeated = (True)
-            if party[j].proninciation == party[80].proninciation:
-                proninciation = (False)
-            else:
-                proninciation = (True)
-            if party[j].speacking == party[80].speacking:
-                reading = (False)
-            else:
+            if party[j].reading != party[80].reading:
                 reading = (True)
+            else:
+                reading = (False)
 
-            parts.append({'rypma': rypma, 'sympfany': sympfany, 'repeated': repeated, 'proninciation': proninciation,
-                          'reading': reading, 'number': number})
+            if party[j].speaking != party[80].speaking:
+                speaking = (True)
+            else:
+                speaking = (False)
+
+            if party[j].qetion != party[80].qetion:
+                qetion = (True)
+            else:
+                qetion = (False)
+
+            if party[j].topics != party[80].topics:
+                topics = (True)
+            else:
+                topics = (False)
+
+            if party[j].associations != party[80].associations:
+                associations = (True)
+            else:
+                associations = (False)
+
+            if party[j].grammar != party[80].grammar:
+                grammar = (True)
+            else:
+                grammar = (False)
+
+            parts.append({'rypma': rypma, 'repetition': repetition, 'reading': reading, 'speaking': speaking,
+                          'qetion': qetion, 'topics': topics, 'associations': associations, 'grammar': grammar,
+                          'number': number})
 
 
 
@@ -91,29 +109,51 @@ def create_lesson_post(graphid):
                 else:
                     party[i].rypma = party[80].rypma
 
-            if get_parts[i]['sympfany'] != parts[i]['sympfany']:
-                if get_parts[i]['sympfany']:
-                    party[i].sympfany = today - delta
+            if get_parts[i]['repetition'] != parts[i]['repetition']:
+                if get_parts[i]['repetition']:
+                    party[i].repetition = today - delta
                 else:
-                    party[i].sympfany = party[80].sympfany
-
-            if get_parts[i]['repeated'] != parts[i]['repeated']:
-                if get_parts[i]['repeated']:
-                    party[i].repeated = today - delta
-                else:
-                    party[i].repeated = party[80].repeated
-
-            if get_parts[i]['proninciation'] != parts[i]['proninciation']:
-                if get_parts[i]['proninciation']:
-                    party[i].proninciation = today - delta
-                else:
-                    party[i].proninciation = party[80].rypma
+                    party[i].repetition = party[80].repetition
 
             if get_parts[i]['reading'] != parts[i]['reading']:
                 if get_parts[i]['reading']:
                     party[i].reading = today - delta
                 else:
-                    party[i].reading = party[80].rypma
+                    party[i].reading = party[80].reading
+
+            if get_parts[i]['speaking'] != parts[i]['speaking']:
+                if get_parts[i]['speaking']:
+                    party[i].speaking = today - delta
+                else:
+                    party[i].speaking = party[80].speaking
+
+            if get_parts[i]['qetion'] != parts[i]['qetion']:
+                if get_parts[i]['qetion']:
+                    party[i].qetion = today - delta
+                else:
+                    party[i].qetion = party[80].qetion
+
+            if get_parts[i]['topics'] != parts[i]['topics']:
+                if get_parts[i]['topics']:
+                    party[i].topics = today - delta
+                else:
+                    party[i].topics = party[80].topics
+
+            if get_parts[i]['associations'] != parts[i]['associations']:
+                if get_parts[i]['associations']:
+                    party[i].associations = today - delta
+                else:
+                    party[i].associations = party[80].associations
+
+            if get_parts[i]['grammar'] != parts[i]['grammar']:
+                if get_parts[i]['grammar']:
+                    party[i].grammar = today - delta
+                else:
+                    party[i].grammar = party[80].grammar
+
+
+
+
 
         db.session.add_all(party)
         t_prize = db.session.query(Info.value).filter(Info.id_user == current_user.id).first().value or 0
@@ -148,39 +188,52 @@ def create_lesson_get(graphid):
     parts = []
     for j in range(80):
         number = str(j+1)
+
         if party[j].rypma != party[80].rypma:
             rypma = (True)
         else:
             rypma = (False)
 
-        if party[j].sympfany == party[80].sympfany:
-            sympfany = (False)
+        if party[j].repetition == party[80].repetition:
+            repetition = (False)
         else:
-            sympfany = (True)
+            repetition = (True)
 
-        if party[j].repeated == party[80].repeated:
-            repeated = (False)
-        else:
-            repeated = (True)
-        if party[j].proninciation == party[80].proninciation:
-            proninciation = (False)
-        else:
-            proninciation = (True)
-        if party[j].speacking == party[80].speacking:
+        if party[j].reading == party[80].reading:
             reading = (False)
         else:
             reading = (True)
 
-        parts.append({'ids': j+1, 'rypma': rypma, 'sympfany': sympfany, 'repeated': repeated, 'proninciation': proninciation,
-                            'reading': reading})
+        if party[j].speaking == party[80].speaking:
+            speaking = (False)
+        else:
+            speaking = (True)
+
+        if party[j].qetion == party[80].qetion:
+            qetion = (False)
+        else:
+            qetion = (True)
+
+        if party[j].topics == party[80].topics:
+            topics = (False)
+        else:
+            topics = (True)
+
+        if party[j].associations == party[80].associations:
+            associations = (False)
+        else:
+            associations = (True)
+
+        if party[j].grammar == party[80].grammar:
+            grammar = (False)
+        else:
+            grammar = (True)
+
+
+        parts.append({'ids': j+1,  'rypma': rypma, 'repetition': repetition, 'reading': reading, 'speaking': speaking,
+                      'qetion': qetion, 'topics': topics, 'associations': associations, 'grammar': grammar})
 
     form.process(data={'parts': parts})
-    # for i in range(5):
-    #     form.rypma.append_entry(True)
-    #     form.sympfany.append_entry()
-    #     form.repeated.append_entry()
-    #     form.proninciation.append_entry()
-    #     form.reading.append_entry()
 
     return render_template('teachers_panel/add_lesson.html', form=form)
 

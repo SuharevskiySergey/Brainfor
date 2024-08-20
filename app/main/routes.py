@@ -49,8 +49,7 @@ def information():
         j = 0
         lessons = []
         lessons.append({0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []})
-        #[ {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []} ]
-        #[lesson ...]
+
         for i in range(len(lessons_all)-1):
 
             lessons[j][lessons_all[i].datetimes.weekday()].append(lessons_all[i])
@@ -74,6 +73,7 @@ def information():
         # without last
 
     graph = db.session.query(Graficks).filter(Graficks.id_user == user_id).all()
+    print(lessons)
 
     return render_template('main/information.html', info=info,  role=current_user.role, teachers=teachers,
                            lessons=lessons, day=0, graph=graph)
