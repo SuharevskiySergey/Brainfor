@@ -36,7 +36,6 @@ def create_lesson_post(graphid):
 
 
     if form.validate_on_submit():
-        print('#')
 
 
         get_parts = form.parts.data
@@ -49,7 +48,6 @@ def create_lesson_post(graphid):
 
         if db.session.query(Lesson).filter(Lesson.teacher == current_user.id).filter(Lesson.student == graph.id_user).filter(Lesson.datetimes == today - delta).first():
             flash('this lesson is alredy exist')
-            print('error')
             return redirect(url_for('main.information'))
 
         parts = []
@@ -168,8 +166,7 @@ def create_lesson_post(graphid):
 
         return redirect(url_for('main.information'))
     else:
-        print('Form errors:', form.errors)
-        print('!')
+        pass
     return redirect(url_for('main.information',))
 
 
@@ -245,7 +242,6 @@ def del_teacher(stud, teach):
         return redirect(url_for('main.index'))
 
     i = db.session.query(Teacher_To_Student).filter(Teacher_To_Student.id_Student == stud, Teacher_To_Student.id_Teacher == teach).first()
-    print(i)
     db.session.delete(i)
 
     db.session.commit()

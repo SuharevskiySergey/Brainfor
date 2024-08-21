@@ -73,7 +73,7 @@ def information():
         # without last
 
     graph = db.session.query(Graficks).filter(Graficks.id_user == user_id).all()
-    print(lessons)
+
 
     return render_template('main/information.html', info=info,  role=current_user.role, teachers=teachers,
                            lessons=lessons, day=0, graph=graph)
@@ -91,16 +91,12 @@ def change_info(user_id):
         return redirect(url_for('main.index'))
 
 
-    print('$')
-    print(info.name)
-    print(form.name.data)
     if current_user.role < 3:
         form.source.data = info.source
         form.speed.data = info.speed
         form.prize.data = info.value
     if form.validate_on_submit():
-        print('@')
-        #print(form.date_of_birth.data)
+
         info.name = form.name.data
         info.country = form.country.data
         info.date_of_birth = form.date_of_birth.data
@@ -110,11 +106,10 @@ def change_info(user_id):
             info.source = form.source.data
             info.value = form.prize.data
 
-        print('!')
         db.session.add(info)
         db.session.commit()
-        print('#')
-        return redirect(url_for('main.information', id=user_id))
+
+        return redirect(url_for('main.information', id=user_id, info=info))
 
     form.name.data = info.name
     form.country.data = info.country
@@ -125,7 +120,7 @@ def change_info(user_id):
     form.source.data = info.source
     form.prize.data = info.value
 
-    return render_template('main/change_information.html', form=form, role=current_user.role)
+    return render_template('main/change_information.html', form=form, role=current_user.role, info=info)
 
 
 @login_required

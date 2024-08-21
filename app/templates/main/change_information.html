@@ -24,16 +24,23 @@
                 {{ form.phone_number(size=32) }}
             </p>
             {% if role > 2 %}
+                {% if not(info.id_user) %}
                 <p>
                     {{ form.speed.label }}<br>
                     {{ form.speed(size=1) }}
                 </p>
+
                 <p>
                     {{ form.source.label }}<br>
                     {{ form.source(size=32) }}
                 </p>
+                {% endif %}
                 <p>
-                    {{ form.prize.label }}<br>
+                    {% if not(info.id_user) %}
+                        {{ form.prize.label }}<br>
+                    {% else %}
+                        Rate <br>
+                    {% endif %}
                     {{ form.prize(size=10) }}
                 </p>
             {% endif %}
