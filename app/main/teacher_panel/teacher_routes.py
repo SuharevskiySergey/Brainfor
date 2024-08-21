@@ -235,7 +235,6 @@ def create_lesson_get(graphid):
     return render_template('teachers_panel/add_lesson.html', form=form)
 
 
-
 @bp.route('/del_teach/<int:stud>/<int:teach>', methods=['GET', 'POST', 'PUT'])
 def del_teacher(stud, teach):
     if current_user.role < 3:

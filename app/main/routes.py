@@ -90,11 +90,15 @@ def change_info(user_id):
     if current_user.role < 3 and info.id_user != current_user.id:
         return redirect(url_for('main.index'))
 
-
-    if current_user.role < 3:
+    if not (form.source.data):
         form.source.data = info.source
+
+    if not (form.speed.data):
         form.speed.data = info.speed
+
+    if not (form.prize.data):
         form.prize.data = info.value
+
     if form.validate_on_submit():
 
         info.name = form.name.data
