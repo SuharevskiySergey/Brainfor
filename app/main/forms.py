@@ -14,7 +14,7 @@ class InfoForm(FlaskForm):
     date_of_birth = wtforms.fields.DateField('Date of birth')
     phone_number = wtforms.fields.StringField('Phone')
     speed = wtforms.fields.SelectField('Speed', choices=['Slow', 'Fast', 'Super fast'])
-    source = wtforms.fields.StringField('Sourse')
+    source = wtforms.fields.StringField('Sourсe')
     prize = wtforms.fields.IntegerField('Price')
     submit = wtforms.fields.SubmitField('Submit')
 
