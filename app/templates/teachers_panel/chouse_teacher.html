@@ -1,6 +1,6 @@
 {% extends "base.html"%}
 {% block app_content %}
-<p>chouse teacher</p>
+<p>Choose teacher</p>
 {% for teacher in teachers %}
     <a href="{{ url_for('main.add_teach_to_student',teach=teacher.User.id, id=id) }}">{{teacher.Info.name}}</a><br>
 {% endfor %}
