@@ -19,7 +19,7 @@
         </tr>
         {% for info in infos %}
         <tr>
-            <td> {{ info.id }}</td>
+            <td> {{ info[2] }}</td>
             <td><a href="{{ url_for('main.information', id=info[0].id) }}">{{ info[0].name }}</a></td>
             <td>{{ info[0].country }}</td>
             <td>{{ info[0].date_of_birth }}</td>
