@@ -17,7 +17,7 @@ from app.models.info import Lesson
 def admin_panel_teachers():
     if current_user.role < 2:
         return redirect(url_for('main.index'))
-    teach = db.session.query(User.id).filter(User.role==2).all()
+    teach = db.session.query(User.id).filter(User.role == 2).all()
     teach_id = []
     for i in teach:
         teach_id.append(i.id)
