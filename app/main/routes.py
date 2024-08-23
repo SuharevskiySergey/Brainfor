@@ -213,7 +213,6 @@ def changedateoflesson(id, numb):
     s = db.session.query(Part_Course).filter(Part_Course.id == id).first()
 
     if form.validate_on_submit():
-        print(form.date.data)
         if numb == 1:
             s.rypma = form.date.data
         if numb == 2:
