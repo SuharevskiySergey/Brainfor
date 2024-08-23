@@ -232,7 +232,9 @@ def changedateoflesson(id, numb):
             s.grammar = form.date.data
         db.session.add(s)
         db.session.commit()
-        return redirect('/')
+        c = db.session.query(Cource).filter(Cource.id == s.id_course).first()
+        i = db.session.query(Info).filter(Info.id == c.to_student).first()
+        return redirect(url_for('main.secsesfuly', id=i.id))
 
 
     c = db.session.query(Cource).filter(Cource.id == s.id_course).first()
@@ -282,4 +284,6 @@ def clearlesson(id, numb):
 
     db.session.add(s)
     db.session.commit()
-    return redirect('/')
+    c = db.session.query(Cource).filter(Cource.id == s.id_course).first()
+    i = db.session.query(Info).filter(Info.id == c.to_student).first()
+    return redirect(url_for('main.secsesfuly', id=i.id))
