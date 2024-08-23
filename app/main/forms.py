@@ -53,3 +53,8 @@ class ProcessForm(FlaskForm):
     #
     #     for i in range(80):
     #         self.rypma =
+
+
+class Change_progress_data(FlaskForm):
+    date = wtforms.fields.DateField('Change to')
+    submit = wtforms.fields.SubmitField('Submit')

@@ -18,45 +18,117 @@
         {% if part.number != 80 %}
             <td>{{ part.number + 1 }}</td>
             {% if part.rypma != party[80].rypma %}
-                <td>{{ part.rypma }}</td>
+                {% if role < 3 %}
+                    <td>{{ part.rypma }}</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=1) }}">{{ part.rypma }}</a> </td>
+                {% endif %}
             {% else %}
-                <td> - </td>
+                {% if role < 3 %}
+                    <td>-</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=1) }}">-</a> </td>
+                {% endif %}
             {% endif%}
+
             {% if part.repetition != party[80].repetition %}
-                <td>{{ part.repetition }}</td>
+                {% if role < 3 %}
+                    <td>{{ part.repetition }}</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=2) }}">{{ part.repetition }}</a> </td>
+                {% endif %}
             {% else %}
-                <td> - </td>
+                {% if role < 3 %}
+                    <td>-</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=2) }}">-</a> </td>
+                {% endif %}
             {% endif%}
+
             {% if part.reading != party[80].reading %}
-                <td>{{ part.reading }}</td>
+                {% if role < 3 %}
+                    <td>{{ part.reading }}</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=3) }}">{{ part.reading }}</a> </td>
+                {% endif %}
             {% else %}
-                <td> - </td>
+                {% if role < 3 %}
+                    <td>-</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=3) }}">-</a> </td>
+                {% endif %}
             {% endif%}
+
             {% if part.speaking != party[80].speaking %}
-                <td>{{ part.speaking }}</td>
+                {% if role < 3 %}
+                    <td>{{ part.speaking }}</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=4) }}">{{ part.speaking }}</a> </td>
+                {% endif %}
             {% else %}
-                <td> - </td>
+                {% if role < 3 %}
+                    <td>-</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=4) }}">-</a> </td>
+                {% endif %}
             {% endif%}
+
             {% if part.qetion != party[80].qetion %}
-                <td>{{ part.qetion }}</td>
+                {% if role < 3 %}
+                    <td>{{ part.qetion }}</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=5) }}">{{ part.qetion }}</a> </td>
+                {% endif %}
             {% else %}
-                <td> - </td>
-            {% endif %}
+                {% if role < 3 %}
+                    <td>-</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=5) }}">-</a> </td>
+                {% endif %}
+            {% endif%}
+
             {% if part.topics != party[80].topics %}
-                <td>{{ part.topics }}</td>
+                {% if role < 3 %}
+                    <td>{{ part.topics }}</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=6) }}">{{ part.topics }}</a> </td>
+                {% endif %}
             {% else %}
-                <td> - </td>
-            {% endif %}
+                {% if role < 3 %}
+                    <td>-</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=6) }}">-</a> </td>
+                {% endif %}
+            {% endif%}
+
             {% if part.associations != party[80].associations %}
-                <td>{{ part.associations }}</td>
+                {% if role < 3 %}
+                    <td>{{ part.associations }}</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=7) }}">{{ part.associations }}</a> </td>
+                {% endif %}
             {% else %}
-                <td> - </td>
-            {% endif %}
+                {% if role < 3 %}
+                    <td>-</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=7) }}">-</a> </td>
+                {% endif %}
+            {% endif%}
+
             {% if part.grammar != party[80].grammar %}
-                <td>{{ part.grammar }}</td>
+                {% if role < 3 %}
+                    <td>{{ part.grammar }}</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=8) }}">{{ part.grammar }}</a> </td>
+                {% endif %}
             {% else %}
-                <td> - </td>
-            {% endif %}
+                {% if role < 3 %}
+                    <td>-</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=8) }}">-</a> </td>
+                {% endif %}
+            {% endif%}
+
         {% endif %}
     </tr>
     {% endfor %}

@@ -10,7 +10,7 @@ from app.models.info import Info
 from app.models.info import Graficks
 from app.main.forms import GraphForm
 from app.models.info import Cource, Part_Course
-
+from app.main.forms import Change_progress_data
 
 @bp.route('/')
 @bp.route('/index')
@@ -189,14 +189,97 @@ def graphic(id):
 
     return render_template('/main/graphics.html', output=output, info=info)
 
+
 @bp.route('/processing/<int:id>')
 @login_required
 def secsesfuly(id):
     if current_user.role<2:
         return redirect(url_for('main.index'))
 
+    role = current_user.role
     course = db.session.query(Cource).filter(Cource.to_student == id).first()
     party = db.session.query(Part_Course)\
         .filter(Part_Course.id_course == course.id)\
         .order_by(Part_Course.number).all()
-    return render_template('/main/progress.html', party=party, course=course)
+    return render_template('/main/progress.html', party=party, course=course, role=role)
+
+
+@bp.route('/changedatales/<int:id>/<int:numb>', methods=['GET', 'POST'])
+@login_required
+def changedateoflesson(id, numb):
+    if current_user.role < 4:
+        return redirect(url_for('main.index'))
+    form = Change_progress_data()
+    s = db.session.query(Part_Course).filter(Part_Course.id == id).first()
+
+    if form.validate_on_submit():
+        print(form.date.data)
+        if numb == 1:
+            s.rypma = form.date.data
+        if numb == 2:
+            s.repetition = form.date.data
+        if numb == 3:
+            s.reading = form.date.data
+        if numb == 4:
+            s.speaking = form.date.data
+        if numb == 5:
+            s.qetion = form.date.data
+        if numb == 6:
+            s.topics = form.date.data
+        if numb == 7:
+            s.associations = form.date.data
+        if numb == 8:
+            s.grammar = form.date.data
+        db.session.add(s)
+        db.session.commit()
+        return redirect('/')
+
+
+    c = db.session.query(Cource).filter(Cource.id == s.id_course).first()
+    inf = db.session.query(Info).filter(Info.id == c.to_student).first()
+
+    if numb == 1:
+        form.date.data = s.rypma.date()
+    if numb == 2:
+        form.date.data = s.repetition.date()
+    if numb == 3:
+        form.date.data = s.reading.date()
+    if numb == 4:
+        form.date.data = s.speaking.date()
+    if numb == 5:
+        form.date.data = s.qetion.date()
+    if numb == 6:
+        form.date.data = s.topics.date()
+    if numb == 7:
+        form.date.data = s.associations.date()
+    if numb == 8:
+        form.date.data = s.grammar.date()
+
+    return render_template('/admin_panel/changedatalesson.html', form=form, inf=inf, s=s, numb=numb)
+
+
+@bp.route('/deletelesson/<int:id>/<int:numb>')
+@login_required
+def clearlesson(id, numb):
+    s = db.session.query(Part_Course).filter(Part_Course.id == id).first()
+    null = db.session.query(Part_Course).filter(Part_Course.id_course==s.id_course).filter(Part_Course.number==80).first().rypma
+    if numb == 1:
+        s.rypma = null
+    if numb == 2:
+        s.repetition = null
+    if numb == 3:
+        s.reading = null
+    if numb == 4:
+        s.speaking = null
+    if numb == 5:
+        s.qetion = null
+    if numb == 6:
+        s.topics = null
+    if numb == 7:
+        s.associations = null
+    if numb == 8:
+        s.grammar = null
+
+    db.session.add(s)
+    db.session.commit()
+    return redirect('/')
