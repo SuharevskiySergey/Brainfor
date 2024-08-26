@@ -143,7 +143,7 @@ def sudo_graph():
         .order_by(Graficks.hour)\
         .order_by(Graficks.minute).join(Info).all()
 
-    teacher_id = [i.id for i in db.session.query(User.id).filter(User.role == 2).all()]
+    teacher_id = [i.id for i in db.session.query(User.id).filter(User.role >= 2).all()]
     teacher_info = db.session.query(Info).filter(Info.id_user.in_(teacher_id)).all()
 
     to_total = {0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}}
@@ -191,13 +191,13 @@ def finansal_post():
         to_output = []
         days = []
         totaly = {i.name: {'get': 0, 'paid': 0, 'count': 0} for i in db.session.query(Info).filter(
-            Info.id_user.in_([j.id for j in db.session.query(User).filter(User.role == 2).all()])).all()}
+            Info.id_user.in_([j.id for j in db.session.query(User).filter(User.role >= 2).all()])).all()}
         totaly['Total'] = {'get': 0, 'paid': 0, 'count': 0}
         while start < finish:
             days.append(start)
             to_output.append({i.name: {'get': 0, 'paid': 0, 'count': 0} for i in db.session.query(Info)
                              .filter(Info.id_user.in_([j.id for j in db.session.query(User)
-                                                      .filter(User.role == 2).all()])).all()})
+                                                      .filter(User.role >= 2).all()])).all()})
             to_output[-1]['Total'] = {'get': 0, 'paid': 0, 'count': 0}
             lessons_day = db.session.query(Lesson).filter(Lesson.datetimes > start, Lesson.datetimes < start+delta).all()
 
@@ -222,7 +222,7 @@ def finansal_post():
             start = start+delta
 
             teachers = [i.name for i in db.session.query(Info).filter(
-                Info.id_user.in_([s.id for s in db.session.query(User).filter(User.role == 2).all()])).all()]
+                Info.id_user.in_([s.id for s in db.session.query(User).filter(User.role > 2).all()])).all()]
 
         return render_template('admin_panel/fin_exe.html',
                                form=form, days=days,
