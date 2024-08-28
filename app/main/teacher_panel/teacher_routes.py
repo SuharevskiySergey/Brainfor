@@ -150,9 +150,6 @@ def create_lesson_post(graphid):
                     party[i].grammar = party[80].grammar
 
 
-
-
-
         db.session.add_all(party)
         t_prize = db.session.query(Info.value).filter(Info.id_user == current_user.id).first().value or 0
         lesson = Lesson(student=graph.id_user,
@@ -160,6 +157,10 @@ def create_lesson_post(graphid):
                         datetimes=today - delta,
                         prize=db.session.query(Info).filter(Info.id == graph.id_user).first().value,
                         teacher_prize=t_prize)
+        stud = db.session.query(Info).filter(Info.id == graph.id_user).first()
+        stud.pay_already = stud.pay_already - stud.value
+        stud.pass_lesson += 1
+        db.session.add(stud)
 
         db.session.add(lesson)
         db.session.commit()

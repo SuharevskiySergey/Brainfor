@@ -7,9 +7,12 @@ from app.models.user import User
 from app.main.forms import InfoForm
 from app.models.info import Cource
 from app.models.info import Graficks
+from app.models.info import Cashflows
 from app.main.admin_panel.forms import ChoiseTimeForm
 from datetime import datetime, timedelta
-from app.models.info import Lesson
+from app.models.info import Lesson, Cashflows
+from app.main.admin_panel.forms import GetPaidForm
+
 
 
 @bp.route('/admin_panel_teachers')
@@ -254,3 +257,32 @@ def finansal_get():
                                  microseconds=now.microsecond)
     lessons = db.session.query(Lesson).filter(Lesson.datetimes > starttime).filter(Lesson.datetimes < finishtime).all()
     return render_template('admin_panel/fin_exe.html', form=form)
+
+
+@bp.route('/finpersson/<int:id>', methods=['GET', 'POST'])
+@login_required
+def get_paid(id):
+    if current_user.role<3:
+        return redirect(url_for('main.index'))
+    form = GetPaidForm()
+
+    info = db.session.query(Info).filter(Info.id == id).first()
+
+
+    if form.validate_on_submit():
+        if form.money.data < 0:
+            if current_user.role < 4:
+                flash('incorrect data sum can be less then zero')
+                return redirect(url_for('main.get_paid', id=id))
+
+        c = Cashflows(date=datetime.today(), id_info=id, sum=form.money.data, coment=form.coment.data)
+        info.pay_already += form.money.data
+        db.session.add(info)
+        db.session.add(c)
+        db.session.commit()
+
+    cah_flows = db.session.query(Cashflows).filter(Cashflows.id_info == id).order_by(Cashflows.date).all()
+
+    return render_template('admin_panel/finperson.html', form=form, info=info, cah_flows=cah_flows)
+
+

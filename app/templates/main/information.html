@@ -4,7 +4,7 @@
 <h1>Information</h1>
 <a href="{{ url_for('main.graphic', id=info.id) }}">Timetable</a>
 {% if not(info.id_user) %}
-    <a href="{{ url_for('main.secsesfuly', id=info.id) }}">processing</a>
+    <a href="{{ url_for('main.secsesfuly', id=info.id) }}">Lessons</a>
 {% endif %}
 
 <h2> General info</h2>
@@ -23,7 +23,9 @@
         <p> Speed - {{ info.speed }}</p>
     {% endif %}
     {% if info.id_user %}
-    <p> teachers rate {{ info.value }}</p>
+    <p> Rate {{ info.value }}</p>
+    <p>Lessons</p>
+    <p><a href="{{ url_for('main.get_paid',id=info.id) }}">Salary</a><p>
     {% endif %}
 {% endif %}
 
@@ -34,10 +36,11 @@
         {% if not(info.id_user) %}
             <p> Source - {{ info.source }}</p>
         {% endif %}
-        <p>Price per lesson - {{ info.value }}</p>
-        <p>Money paid - {{ info.pay_already }}</p>
-        <p>Lessons left (not yet)</p>
-        <p>Lessons passed - {{ info.pass_lesson }}</p>
+        <p>Price- {{ info.value }}</p>
+        <p><a href="{{ url_for('main.get_paid',id=info.id) }}">Paid</a> -  {{ summe }} </p>
+        <p>Balance {{ info.pay_already }}</p>
+        <p>Passed - {{ info.pass_lesson }}</p>
+        <p>Left {{ info.pay_already // info.value }}</p>
     {% endif %}
 {% endif %}
     <div style="color: black; background-color: gray; width: 200px; height: 100px;">

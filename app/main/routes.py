@@ -6,7 +6,7 @@ from app.models.info import Info, Lesson
 from app.models.user import User
 from app.models.info import Teacher_To_Student
 from app.main.forms import InfoForm
-from app.models.info import Info
+from app.models.info import Info, Cashflows
 from app.models.info import Graficks
 from app.main.forms import GraphForm
 from app.models.info import Cource, Part_Course
@@ -74,9 +74,13 @@ def information():
 
     graph = db.session.query(Graficks).filter(Graficks.id_user == user_id).all()
 
+    paids = db.session.query(Cashflows).filter(Cashflows.id_info == user_id).all()
+    summe = 0
+    for paid in paids:
+        summe += paid.sum
 
     return render_template('main/information.html', info=info,  role=current_user.role, teachers=teachers,
-                           lessons=lessons, day=0, graph=graph)
+                           lessons=lessons, day=0, graph=graph, summe=summe)
 
 
 @bp.route('/change_info/<int:user_id>', methods=['GET', 'POST'])

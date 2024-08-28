@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import DateField, SelectField, SubmitField
+from wtforms import DateField, SelectField, SubmitField, IntegerField, StringField
 
 
 class ChoiseTimeForm(FlaskForm):
@@ -10,3 +10,9 @@ class ChoiseTimeForm(FlaskForm):
 
     # def __init__(self, teacher_name):
     #     teacher_name
+
+
+class GetPaidForm(FlaskForm):
+    money = IntegerField('How mutch')
+    coment = StringField('Comment')
+    submit = SubmitField('Submit')

@@ -16,7 +16,7 @@ class Info(db.Model):
     speed = db.Column(db.String(120), default="Slow")
     value = db.Column(db.Integer, default=0)
     source = db.Column(db.String(100), default="Slow")
-    pay_already = db.Column(db.Integer, default=0)
+    pay_already = db.Column(db.Float, default=0)
     pass_lesson = db.Column(db.Integer, default=0)
 
     finish_lesson = db.Column(db.Integer)
@@ -24,6 +24,7 @@ class Info(db.Model):
     teacher = db.relationship('Teacher_To_Student', backref='teacher', lazy='dynamic')
     graphiks = db.relationship('Graficks', backref='graphiks', lazy='dynamic')
     coursess = db.relationship('Cource', backref='cource', lazy='dynamic')
+    cash_flow = db.relationship('Cashflows', backref='cashflow', lazy='dynamic')
 
     was_pay_for_lesson = db.Column(db.Integer)
 
@@ -131,3 +132,12 @@ class Cource(db.Model):
             set.append(Part_Course(number=i, id_course=self.id))
 
         db.session.add_all(set)
+
+
+class Cashflows(db.Model):
+    __tablename__ = "cashflows"
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    id_info = db.Column(db.Integer, db.ForeignKey('info.id'))
+    sum = db.Column(db.Float)
+    date = db.Column(db.Date(), default=date.today())
+    coment = db.Column(db.String(150))
