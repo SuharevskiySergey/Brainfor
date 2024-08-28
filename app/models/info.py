@@ -19,7 +19,10 @@ class Info(db.Model):
     pay_already = db.Column(db.Float, default=0)
     pass_lesson = db.Column(db.Integer, default=0)
 
-    finish_lesson = db.Column(db.Integer)
+    city = db.Column(db.String(100))
+    occupation = db.Column(db.String(100))
+    activa = db.Column(db.Boolean, default=True)
+
     lesson = db.relationship('Lesson', backref='lessons', lazy='dynamic')
     teacher = db.relationship('Teacher_To_Student', backref='teacher', lazy='dynamic')
     graphiks = db.relationship('Graficks', backref='graphiks', lazy='dynamic')

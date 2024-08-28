@@ -35,7 +35,7 @@ def admin_panel_main():
     if current_user.role < 2:
         return redirect(url_for('main.index'))
 
-    infose = db.session.query(Info).filter(Info.id_user == None).order_by(Info.id).all()
+    infose = db.session.query(Info).filter(Info.id_user == None).filter(Info.activa == True).order_by(Info.id).all()
     infos = []
     s = 0
     for info in infose:
@@ -67,7 +67,7 @@ def add_new():
     if form.validate_on_submit():
         info = Info(name=form.name.data, date_of_birth=form.date_of_birth.data, country=form.country.data,
                     phone_number=form.phone_number.data, speed=form.speed.data, source=form.source.data,
-                    value=form.prize.data)
+                    value=form.prize.data, occupation=form.occupation.data, city=form.city.data)
 
 
         db.session.add(info)
@@ -286,3 +286,41 @@ def get_paid(id):
     return render_template('admin_panel/finperson.html', form=form, info=info, cah_flows=cah_flows)
 
 
+@bp.route('/deactivate/<int:id>')
+@login_required
+def deactivate(id):
+    if current_user.role < 3:
+        return redirect(url_for('main.index'))
+    i = db.session.query(Info).filter(Info.id == id).first()
+    i.activa = False
+    db.session.add(i)
+    db.session.commit()
+    return redirect(url_for("main.admin_panel_main", id=id))
+
+
+@bp.route('/activate/<int:id>')
+@login_required
+def activate(id):
+    if current_user.role < 3:
+        return redirect(url_for('main.index'))
+    i = db.session.query(Info).filter(Info.id == id).first()
+    i.activa = True
+    db.session.add(i)
+    db.session.commit()
+    return redirect(url_for("main.admin_panel_main", id=id))
+
+@bp.route('/deactivated_stud')
+@login_required
+def deac_info():
+    if current_user.role < 2:
+        return redirect(url_for('main.index'))
+
+    d_info = db.session.query(Info).filter(Info.id_user == None).filter(Info.activa != True).order_by(Info.id).all()
+    infos = []
+    s = 0
+    for info in d_info:
+        graph = db.session.query(Graficks).filter(Graficks.id_user == info.id).all()
+        s += 1
+        infos.append([info, graph, s])
+
+    return render_template('admin_panel/admin_panel_main.html', infos=infos)

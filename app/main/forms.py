@@ -16,6 +16,8 @@ class InfoForm(FlaskForm):
     speed = wtforms.fields.SelectField('Speed', choices=['Slow', 'Fast', 'Super fast'])
     source = wtforms.fields.StringField('Sourсe')
     prize = wtforms.fields.IntegerField('Price')
+    city = wtforms.fields.StringField('City')
+    occupation = wtforms.fields.StringField('Occupation')
     submit = wtforms.fields.SubmitField('Submit')
 
     

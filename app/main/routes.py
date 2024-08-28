@@ -103,12 +103,20 @@ def change_info(user_id):
     if not (form.prize.data):
         form.prize.data = info.value
 
+    if not (form.city.data):
+        form.city.data = info.city
+
+    if not (form.occupation.data):
+        form.occupation.data = info.occupation
+
     if form.validate_on_submit():
 
         info.name = form.name.data
         info.country = form.country.data
         info.date_of_birth = form.date_of_birth.data
         info.phone_number = form.phone_number.data
+        info.city = form.city.data
+        info.occupation = form.occupation.data
         if current_user.role > 3:
             info.speed = form.speed.data
             info.source = form.source.data
@@ -123,7 +131,8 @@ def change_info(user_id):
     form.country.data = info.country
     form.date_of_birth.data = info.date_of_birth
     form.phone_number.data = info.phone_number
-
+    form.city.data = info.city
+    form.occupation.data = info.occupation
     form.speed.data = info.speed
     form.source.data = info.source
     form.prize.data = info.value

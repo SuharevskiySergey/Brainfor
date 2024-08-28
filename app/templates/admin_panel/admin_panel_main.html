@@ -7,8 +7,8 @@
             <td>№</td>
             <td>Name</td>
             <td>Country</td>
+            <td>City</td>
             <td>Birthday</td>
-            <td>Phone</td>
             <td>Speed</td>
             <td>Price</td>
             <td>Source</td>
@@ -21,14 +21,14 @@
             <td> {{ info[2] }}</td>
             <td><a href="{{ url_for('main.information', id=info[0].id) }}">{{ info[0].name }}</a></td>
             <td>{{ info[0].country }}</td>
+            <td>{{ info[0].city }}</td>
             <td>{{ info[0].date_of_birth }}</td>
-            <td>{{ info[0].phone_number }}</td>
             <td>{{ info[0].speed }}</td>
             <td>{{ info[0].value }}</td>
             <td>{{ info[0].source }}</td>
             <td>{{ info[0].pay_already // info[0].value}}</td>
             {% if info[0].has_teacher() == False %}
-            <td><a href="{{ url_for('main.chouse_teacher',id=info[0].id) }}">Assign teacher</a></td>
+            <td><a href="{{ url_for('main.chouse_teacher',id=info[0].id) }}">not active</a></td>
             {% else  %}
             <td>{{ info[0].get_teacher() }}</td>
             {% endif %}
@@ -59,6 +59,11 @@
             </td>
             <td><a href="{{ url_for('main.secsesfuly', id=info[0].id) }}">Lessons</a> </td>
             <td><a href="{{ url_for('main.get_paid',id=info[0].id) }}">Getpaid</a></td>
+            {% if info[0].activa == True %}
+                <td><a href="{{ url_for('main.deactivate',id=info[0].id) }}"> Deactivate </a></td>
+            {% else %}
+                <td><a href="{{ url_for('main.activate',id=info[0].id) }}"> Activate </a></td>
+            {% endif %}
 
         </tr>
         {% endfor %}
