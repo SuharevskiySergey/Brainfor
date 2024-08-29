@@ -141,11 +141,14 @@ def temp():
 @login_required
 def sudo_graph():
     role = request.args.get('role', 'student', type=str)
-    graph = db.session.query(Graficks, Info)\
-        .order_by(Graficks.weekday)\
-        .order_by(Graficks.hour)\
+
+    #extracting all grafics
+    graph = db.session.query(Graficks, Info) \
+        .order_by(Graficks.weekday) \
+        .order_by(Graficks.hour) \
         .order_by(Graficks.minute).join(Info).all()
 
+    #get name person higher than teacher
     teacher_id = [i.id for i in db.session.query(User.id).filter(User.role >= 2).all()]
     teacher_info = db.session.query(Info).filter(Info.id_user.in_(teacher_id)).all()
 
@@ -154,13 +157,14 @@ def sudo_graph():
     to_total[0] = {i.name: 0 for i in teacher_info}
     to_total[0]['Total '] = 0
     for g in graph:
+        #change day to carent grafics day
         if day < g.Graficks.weekday:
             day = g.Graficks.weekday
             to_total[day] = {i.name: 0 for i in teacher_info}
             to_total[day]['Total '] = 0
 
         if role == 'student':
-            if not g.Info.id_user:
+            if not g.Info.id_user:#if info is student
                 for teac in g.Info.get_teacher():
                     to_total[day][teac] += 1
                     to_total[day]['Total '] += 1
@@ -171,7 +175,8 @@ def sudo_graph():
             if g.Info.id_user:
                 to_total[day][g.Info.name] += 1
 
-    return render_template('admin_panel/sudo_graph.html', graph=graph, les=len(graph), rolee=role, to_total=to_total)
+        return render_template('admin_panel/sudo_graph.html', graph=graph, les=len(graph), rolee=role,
+                               to_total=to_total)
 
 
 @bp.route('/finansal', methods=['POST'])
@@ -262,7 +267,7 @@ def finansal_get():
 @bp.route('/finpersson/<int:id>', methods=['GET', 'POST'])
 @login_required
 def get_paid(id):
-    if current_user.role<3:
+    if current_user.role < 3:
         return redirect(url_for('main.index'))
     form = GetPaidForm()
 
@@ -307,7 +312,7 @@ def activate(id):
     i.activa = True
     db.session.add(i)
     db.session.commit()
-    return redirect(url_for("main.admin_panel_main", id=id))
+    return redirect(url_for("main.deac_info", id=id))
 
 @bp.route('/deactivated_stud')
 @login_required

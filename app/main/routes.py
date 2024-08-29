@@ -177,14 +177,16 @@ def graphic(id):
     output = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
     info = db.session.query(Info).filter(Info.id == id).first()
     if db.session.query(Info.id_user):
-        tempgraph = db.session.query(Graficks, Info.name, Info.id).filter(Graficks.id_user == info.id)\
+        tempgraph = db.session.query(Graficks, Info.name, Info.id, Info.activa
+                                     ).filter(Graficks.id_user == info.id)\
             .join(Info).all()
         for i in tempgraph:
             output[i.Graficks.weekday].append(i)
 
         stud = []
         for t in db.session.query(Teacher_To_Student.id_Student).filter(Teacher_To_Student.id_Teacher == info.id_user).all():
-            stud.append(t.id_Student)
+            if db.session.query(Info).filter(Info.id == t.id_Student).first().activa:
+                stud.append(t.id_Student)
 
         tempss = db.session.query(Graficks, Info.name, Info.id).filter(Graficks.id_user.in_(stud))\
             .join(Info).all()

@@ -21,7 +21,7 @@ def teacher_panel():
     for i in temp:
         liste.append(i[0])
 
-    student = db.session.query(Info).filter(Info.id.in_(liste)).all()
+    student = db.session.query(Info).filter(Info.id.in_(liste)).filter(Info.activa).all()
 
     return render_template('teachers_panel/teachers_panel_main.html', student=student)
 
@@ -33,7 +33,9 @@ def create_lesson_post(graphid):
     course = db.session.query(Cource).filter(Cource.to_student == graph.id_user).first()
     party = db.session.query(Part_Course).filter(Part_Course.id_course == course.id).order_by(Part_Course.number).all()
 
-
+    if db.session.query(Info).filter(graph.id_user == Info.id).first().activa == False:
+        flash('This student not active')
+        return redirect(url_for("main.index"))
 
     if form.validate_on_submit():
 
@@ -178,8 +180,10 @@ def create_lesson_get(graphid):
     if current_user.role < 2:
         redirect(url_for('main.index'))
 
-
     graph = db.session.query(Graficks).filter(Graficks.id == graphid).first()
+    if db.session.query(Info).filter(graph.id_user == Info.id).first().activa == False:
+        flash('This student not active')
+        return redirect(url_for("main.index"))
     course = db.session.query(Cource).filter(Cource.to_student == graph.id_user).first()
     party = db.session.query(Part_Course).filter(Part_Course.id_course == course.id).order_by(Part_Course.number).all()
     form = ProcessForm()
