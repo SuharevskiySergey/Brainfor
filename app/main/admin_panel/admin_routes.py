@@ -10,7 +10,7 @@ from app.models.info import Graficks
 from app.models.info import Teacher_To_Student
 from app.models.info import Cashflows
 from app.main.admin_panel.forms import ChoiseTimeForm
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 from app.models.info import Lesson, Cashflows
 from app.main.admin_panel.forms import GetPaidForm
 
@@ -100,6 +100,7 @@ def admin_users():
 def make_teacher(id):
     if current_user.role < 3:
         return redirect(url_for('main.index'))
+
     teach = db.session.query(User).filter(User.id == id).first()
     teach.role = 2
     db.session.add(teach)
@@ -141,6 +142,9 @@ def temp():
 @bp.route('/sudo_graph')
 @login_required
 def sudo_graph():
+    if current_user.role < 3:
+        return redirect(url_for('main.index'))
+
     role = request.args.get('role', 'student', type=str)
 
 
@@ -297,13 +301,14 @@ def get_paid(id):
             if current_user.role < 4:
                 flash('incorrect data sum can be less then zero')
                 return redirect(url_for('main.get_paid', id=id))
+        c = Cashflows(date=form.date.data, id_info=id, sum=form.money.data, coment=form.coment.data)
 
-        c = Cashflows(date=datetime.today(), id_info=id, sum=form.money.data, coment=form.coment.data)
+
         info.pay_already += form.money.data
         db.session.add(info)
         db.session.add(c)
         db.session.commit()
-
+    form.date.data = date.today()
     cah_flows = db.session.query(Cashflows).filter(Cashflows.id_info == id).order_by(Cashflows.date).all()
 
     return render_template('admin_panel/finperson.html', form=form, info=info, cah_flows=cah_flows)
@@ -347,3 +352,45 @@ def deac_info():
         infos.append([info, graph, s])
 
     return render_template('admin_panel/admin_panel_main.html', infos=infos)
+
+
+@bp.route("/total_finance")
+@login_required
+def total_finance():
+    if current_user.role < 4:
+        return redirect(url_for('main.index'))
+
+    monthe = request.args.get('month', date.today().month, type=int)
+    yeare = request.args.get('year', date.today().year, type=int)
+
+    s = date(year=yeare, month=monthe, day=1)
+    if monthe != 12:
+        f = date(year=yeare, month=monthe+1, day=1)
+    else:
+        f = date(year=yeare+1, month=1, day=1)
+    income = db.session.query(Cashflows.sum)\
+        .filter(Cashflows.date >= s)\
+        .filter(Cashflows.date < f)\
+        .all()
+
+    sum = 0
+    for i in income:
+        sum += i.sum
+
+    lesson = db.session.query(Lesson)\
+        .filter(Lesson.datetimes > s)\
+        .filter(Lesson.datetimes < f).all()
+
+    changebalanses = 0
+    outcum = 0
+    for l in lesson:
+        changebalanses += l.prize
+        outcum += l.teacher_prize
+
+    # to navigations
+    key = {1: 'Jan', 2: 'Feb', 3: 'Murch', 4: 'Apr', 5: 'May', 6: 'June',
+           7: 'July', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'}
+    years = [y for y in range(2023, date.today().year+1)]
+
+    return render_template("admin_panel/tot_finance.html", income=sum, changebalanses=changebalanses, outcum=outcum,
+                           key=key, years=years)

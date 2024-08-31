@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block app_content %}
+<table>
+{% for year in years %}
+<tr>
+    <td>{{ year }}</td>
+    {% for i in range(12) %}
+        <td><a href="{{ url_for('main.total_finance', month=i+1, year=year) }}"> {{ key[i+1] }}</a></td>
+    {% endfor %}
+</tr>
+{% endfor %}
+</table>
+<p>Income {{ income }}</p>
+<p>Program get (Чорт пойми де його взять)</p>
+<p>Paid to teacher {{ outcum }}</p>
+<p>Надано послуг на {{ changebalanses }}</p>
+{% endblock %}

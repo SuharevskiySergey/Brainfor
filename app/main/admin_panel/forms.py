@@ -15,4 +15,5 @@ class ChoiseTimeForm(FlaskForm):
 class GetPaidForm(FlaskForm):
     money = IntegerField('How mutch')
     coment = StringField('Comment')
+    date = DateField('Date')
     submit = SubmitField('Submit')
