@@ -167,7 +167,7 @@ def sudo_graph():
             to_total[g.Graficks.weekday]["Total"] += 1
 
             # count by teacher
-            if [stud_teach[g.Graficks.id_user].name] in to_total[g.Graficks.weekday]["list"]:
+            if stud_teach[g.Graficks.id_user].name in to_total[g.Graficks.weekday]["list"]:
                 to_total[g.Graficks.weekday][stud_teach[g.Graficks.id_user].name] += 1
             else:
                 to_total[g.Graficks.weekday]["list"].append(stud_teach[g.Graficks.id_user].name)
