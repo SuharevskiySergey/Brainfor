@@ -36,7 +36,14 @@ def admin_panel_main():
     if current_user.role < 2:
         return redirect(url_for('main.index'))
 
-    infose = db.session.query(Info).filter(Info.id_user == None).filter(Info.activa == True).order_by(Info.id).all()
+    act = request.args.get('act', 'tru', type=str)
+    if act == "all":
+        infose = db.session.query(Info).filter(Info.id_user == None).order_by(Info.id).all()
+    elif act == 'tru':
+        infose = db.session.query(Info).filter(Info.id_user == None).filter(Info.activa == True).order_by(Info.id).all()
+    elif act == 'fals':
+        infose = db.session.query(Info).filter(Info.id_user == None).filter(Info.activa == False).order_by(Info.id).all()
+
     infos = []
     s = 0
     for info in infose:
@@ -44,8 +51,7 @@ def admin_panel_main():
         s += 1
         infos.append([info, graph, s])
 
-
-    return render_template('admin_panel/admin_panel_main.html', infos=infos)
+    return render_template('admin_panel/admin_panel_main.html', infos=infos, act=act)
 
 
 @bp.route('/add_new', methods=['GET', 'POST'])
@@ -107,6 +113,7 @@ def make_teacher(id):
     db.session.commit()
     return redirect(url_for('main.admin_users'))
 
+
 @bp.route("/make_admin<int:id>")
 @login_required
 def make_admin(id):
@@ -124,6 +131,7 @@ def make_admin(id):
 def admin_user(id):
     user = db.session.query(User, Info).join(Info).filter_by(User.id == id).first()
     form = user
+
 
 @bp.route('/temp')
 @login_required
@@ -319,11 +327,12 @@ def get_paid(id):
 def deactivate(id):
     if current_user.role < 3:
         return redirect(url_for('main.index'))
+    act = request.args.get('act', 'tru', type=str)
     i = db.session.query(Info).filter(Info.id == id).first()
     i.activa = False
     db.session.add(i)
     db.session.commit()
-    return redirect(url_for("main.admin_panel_main", id=id))
+    return redirect(url_for("main.admin_panel_main", act=act))
 
 
 @bp.route('/activate/<int:id>')
@@ -331,27 +340,14 @@ def deactivate(id):
 def activate(id):
     if current_user.role < 3:
         return redirect(url_for('main.index'))
+    act = request.args.get('act', 'tru', type=str)
     i = db.session.query(Info).filter(Info.id == id).first()
     i.activa = True
     db.session.add(i)
     db.session.commit()
-    return redirect(url_for("main.deac_info", id=id))
+    return redirect(url_for("main.admin_panel_main", act=act))
 
-@bp.route('/deactivated_stud')
-@login_required
-def deac_info():
-    if current_user.role < 2:
-        return redirect(url_for('main.index'))
 
-    d_info = db.session.query(Info).filter(Info.id_user == None).filter(Info.activa != True).order_by(Info.id).all()
-    infos = []
-    s = 0
-    for info in d_info:
-        graph = db.session.query(Graficks).filter(Graficks.id_user == info.id).all()
-        s += 1
-        infos.append([info, graph, s])
-
-    return render_template('admin_panel/admin_panel_main.html', infos=infos)
 
 
 @bp.route("/total_finance")
@@ -360,37 +356,96 @@ def total_finance():
     if current_user.role < 4:
         return redirect(url_for('main.index'))
 
-    monthe = request.args.get('month', date.today().month, type=int)
     yeare = request.args.get('year', date.today().year, type=int)
-
-    s = date(year=yeare, month=monthe, day=1)
-    if monthe != 12:
-        f = date(year=yeare, month=monthe+1, day=1)
-    else:
-        f = date(year=yeare+1, month=1, day=1)
-    income = db.session.query(Cashflows.sum)\
-        .filter(Cashflows.date >= s)\
-        .filter(Cashflows.date < f)\
-        .all()
-
-    sum = 0
-    for i in income:
-        sum += i.sum
-
-    lesson = db.session.query(Lesson)\
-        .filter(Lesson.datetimes > s)\
-        .filter(Lesson.datetimes < f).all()
-
-    changebalanses = 0
-    outcum = 0
-    for l in lesson:
-        changebalanses += l.prize
-        outcum += l.teacher_prize
-
-    # to navigations
+    # to shown
     key = {1: 'Jan', 2: 'Feb', 3: 'Murch', 4: 'Apr', 5: 'May', 6: 'June',
            7: 'July', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'}
+    to_output_income = {}
+    to_output_outcome = {}
+    for mon in range(1,13):
+        income = 0
+        outcome = 0
+        if mon != 12:
+            inc = db.session.query(Cashflows.sum).filter(Cashflows.date >= date(day=1, month=mon, year=yeare))\
+                .filter(Cashflows.date < date(day=1, month=mon+1, year=yeare)).all()
+        else:
+            inc = db.session.query(Cashflows.sum).filter(Cashflows.date >= date(day=1, month=mon, year=yeare)) \
+                .filter(Cashflows.date < date(day=1, month=1, year=yeare+1)).all()
+        to_output_income[key[mon]] = sum([i.sum for i in inc])
+
+        # calculating output
+        if mon != 12:
+            out = db.session.query(Lesson).filter(Lesson.datetimes >= date(day=1, month=mon, year=yeare)).\
+                filter(Lesson.datetimes < date(day=1, month=mon+1, year=yeare)).all()
+        else:
+            out = db.session.query(Lesson).filter(Lesson.datetimes >= date(day=1, month=mon, year=yeare)).\
+                filter(Lesson.datetimes < date(day=1, month=1, year=yeare+1)).all()
+        to_output_outcome[key[mon]] = sum([o.teacher_prize for o in out])
+
     years = [y for y in range(2023, date.today().year+1)]
 
-    return render_template("admin_panel/tot_finance.html", income=sum, changebalanses=changebalanses, outcum=outcum,
-                           key=key, years=years)
+    return render_template("admin_panel/tot_finance.html", to_output_income=to_output_income,
+                           to_output_outcome=to_output_outcome, key=key, years=years)
+
+
+@bp.route("/finmonce_income")
+@login_required
+def fim_month_inc():
+    if current_user.role < 4:
+        return redirect(url_for('main.index'))
+    yeare = request.args.get('year', date.today().year, type=int)
+    monthe = request.args.get('month', date.today().month, type=int)
+
+    if monthe != 12:
+        fin_get = db.session.query(Cashflows, Info).filter(Cashflows.date >= date(day=1, month=monthe, year=yeare))\
+            .filter(Cashflows.date < date(day=1, month=monthe+1, year=yeare))\
+            .join(Info).all()
+    else:
+        fin_get = db.session.query(Cashflows, Info).filter(Cashflows.date >= date(day=1, month=monthe, year=yeare)) \
+            .filter(Cashflows.date < date(day=1, month=1, year=yeare+1))\
+            .join(Info).all()
+    to_output = {"list": []}
+    #calculate paing bu student
+    to_sent = {}
+    for fin in fin_get:
+
+        if fin.Info.name in to_output["list"]:
+            to_output[fin.Info.name] += fin.Cashflows.sum
+        else:
+            to_output[fin.Info.name] = fin.Cashflows.sum
+            to_output["list"].append(fin.Info.name)
+            to_sent[fin.Info.name] = fin.Info.id
+
+    return render_template("admin_panel/finance_month_income.html", to_output=to_output, to_sent=to_sent)
+
+
+@bp.route("/finmonce_outcone")
+@login_required
+def fim_month_out():
+    if current_user.role < 4:
+        return redirect(url_for('main.index'))
+
+    yeare = request.args.get('year', date.today().year, type=int)
+    monthe = request.args.get('month', date.today().month, type=int)
+
+    if monthe != 12:
+        fin_out = db.session.query(Lesson, Info).filter(Lesson.datetimes >= date(day=1, month=monthe, year=yeare))\
+            .filter(Lesson.datetimes < date(day=1, month=monthe+1, year=yeare))\
+            .join(Info, Info.id_user == Lesson.teacher).all()
+    else:
+        fin_out = db.session.query(Lesson, Info).filter(Lesson.datetimes >= date(day=1, month=monthe, year=yeare)) \
+            .filter(Lesson.datetimes < date(day=1, month=1, year=yeare+1))\
+            .join(Info, Info.id_user == Lesson.teacher).all()
+    to_output = {"list": []}
+    to_sent = {}
+    # calculate paing bu student
+    for fin in fin_out:
+
+        if fin.Info.name in to_output["list"]:
+            to_output[fin.Info.name] += fin.Lesson.teacher_prize
+        else:
+            to_output[fin.Info.name] = fin.Lesson.teacher_prize
+            to_output["list"].append(fin.Info.name)
+            to_sent[fin.Info.name] = fin.Info.id
+
+    return render_template("admin_panel/finance_month_income.html", to_output=to_output, to_sent=to_sent)

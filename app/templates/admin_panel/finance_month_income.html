@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block app_content %}
+<table>
+    <tr>
+        <td>Name</td>
+        <td>Paid</td>
+    </tr>
+    {% for name in to_output["list"] %}
+    <tr>
+        <td><a href="{{ url_for('main.get_paid',id=to_sent[name]) }}">{{ name }}</a></td>
+        <td>{{ to_output[name] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

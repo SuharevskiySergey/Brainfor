@@ -1,17 +1,30 @@
 {% extends "base.html" %}
 {% block app_content %}
-<table>
+<p>
 {% for year in years %}
-<tr>
-    <td>{{ year }}</td>
-    {% for i in range(12) %}
-        <td><a href="{{ url_for('main.total_finance', month=i+1, year=year) }}"> {{ key[i+1] }}</a></td>
-    {% endfor %}
-</tr>
+ <a href="{{ url_for('main.total_finance', year=year) }}">{{ year }}</a>
 {% endfor %}
+</p>
+<table>
+    <tr>
+        <td></td>
+    {% for m in range(1, 13) %}
+        <td>{{ key[m] }}</td>
+    {% endfor %}
+    </tr>
+    <tr>
+         <td>Дохід</td>
+        {% for i in range(1, 13) %}
+        <td>
+            <a href="{{ url_for('main.fim_month_inc', year=year, month=i) }}">{{ to_output_income[key[i]] }}</a>
+        </td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <td>Витрати</td>
+        {% for i in range(1, 13) %}
+           <td><a href="{{ url_for('main.fim_month_out', year=year, month=i) }}"> {{ to_output_outcome[key[i]] }} </a></td>
+        {% endfor %}
+    </tr>
 </table>
-<p>Income {{ income }}</p>
-<p>Program get (Чорт пойми де його взять)</p>
-<p>Paid to teacher {{ outcum }}</p>
-<p>Надано послуг на {{ changebalanses }}</p>
 {% endblock %}
