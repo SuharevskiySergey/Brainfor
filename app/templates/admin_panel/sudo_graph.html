@@ -3,25 +3,19 @@
 <a href="{{ url_for('main.sudo_graph', role='student') }}">All lessons</a>
 <a href="{{ url_for('main.sudo_graph', role='teacher') }}">Teacher's free time</a>
 <table>
+
     <tr>
-        {% for j in range(7) %}
+        {% for i in range(7) %}
         <td>
             <ul>
-                {% if to_total['Total '] != 0 %}
-                    <li>Total {{ to_total[j]['Total '] }}</li>
-                {% endif %}
-                {% for key in to_total[j] %}
-
-                    {% if to_total[j][key] != 0 %}
-                        {% if key != 'Total ' %}
-                            <li>{{ key }}:{{ to_total[j][key] }}</li>
-                        {% endif %}
-                    {% endif %}
-
+                <li>Total {{ to_total[i]["Total"] }}</li>
+                {% for teach in to_total[i]["list"] %}
+                <li>
+                    {{ teach }} {{ to_total[i][teach] }}
+                </li>
                 {% endfor %}
             </ul>
         </td>
-
         {% endfor %}
     </tr>
     <tr>
@@ -34,10 +28,13 @@
         <td>Sunday</td>
     </tr>
     <tr>
+        {% for i in range(graph[0].Graficks.weekday ) %}
+            <td></td>
+        {% endfor %}
         <td>
-        {% for i in range(les) %}
+        {% for i in range(lenss) %}
 
-                    {% if i>1  %}
+                    {% if i>0  %}
                         {% if graph[i].Graficks.weekday > graph[i-1].Graficks.weekday %}
                             {% for j in range (graph[i].Graficks.weekday-graph[i-1].Graficks.weekday)%}
                                 </td><td>
@@ -50,7 +47,7 @@
                         {{ graph[i].Graficks.hour }}
                         {{ graph[i].Graficks.minute }}
                         {{ graph[i].Info.name }}
-                        {{ graph[i].Info.get_teacher()[0] }}
+                        {{ stud_teach[graph[i].Info.id].name }}
                     {% endif %}
 
                 {% if rolee== 'teacher' and graph[i].Info.id_user%}

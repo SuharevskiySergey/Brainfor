@@ -7,6 +7,7 @@ from app.models.user import User
 from app.main.forms import InfoForm
 from app.models.info import Cource
 from app.models.info import Graficks
+from app.models.info import Teacher_To_Student
 from app.models.info import Cashflows
 from app.main.admin_panel.forms import ChoiseTimeForm
 from datetime import datetime, timedelta
@@ -142,41 +143,58 @@ def temp():
 def sudo_graph():
     role = request.args.get('role', 'student', type=str)
 
-    #extracting all grafics
-    graph = db.session.query(Graficks, Info) \
-        .order_by(Graficks.weekday) \
-        .order_by(Graficks.hour) \
-        .order_by(Graficks.minute).join(Info).all()
 
-    #get name person higher than teacher
-    teacher_id = [i.id for i in db.session.query(User.id).filter(User.role >= 2).all()]
-    teacher_info = db.session.query(Info).filter(Info.id_user.in_(teacher_id)).all()
+    #orgenaize data to output
+    to_total = {0: {"Total": 0, "list": []}, 1: {"Total": 0, "list": []}, 2: {"Total": 0, "list": []},
+                3: {"Total": 0, "list": []}, 4: {"Total": 0, "list": []}, 5: {"Total": 0, "list": []},
+                6: {"Total": 0}, "list": [], 7: {"Total": 0}, "list": []}
+    if role == "student":
+        graph = db.session.query(Graficks, Info) \
+            .order_by(Graficks.weekday) \
+            .order_by(Graficks.hour) \
+            .order_by(Graficks.minute) \
+            .join(Info)\
+            .filter(Info.id_user == None)\
+            .filter(Info.activa).all()
 
-    to_total = {0: {}, 1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}}
-    day = graph[0].Graficks.weekday
-    to_total[0] = {i.name: 0 for i in teacher_info}
-    to_total[0]['Total '] = 0
-    for g in graph:
-        #change day to carent grafics day
-        if day < g.Graficks.weekday:
-            day = g.Graficks.weekday
-            to_total[day] = {i.name: 0 for i in teacher_info}
-            to_total[day]['Total '] = 0
+        # generete key of Student to teacher
+        stud_teach = {s_t.id_Student: db.session.query(Info).filter(Info.id_user == s_t.id_Teacher).first()
+                      for s_t in db.session.query(Teacher_To_Student).all()}
 
-        if role == 'student':
-            if not g.Info.id_user:#if info is student
-                for teac in g.Info.get_teacher():
-                    to_total[day][teac] += 1
-                    to_total[day]['Total '] += 1
+        # counting total
+        for g in graph:
+            # main day counter
+            to_total[g.Graficks.weekday]["Total"] += 1
+
+            # count by teacher
+            if [stud_teach[g.Graficks.id_user].name] in to_total[g.Graficks.weekday]["list"]:
+                to_total[g.Graficks.weekday][stud_teach[g.Graficks.id_user].name] += 1
             else:
-                continue
+                to_total[g.Graficks.weekday]["list"].append(stud_teach[g.Graficks.id_user].name)
+                to_total[g.Graficks.weekday][stud_teach[g.Graficks.id_user].name] = 1
 
-        if role == 'teacher':
-            if g.Info.id_user:
-                to_total[day][g.Info.name] += 1
+        lenss = len(graph)
+        return render_template('admin_panel/sudo_graph.html', graph=graph, rolee=role, stud_teach=stud_teach,
+                               lenss=lenss, to_total=to_total)
 
-        return render_template('admin_panel/sudo_graph.html', graph=graph, les=len(graph), rolee=role,
-                               to_total=to_total)
+    else:
+        graph = db.session.query(Graficks, Info) \
+            .order_by(Graficks.weekday) \
+            .order_by(Graficks.hour) \
+            .order_by(Graficks.minute) \
+            .join(Info) \
+            .filter(Info.id_user != None).all()
+
+        for g in graph:
+            to_total[g.Graficks.weekday]["Total"] += 1
+            if g.Info.name in to_total[g.Graficks.weekday]["list"]:
+                to_total[g.Graficks.weekday][g.Info.name] += 1
+            else:
+                to_total[g.Graficks.weekday][g.Info.name] = 1
+                to_total[g.Graficks.weekday]["list"].append(g.Info.name)
+        lenss = len(graph)
+        return render_template('admin_panel/sudo_graph.html', graph=graph, rolee=role, lenss=lenss, to_total=to_total)
+
 
 
 @bp.route('/finansal', methods=['POST'])
