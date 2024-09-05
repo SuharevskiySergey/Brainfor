@@ -144,7 +144,8 @@ def change_info(user_id):
 @bp.route('/add_graph_to/<int:id>', methods=['GET', 'POST'])
 def add_graficks(id):
     if current_user.role < 3:
-        return redirect(url_for('main.index'))
+        if id != db.session.query(Info).filter(Info.id_user == current_user.id).first().id:
+            return redirect(url_for('main.index'))
     form = GraphForm()
     if form.validate_on_submit():
         graph = Graficks(id_user=id, weekday={'Monday': 0, 'Tuesday': 1, 'Wednessday': 2, 'Thirthday': 3, 'Friday': 4, 'Sartuday': 5, 'Sunday': 6}[form.weekday.data],
@@ -160,7 +161,9 @@ def add_graficks(id):
 @bp.route('/del_grapfick/<int:id>')
 def dell_graph(id):
     if current_user.role < 3:
-        return redirect(url_for('main.index'))
+        if db.session.query(Info).filter(Info.id == db.session.query(Graficks).filter(Graficks.id == id).
+                first().id_user).first().id != db.session.query(Info).filter(Info.id_user == current_user.id).first().id:
+            return redirect(url_for('main.index'))
     to_dell = db.session.query(Graficks).filter(Graficks.id == id).first()
     togo = to_dell.id_user
     db.session.delete(to_dell)
