@@ -148,7 +148,7 @@ def add_graficks(id):
             return redirect(url_for('main.index'))
     form = GraphForm()
     if form.validate_on_submit():
-        graph = Graficks(id_user=id, weekday={'Monday': 0, 'Tuesday': 1, 'Wednessday': 2, 'Thirthday': 3, 'Friday': 4, 'Sartuday': 5, 'Sunday': 6}[form.weekday.data],
+        graph = Graficks(id_user=id, weekday={'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3, 'Friday': 4, 'Saturday': 5, 'Sunday': 6}[form.weekday.data],
                          hour=form.houer.data, minute=form.minute.data)
         db.session.add(graph)
         db.session.commit()
