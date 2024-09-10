@@ -18,7 +18,13 @@ Graphick {{ info.name }}
             <ul>
             {% for temp in output[day]%}
                 <li style="{% if temp.Graficks.id_user == info.id %} background-color: gray  {% endif %}">
-                    <p><a href="{{ url_for('main.create_lesson_get',graphid=temp.Graficks.id) }}">{{ temp.Graficks.hour }}:{{ temp.Graficks.minute }} </a>-  <a href="{{ url_for('main.information',id=temp.id) }}">{{ temp.name }}</a></p>
+                    <p><a href="{{ url_for('main.create_lesson_get',graphid=temp.Graficks.id) }}">{{ temp.Graficks.hour }}:
+                        {% if temp.Graficks.minute != 0 %}
+                        {{ temp.Graficks.minute }}
+                        {% else %}
+                            {{ temp.Graficks.minute }}{{ temp.Graficks.minute }}
+                        {% endif %}
+                    </a>-  <a href="{{ url_for('main.information',id=temp.id) }}">{{ temp.name }}</a></p>
                 </li>
             {% endfor %}
             </ul>

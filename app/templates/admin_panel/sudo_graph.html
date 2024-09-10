@@ -45,7 +45,11 @@
             {% if not graph[i].Info.id_user and rolee == 'student'%}
             <li>
                         {{ graph[i].Graficks.hour }}
-                        {{ graph[i].Graficks.minute }}
+                        {% if graph[i].Graficks.minute == 0 %}
+                            00
+                        {% else %}
+                            {{ graph[i].Graficks.minute }}
+                        {% endif %}
                         {{ graph[i].Info.name }}
                         {{ stud_teach[graph[i].Info.id].name }}
                     {% endif %}

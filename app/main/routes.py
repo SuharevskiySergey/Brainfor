@@ -181,7 +181,7 @@ def graphic(id):
     info = db.session.query(Info).filter(Info.id == id).first()
     if db.session.query(Info.id_user):
         tempgraph = db.session.query(Graficks, Info.name, Info.id, Info.activa
-                                     ).filter(Graficks.id_user == info.id)\
+                                     ).order_by(Graficks.minute).filter(Graficks.id_user == info.id)\
             .join(Info).all()
         for i in tempgraph:
             output[i.Graficks.weekday].append(i)
@@ -191,7 +191,8 @@ def graphic(id):
             if db.session.query(Info).filter(Info.id == t.id_Student).first().activa:
                 stud.append(t.id_Student)
 
-        tempss = db.session.query(Graficks, Info.name, Info.id).filter(Graficks.id_user.in_(stud))\
+        tempss = db.session.query(Graficks, Info.name, Info.id).order_by(Graficks.minute)\
+            .filter(Graficks.id_user.in_(stud))\
             .join(Info).all()
         for i in tempss:
             output[i.Graficks.weekday].append(i)
@@ -201,7 +202,7 @@ def graphic(id):
             output[day].sort(key=retern_hour)
 
     else:
-        tempgraph = db.session.query(Graficks).filter(Graficks.id_user == id).all()
+        tempgraph = db.session.query(Graficks).filter(Graficks.id_user == id).order_by(Graficks.minute).all()
         for temp in tempgraph:
              output[temp.weekday].append(temp)
 
