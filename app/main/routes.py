@@ -11,6 +11,7 @@ from app.models.info import Graficks
 from app.main.forms import GraphForm
 from app.models.info import Cource, Part_Course
 from app.main.forms import Change_progress_data
+from datetime import datetime, timedelta, date
 
 @bp.route('/')
 @bp.route('/index')
@@ -79,8 +80,20 @@ def information():
     for paid in paids:
         summe += paid.sum
 
+    if info.id_user != None:
+        st = date.today() - timedelta(days=date.today().weekday())
+
+        week_less = db.session.query(Lesson).filter(Lesson.teacher == info.id_user)\
+            .filter(Lesson.datetimes >= st).all()
+        salar = 0
+        w_l_c = 0
+        for les in week_less:
+            salar += les.teacher_prize
+            w_l_c += 1
+
+
     return render_template('main/information.html', info=info,  role=current_user.role, teachers=teachers,
-                           lessons=lessons, day=0, graph=graph, summe=summe)
+                           lessons=lessons, day=0, graph=graph, summe=summe, salar=salar, w_l_c=w_l_c)
 
 
 @bp.route('/change_info/<int:user_id>', methods=['GET', 'POST'])
@@ -176,6 +189,9 @@ def dell_graph(id):
 def graphic(id):
     def retern_hour(list_elem):
         return list_elem.Graficks.hour
+
+    if id == 0:
+        id = db.session.query(Info).filter(Info.id_user == current_user.id).first().id
 
     output = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
     info = db.session.query(Info).filter(Info.id == id).first()

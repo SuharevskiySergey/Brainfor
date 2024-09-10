@@ -38,7 +38,9 @@
                 {% elif current_user.role == 2 %}
                     <a href="{{ url_for('main.teacher_panel') }}">Teacher panel</a>
                 {% endif %}
+
                 {% endif %}
+                <a href="{{ url_for('main.graphic', id=0) }}">Timetable</a>
                         </nav>
     </div>
 </header>

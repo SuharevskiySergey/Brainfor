@@ -2,7 +2,6 @@
 {% block app_content %}
 
 <h1>Information</h1>
-<a href="{{ url_for('main.graphic', id=info.id) }}">Timetable</a>
 {% if not(info.id_user) %}
     <a href="{{ url_for('main.secsesfuly', id=info.id) }}">Lessons</a>
 {% endif %}
@@ -26,8 +25,8 @@
     {% endif %}
     {% if info.id_user %}
     <p> Rate {{ info.value }}</p>
-    <p>Lessons</p>
-    <p><a href="{{ url_for('main.get_paid',id=info.id) }}">Salary</a><p>
+    <p>Lessons {{ w_l_c }}</p>
+    <p><a href="{{ url_for('main.get_paid',id=info.id) }}">Salary {{ salar }}</a><p>
     {% endif %}
 {% endif %}
 

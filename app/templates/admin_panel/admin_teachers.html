@@ -25,7 +25,7 @@
             <td>{{ info.value }}</td>
             <td>{{ info.pay_already }}</td>
             <td>{{ info.pass_lesson }}</td>
-
+            <td><a href="{{ url_for('main.graphic', id=info.id) }}">Timetable</a></td>
         </tr>
         {% endfor %}
 
