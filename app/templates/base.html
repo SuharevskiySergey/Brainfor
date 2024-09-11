@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Test School</title>
+    <title>Brainfor</title>
 
 </head>
 <body>
@@ -36,11 +36,14 @@
                     <a href="{{ url_for('main.finansal_get') }}">Finances</a>
                     <a a href="{{ url_for('main.total_finance') }}"> Year Finance </a>
                 {% elif current_user.role == 2 %}
-                    <a href="{{ url_for('main.teacher_panel') }}">Teacher panel</a>
+                    <a href="{{ url_for('main.teacher_panel') }}">Students</a>
+                {% endif %}
+                {% if current_user.role >= 2 %}
+                <a href="{{ url_for('main.graphic', id=0) }}">Timetable</a>
                 {% endif %}
 
                 {% endif %}
-                <a href="{{ url_for('main.graphic', id=0) }}">Timetable</a>
+
                         </nav>
     </div>
 </header>

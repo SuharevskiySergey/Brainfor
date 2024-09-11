@@ -79,14 +79,13 @@ def information():
     summe = 0
     for paid in paids:
         summe += paid.sum
-
+    salar = 0
+    w_l_c = 0
     if info.id_user != None:
         st = date.today() - timedelta(days=date.today().weekday())
 
         week_less = db.session.query(Lesson).filter(Lesson.teacher == info.id_user)\
             .filter(Lesson.datetimes >= st).all()
-        salar = 0
-        w_l_c = 0
         for les in week_less:
             salar += les.teacher_prize
             w_l_c += 1
