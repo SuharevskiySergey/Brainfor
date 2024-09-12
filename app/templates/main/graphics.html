@@ -17,7 +17,18 @@ Timetable {{ info.name }}
         <td>
             <ul>
             {% for temp in output[day]%}
-                <li style="{% if temp.Graficks.id_user == info.id %} background-color: gray  {% endif %}">
+                <li style="{% if temp.Graficks.id_user == info.id %} background-color: gray
+                 {% else %}
+                    {% for out in out_pass_less %}
+                        {% if out[0] == day %}
+                            {% if out[1] == temp.Graficks.hour %}
+                                {% if out[2] == temp.Graficks.minute %}
+                                    background-color: lightgreen
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                 {% endif %}">
                     <p><a href="{{ url_for('main.create_lesson_get',graphid=temp.Graficks.id) }}">{{ temp.Graficks.hour }}:
                         {% if temp.Graficks.minute != 0 %}
                         {{ temp.Graficks.minute }}

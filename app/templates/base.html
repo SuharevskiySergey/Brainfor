@@ -28,6 +28,9 @@
 
                                     <a href="/logout">Logout</a>
                 <br>
+                {% if current_user.role >= 2 %}
+                <a href="{{ url_for('main.graphic', id=0) }}">Timetable</a>
+                {% endif %}
                 {% if current_user.role > 2 %}
                     <a href="{{url_for('main.admin_panel_main')}}">Students</a>
                     <a href="{{url_for('main.admin_panel_teachers')}}">Teachers</a>
@@ -38,9 +41,7 @@
                 {% elif current_user.role == 2 %}
                     <a href="{{ url_for('main.teacher_panel') }}">Students</a>
                 {% endif %}
-                {% if current_user.role >= 2 %}
-                <a href="{{ url_for('main.graphic', id=0) }}">Timetable</a>
-                {% endif %}
+
 
                 {% endif %}
 

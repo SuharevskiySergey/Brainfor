@@ -221,7 +221,14 @@ def graphic(id):
         for temp in tempgraph:
              output[temp.weekday].append(temp)
 
-    return render_template('/main/graphics.html', output=output, info=info)
+    pass_lesson = db.session.query(Lesson).filter(Lesson.teacher == id)\
+        .filter(Lesson.datetimes > date.today() - timedelta(date.today().weekday())).all()
+
+    out_pass_less = []
+    for less in pass_lesson:
+        out_pass_less.append([less.datetimes.weekday(), less.datetimes.hour, less.datetimes.minute])
+
+    return render_template('/main/graphics.html', output=output, info=info, out_pass_less=out_pass_less)
 
 
 @bp.route('/processing/<int:id>')
