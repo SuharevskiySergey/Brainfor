@@ -220,9 +220,10 @@ def graphic(id):
         tempgraph = db.session.query(Graficks).filter(Graficks.id_user == id).order_by(Graficks.minute).all()
         for temp in tempgraph:
              output[temp.weekday].append(temp)
-
-    pass_lesson = db.session.query(Lesson).filter(Lesson.teacher == id)\
-        .filter(Lesson.datetimes > date.today() - timedelta(date.today().weekday())).all()
+    if info.id_user:
+        ids = info.id_user
+        pass_lesson = db.session.query(Lesson).filter(Lesson.teacher == ids)\
+            .filter(Lesson.datetimes > date.today() - timedelta(date.today().weekday())).all()
 
     out_pass_less = []
     for less in pass_lesson:
