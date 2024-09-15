@@ -90,14 +90,19 @@ def create_lesson_post(graphid):
             else:
                 associations = (False)
 
+            if party[j].assrep != party[80].assrep:
+                assrep = (True)
+            else:
+                assrep = (False)
+
             if party[j].grammar != party[80].grammar:
                 grammar = (True)
             else:
                 grammar = (False)
 
             parts.append({'rypma': rypma, 'repetition': repetition, 'reading': reading, 'speaking': speaking,
-                          'qetion': qetion, 'topics': topics, 'associations': associations, 'grammar': grammar,
-                          'number': number})
+                          'qetion': qetion, 'topics': topics, 'associations': associations, 'assrep': assrep,
+                          'grammar': grammar, 'number': number})
 
 
 
@@ -144,6 +149,12 @@ def create_lesson_post(graphid):
                     party[i].associations = today - delta
                 else:
                     party[i].associations = party[80].associations
+
+            if get_parts[i]['assrep'] != parts[i]['assrep']:
+                if get_parts[i]['assrep']:
+                    party[i].assrep = today - delta
+                else:
+                    party[i].assrep = party[80].assrep
 
             if get_parts[i]['grammar'] != parts[i]['grammar']:
                 if get_parts[i]['grammar']:
@@ -226,6 +237,11 @@ def create_lesson_get(graphid):
         else:
             associations = (True)
 
+        if party[j].assrep == party[80].assrep:
+            assrep = (False)
+        else:
+            assrep = (True)
+
         if party[j].grammar == party[80].grammar:
             grammar = (False)
         else:
@@ -233,7 +249,8 @@ def create_lesson_get(graphid):
 
 
         parts.append({'ids': j+1,  'rypma': rypma, 'repetition': repetition, 'reading': reading, 'speaking': speaking,
-                      'qetion': qetion, 'topics': topics, 'associations': associations, 'grammar': grammar})
+                      'qetion': qetion, 'topics': topics, 'associations': associations, 'grammar': grammar,
+                      'assrep':assrep})
 
     form.process(data={'parts': parts})
 

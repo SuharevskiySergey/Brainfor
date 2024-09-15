@@ -11,6 +11,7 @@
         <td>Q&A</td>
         <td>Topics</td>
         <td>Associations</td>
+        <td>Repetition</td>
         <td>Grammar</td>
     </tr>
     {% for part in party %}
@@ -115,17 +116,31 @@
                 {% endif %}
             {% endif%}
 
-            {% if part.grammar != party[80].grammar %}
+            {% if part.assrep != party[80].assrep %}
                 {% if role < 3 %}
-                    <td>{{ part.grammar }}</td>
+                    <td>{{ part.assrep }}</td>
                 {% else %}
-                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=8) }}">{{ part.grammar }}</a> </td>
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=8) }}">{{ part.assrep }}</a> </td>
                 {% endif %}
             {% else %}
                 {% if role < 3 %}
                     <td>-</td>
                 {% else %}
                     <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=8) }}">-</a> </td>
+                {% endif %}
+            {% endif%}
+
+            {% if part.grammar != party[80].grammar %}
+                {% if role < 3 %}
+                    <td>{{ part.grammar }}</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=9) }}">{{ part.grammar }}</a> </td>
+                {% endif %}
+            {% else %}
+                {% if role < 3 %}
+                    <td>-</td>
+                {% else %}
+                    <td><a href="{{url_for('main.changedateoflesson',id= part.id, numb=9) }}">-</a> </td>
                 {% endif %}
             {% endif%}
 

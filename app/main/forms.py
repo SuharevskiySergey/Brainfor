@@ -41,6 +41,7 @@ class PartyForm(wtforms.Form):
     qetion = wtforms.fields.BooleanField('rypma', default=False)
     topics = wtforms.fields.BooleanField('rypma', default=False)
     associations = wtforms.fields.BooleanField('rypma', default=False)
+    assrep = wtforms.fields.BooleanField('assrep', default=False)
     grammar = wtforms.fields.BooleanField('rypma', default=False)
 
 

@@ -117,6 +117,7 @@ class Part_Course(db.Model):
     qetion = db.Column(db.DateTime, default=datetime.utcnow())
     topics = db.Column(db.DateTime, default=datetime.utcnow())
     associations = db.Column(db.DateTime, default=datetime.utcnow())
+    assrep = db.Column(db.DateTime, default=datetime.utcnow())
     grammar = db.Column(db.DateTime, default=datetime.utcnow())
 
 

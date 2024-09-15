@@ -270,6 +270,8 @@ def changedateoflesson(id, numb):
         if numb == 7:
             s.associations = form.date.data
         if numb == 8:
+            s.assrep = form.date.data
+        if numb == 9:
             s.grammar = form.date.data
         db.session.add(s)
         db.session.commit()
@@ -296,6 +298,8 @@ def changedateoflesson(id, numb):
     if numb == 7:
         form.date.data = s.associations.date()
     if numb == 8:
+        form.date.data = s.assrep.date()
+    if numb == 9:
         form.date.data = s.grammar.date()
 
     return render_template('/admin_panel/changedatalesson.html', form=form, inf=inf, s=s, numb=numb)
@@ -321,6 +325,8 @@ def clearlesson(id, numb):
     if numb == 7:
         s.associations = null
     if numb == 8:
+        s.assrep = null
+    if numb == 9:
         s.grammar = null
 
     db.session.add(s)
@@ -328,3 +334,22 @@ def clearlesson(id, numb):
     c = db.session.query(Cource).filter(Cource.id == s.id_course).first()
     i = db.session.query(Info).filter(Info.id == c.to_student).first()
     return redirect(url_for('main.secsesfuly', id=i.id))
+
+
+@bp.route('/tempfix')
+@login_required
+def tempfix():
+    if current_user.role < 4:
+        return redirect(url_for('main.index'))
+
+    s = db.session.query(Info).filter(Info.id_user == None).all()
+    for stud in s:
+        cor = db.session.query(Cource).filter(Cource.to_student == stud.id).first()
+        part = db.session.query(Part_Course).filter(Part_Course.id_course == cor.id).all()
+        for par in part:
+            par.assrep = part[80].rypma
+
+        db.session.add_all(part)
+        db.session.commit()
+
+    return redirect(url_for('main.index'))
