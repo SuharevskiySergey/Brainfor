@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block app_content %}
+{{ info.name }} -проведенні занятя
+{% for les in lesw %}
+<p>{{ les.Lesson.datetimes }}{{ keys[les.Lesson.datetimes.weekday()] }}- {{ les.Info.name }} <a href="{{url_for('main.del_lesson', id = les.Lesson.id)}}">del lesson</a></p>
+{% endfor %}
+{% endblock %}

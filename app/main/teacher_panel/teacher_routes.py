@@ -106,61 +106,61 @@ def create_lesson_post(graphid):
 
 
 
-        for i in range(80):
-
-            if get_parts[i]['rypma'] != parts[i]['rypma']:
-                if get_parts[i]['rypma']:
-                    party[i].rypma = today - delta
-                else:
-                    party[i].rypma = party[80].rypma
-
-            if get_parts[i]['repetition'] != parts[i]['repetition']:
-                if get_parts[i]['repetition']:
-                    party[i].repetition = today - delta
-                else:
-                    party[i].repetition = party[80].repetition
-
-            if get_parts[i]['reading'] != parts[i]['reading']:
-                if get_parts[i]['reading']:
-                    party[i].reading = today - delta
-                else:
-                    party[i].reading = party[80].reading
-
-            if get_parts[i]['speaking'] != parts[i]['speaking']:
-                if get_parts[i]['speaking']:
-                    party[i].speaking = today - delta
-                else:
-                    party[i].speaking = party[80].speaking
-
-            if get_parts[i]['qetion'] != parts[i]['qetion']:
-                if get_parts[i]['qetion']:
-                    party[i].qetion = today - delta
-                else:
-                    party[i].qetion = party[80].qetion
-
-            if get_parts[i]['topics'] != parts[i]['topics']:
-                if get_parts[i]['topics']:
-                    party[i].topics = today - delta
-                else:
-                    party[i].topics = party[80].topics
-
-            if get_parts[i]['associations'] != parts[i]['associations']:
-                if get_parts[i]['associations']:
-                    party[i].associations = today - delta
-                else:
-                    party[i].associations = party[80].associations
-
-            if get_parts[i]['assrep'] != parts[i]['assrep']:
-                if get_parts[i]['assrep']:
-                    party[i].assrep = today - delta
-                else:
-                    party[i].assrep = party[80].assrep
-
-            if get_parts[i]['grammar'] != parts[i]['grammar']:
-                if get_parts[i]['grammar']:
-                    party[i].grammar = today - delta
-                else:
-                    party[i].grammar = party[80].grammar
+        # for i in range(80):
+        #
+        #     if get_parts[i]['rypma'] != parts[i]['rypma']:
+        #         if get_parts[i]['rypma']:
+        #             party[i].rypma = today - delta
+        #         else:
+        #             party[i].rypma = party[80].rypma
+        #
+        #     if get_parts[i]['repetition'] != parts[i]['repetition']:
+        #         if get_parts[i]['repetition']:
+        #             party[i].repetition = today - delta
+        #         else:
+        #             party[i].repetition = party[80].repetition
+        #
+        #     if get_parts[i]['reading'] != parts[i]['reading']:
+        #         if get_parts[i]['reading']:
+        #             party[i].reading = today - delta
+        #         else:
+        #             party[i].reading = party[80].reading
+        #
+        #     if get_parts[i]['speaking'] != parts[i]['speaking']:
+        #         if get_parts[i]['speaking']:
+        #             party[i].speaking = today - delta
+        #         else:
+        #             party[i].speaking = party[80].speaking
+        #
+        #     if get_parts[i]['qetion'] != parts[i]['qetion']:
+        #         if get_parts[i]['qetion']:
+        #             party[i].qetion = today - delta
+        #         else:
+        #             party[i].qetion = party[80].qetion
+        #
+        #     if get_parts[i]['topics'] != parts[i]['topics']:
+        #         if get_parts[i]['topics']:
+        #             party[i].topics = today - delta
+        #         else:
+        #             party[i].topics = party[80].topics
+        #
+        #     if get_parts[i]['associations'] != parts[i]['associations']:
+        #         if get_parts[i]['associations']:
+        #             party[i].associations = today - delta
+        #         else:
+        #             party[i].associations = party[80].associations
+        #
+        #     if get_parts[i]['assrep'] != parts[i]['assrep']:
+        #         if get_parts[i]['assrep']:
+        #             party[i].assrep = today - delta
+        #         else:
+        #             party[i].assrep = party[80].assrep
+        #
+        #     if get_parts[i]['grammar'] != parts[i]['grammar']:
+        #         if get_parts[i]['grammar']:
+        #             party[i].grammar = today - delta
+        #         else:
+        #             party[i].grammar = party[80].grammar
 
 
         db.session.add_all(party)

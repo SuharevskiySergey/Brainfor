@@ -336,20 +336,47 @@ def clearlesson(id, numb):
     return redirect(url_for('main.secsesfuly', id=i.id))
 
 
-# @bp.route('/tempfix')
-# @login_required
-# def tempfix():
-#     if current_user.role < 4:
-#         return redirect(url_for('main.index'))
-#
-#     s = db.session.query(Info).filter(Info.id_user == None).all()
-#     for stud in s:
-#         cor = db.session.query(Cource).filter(Cource.to_student == stud.id).first()
-#         part = db.session.query(Part_Course).filter(Part_Course.id_course == cor.id).all()
-#         for par in part:
-#             par.assrep = part[80].rypma
-#
-#         db.session.add_all(part)
-#         db.session.commit()
-#
-#     return redirect(url_for('main.index'))
+
+import xlrd
+@bp.route('/tempfix')
+@login_required
+def tempfix():
+    if current_user.role < 4:
+        return redirect(url_for('main.index'))
+
+    book = xlrd.open_workbook('temp.xls')
+    sh = book.sheet_by_index(0)
+    i = 1
+    nows = date.today()
+    while sh.cell_value(rowx=i, colx=0) != 'end':
+
+        ids = db.session.query(Cource).filter(Cource.to_student == int(sh.cell_value(rowx=i, colx=0))).first().id
+        keys = sh.cell_value(rowx=i, colx=1)
+        for j in range(80):
+            if sh.cell_value(rowx=i, colx=j + 2) == "done":
+                les = db.session.query(Part_Course).filter(Part_Course.id_course == ids).filter(Part_Course.number == j).first()
+                if keys == "rypma":
+                    les.rypma = nows
+                if keys == "repetition":
+                    les.repetition = nows
+                if keys == "reading":
+                    les.reading = nows
+                if keys == "speaking":
+                    les.speaking = nows
+                if keys == "qetion":
+                    les.qetion = nows
+                if keys == "topics":
+                    les.topics = nows
+                if keys == "associations":
+                    les.associations = nows
+                if keys == "assrep":
+                    les.assrep = nows
+                if keys == "grammar":
+                    les.grammar = nows
+
+                db.session.add(les)
+                db.session.commit()
+
+        i += 1
+
+    return redirect(url_for('main.index'))

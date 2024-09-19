@@ -26,6 +26,7 @@
             <td>{{ info.pay_already }}</td>
             <td>{{ info.pass_lesson }}</td>
             <td><a href="{{ url_for('main.graphic', id=info.id) }}">Timetable</a></td>
+            <td><a href="{{ url_for('main.check_lesson', id=info.id) }}">Red lessons</a></td>
         </tr>
         {% endfor %}
 

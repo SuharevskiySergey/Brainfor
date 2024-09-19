@@ -13,6 +13,7 @@ from app.main.admin_panel.forms import ChoiseTimeForm
 from datetime import datetime, timedelta, date
 from app.models.info import Lesson, Cashflows
 from app.main.admin_panel.forms import GetPaidForm
+from sqlalchemy import desc
 
 
 
@@ -449,3 +450,29 @@ def fim_month_out():
             to_sent[fin.Info.name] = fin.Info.id
 
     return render_template("admin_panel/finance_month_income.html", to_output=to_output, to_sent=to_sent)
+
+
+@bp.route('/fixing_lesson/<int:id>')
+@login_required
+def check_lesson(id):
+    if current_user.role < 4:
+        if id != db.session.query(Info).filter(Info.id_user == current_user.id).first().id:
+            return redirect(url_for('main.index'))
+    info = db.session.query(Info).filter(Info.id == id).first()
+    lesw = db.session.query(Lesson, Info).filter(Lesson.teacher == info.id_user).order_by(desc(Lesson.datetimes))\
+        .join(Info).all()
+    keys = {0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3 :'Thursday', 4: 'Friday', 5: 'Saturday', 6:'Sunday'}
+    return render_template("admin_panel/check_lesson.html", info=info, lesw=lesw, keys=keys)
+
+
+@bp.route('/deletes_lesson/<int:id>')
+@login_required
+def del_lesson(id):
+    if current_user.role < 4:
+        return redirect(url_for('main.index'))
+    l = db.session.query(Lesson).filter(Lesson.id == id).first()
+    id_t = db.session.query(Info).filter(Info.id_user == l.teacher).first().id
+    db.session.delete(l)
+    db.session.commit()
+
+    return redirect(url_for('main.check_lesson', id=id_t))
