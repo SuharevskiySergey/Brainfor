@@ -160,7 +160,7 @@ def sudo_graph():
     #orgenaize data to output
     to_total = {0: {"Total": 0, "list": []}, 1: {"Total": 0, "list": []}, 2: {"Total": 0, "list": []},
                 3: {"Total": 0, "list": []}, 4: {"Total": 0, "list": []}, 5: {"Total": 0, "list": []},
-                6: {"Total": 0}, "list": [], 7: {"Total": 0}, "list": []}
+                6: {"Total": 0, "list": []}, 7: {"Total": 0}, "list": []}
     if role == "student":
         graph = db.session.query(Graficks, Info) \
             .order_by(Graficks.weekday) \
