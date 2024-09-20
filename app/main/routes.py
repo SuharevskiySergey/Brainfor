@@ -1,5 +1,5 @@
 from app.main import bp
-from flask import render_template, redirect, url_for, request
+from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_required, current_user
 from app import db
 from app.models.info import Info, Lesson
@@ -12,6 +12,7 @@ from app.main.forms import GraphForm
 from app.models.info import Cource, Part_Course
 from app.main.forms import Change_progress_data
 from datetime import datetime, timedelta, date
+
 
 @bp.route('/')
 @bp.route('/index')
@@ -73,7 +74,7 @@ def information():
 
         # without last
 
-    graph = db.session.query(Graficks).filter(Graficks.id_user == user_id).all()
+    graph = db.session.query(Graficks).filter(Graficks.id_user == user_id).order_by(Graficks.weekday).all()
 
     paids = db.session.query(Cashflows).filter(Cashflows.id_info == user_id).all()
     summe = 0
@@ -181,6 +182,43 @@ def dell_graph(id):
     db.session.delete(to_dell)
     db.session.commit()
     return redirect(url_for('main.information', id=togo))
+
+
+@bp.route('/edit_graph/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_graph(id):
+    if current_user.role < 4:
+        g = db.session.query(Graficks).filter(Graficks.id == id).first()
+        t_id = db.session.query(Teacher_To_Student).filter(Teacher_To_Student.id_Student == g.id_user)\
+            .first().id_Teacher
+        if current_user.id != t_id:
+            flash("you can edit this graph")
+            return redirect(url_for('main.index'))
+
+    g = db.session.query(Graficks).filter(Graficks.id == id).first()
+    less = db.session.query(Lesson).filter(Lesson.datetimes > (date.today()- timedelta(days=date.today().weekday())))
+    for les in less:
+        if les.datetimes.weekday() == g.weekday:
+            if les.datetimes.hour == g.hour:
+                if les.datetimes.minute == g.minute:
+                    flash("This lesson was executet you can edit it next week")
+                    return redirect(url_for('main.index'))
+
+    form = GraphForm()
+    if form.validate_on_submit():
+        g.weekday = {'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3, 'Friday': 4, 'Saturday': 5, 'Sunday': 6}[form.weekday.data]
+        g.hour = form.houer.data
+        g.minute = form.minute.data
+        print(form.weekday.data, form.houer.data, form.minute.data)
+        db.session.add(g)
+        db.session.commit()
+        return redirect(url_for('main.index'))
+
+    form.weekday.data = {0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3: 'Thursday', 4: 'Friday',
+                         5: 'Saturday', 6: 'Sunday'}[g.weekday]
+    form.houer.data = g.hour
+    form.minute.data = g.minute
+    return render_template('/main/chouse_graph.html', form=form)
 
 
 @login_required

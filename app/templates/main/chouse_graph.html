@@ -2,7 +2,9 @@
 {% block app_content %}
 <div style="width: 30%">
         <form action="" method="post" novalidate>
-            {{ form.csrf_token() }}
+            {% if 'csrf_token' in form %}
+                 {{form.csrf_token}}
+            {% endif %}
             <p>
                 {{ form.weekday.label }}<br>
                 {{ form.weekday(size=1) }}
@@ -15,6 +17,7 @@
                 {{ form.minute.label }}<br>
                 {{ form.minute(size=1) }}
             </p>
+
             <p>
                 {{ form.submit }}
             </p>

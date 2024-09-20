@@ -39,7 +39,6 @@ def create_lesson_post(graphid):
 
     if form.validate_on_submit():
 
-
         get_parts = form.parts.data
         today = datetime.utcnow()
         delta = timedelta(days=today.weekday() - graph.weekday,
@@ -53,6 +52,7 @@ def create_lesson_post(graphid):
             return redirect(url_for('main.information'))
 
         parts = []
+
         for j in range(80):
             number = j
             if party[j].rypma != party[80].rypma:
@@ -87,6 +87,7 @@ def create_lesson_post(graphid):
 
             if party[j].associations != party[80].associations:
                 associations = (True)
+
             else:
                 associations = (False)
 
@@ -104,81 +105,91 @@ def create_lesson_post(graphid):
                           'qetion': qetion, 'topics': topics, 'associations': associations, 'assrep': assrep,
                           'grammar': grammar, 'number': number})
 
+        check = False
+        for i in range(80):
 
+            if get_parts[i]['rypma'] != parts[i]['rypma']:
+                if get_parts[i]['rypma']:
+                    party[i].rypma = today - delta
+                    check = True
+                # else:
+                #     party[i].rypma = party[80].rypma
 
-        # for i in range(80):
-        #
-        #     if get_parts[i]['rypma'] != parts[i]['rypma']:
-        #         if get_parts[i]['rypma']:
-        #             party[i].rypma = today - delta
-        #         else:
-        #             party[i].rypma = party[80].rypma
-        #
-        #     if get_parts[i]['repetition'] != parts[i]['repetition']:
-        #         if get_parts[i]['repetition']:
-        #             party[i].repetition = today - delta
-        #         else:
-        #             party[i].repetition = party[80].repetition
-        #
-        #     if get_parts[i]['reading'] != parts[i]['reading']:
-        #         if get_parts[i]['reading']:
-        #             party[i].reading = today - delta
-        #         else:
-        #             party[i].reading = party[80].reading
-        #
-        #     if get_parts[i]['speaking'] != parts[i]['speaking']:
-        #         if get_parts[i]['speaking']:
-        #             party[i].speaking = today - delta
-        #         else:
-        #             party[i].speaking = party[80].speaking
-        #
-        #     if get_parts[i]['qetion'] != parts[i]['qetion']:
-        #         if get_parts[i]['qetion']:
-        #             party[i].qetion = today - delta
-        #         else:
-        #             party[i].qetion = party[80].qetion
-        #
-        #     if get_parts[i]['topics'] != parts[i]['topics']:
-        #         if get_parts[i]['topics']:
-        #             party[i].topics = today - delta
-        #         else:
-        #             party[i].topics = party[80].topics
-        #
-        #     if get_parts[i]['associations'] != parts[i]['associations']:
-        #         if get_parts[i]['associations']:
-        #             party[i].associations = today - delta
-        #         else:
-        #             party[i].associations = party[80].associations
-        #
-        #     if get_parts[i]['assrep'] != parts[i]['assrep']:
-        #         if get_parts[i]['assrep']:
-        #             party[i].assrep = today - delta
-        #         else:
-        #             party[i].assrep = party[80].assrep
-        #
-        #     if get_parts[i]['grammar'] != parts[i]['grammar']:
-        #         if get_parts[i]['grammar']:
-        #             party[i].grammar = today - delta
-        #         else:
-        #             party[i].grammar = party[80].grammar
+            if get_parts[i]['repetition'] != parts[i]['repetition']:
+                if get_parts[i]['repetition']:
+                    party[i].repetition = today - delta
+                    check = True
+                # else:
+                #     party[i].repetition = party[80].repetition
 
+            if get_parts[i]['reading'] != parts[i]['reading']:
+                if get_parts[i]['reading']:
+                    party[i].reading = today - delta
+                    check = True
+                # else:
+                #     party[i].reading = party[80].reading
 
-        db.session.add_all(party)
-        t_prize = db.session.query(Info.value).filter(Info.id_user == current_user.id).first().value or 0
-        lesson = Lesson(student=graph.id_user,
-                        teacher=current_user.id,
-                        datetimes=today - delta,
-                        prize=db.session.query(Info).filter(Info.id == graph.id_user).first().value,
-                        teacher_prize=t_prize)
-        stud = db.session.query(Info).filter(Info.id == graph.id_user).first()
-        stud.pay_already = stud.pay_already - stud.value
-        stud.pass_lesson += 1
-        db.session.add(stud)
+            if get_parts[i]['speaking'] != parts[i]['speaking']:
+                if get_parts[i]['speaking']:
+                    party[i].speaking = today - delta
+                    check = True
+                # else:
+                #     party[i].speaking = party[80].speaking
 
-        db.session.add(lesson)
-        db.session.commit()
+            if get_parts[i]['qetion'] != parts[i]['qetion']:
+                if get_parts[i]['qetion']:
+                    party[i].qetion = today - delta
+                    check = True
+                # else:
+                #     party[i].qetion = party[80].qetion
 
-        return redirect(url_for('main.information'))
+            if get_parts[i]['topics'] != parts[i]['topics']:
+                if get_parts[i]['topics']:
+                    party[i].topics = today - delta
+                    check = True
+                # else:
+                #     party[i].topics = party[80].topics
+
+            if get_parts[i]['associations'] != parts[i]['associations']:
+                if get_parts[i]['associations']:
+                    party[i].associations = today - delta
+                    check = True
+                # else:
+                #     party[i].associations = party[80].associations
+
+            if get_parts[i]['assrep'] != parts[i]['assrep']:
+                if get_parts[i]['assrep']:
+                    party[i].assrep = today - delta
+                    check = True
+                # else:
+                #     party[i].assrep = party[80].assrep
+
+            if get_parts[i]['grammar'] != parts[i]['grammar']:
+                if get_parts[i]['grammar']:
+                    party[i].grammar = today - delta
+                    check = True
+                # else:
+                #     party[i].grammar = party[80].grammar
+        if check:
+            db.session.add_all(party)
+            t_prize = db.session.query(Info.value).filter(Info.id_user == current_user.id).first().value or 0
+            lesson = Lesson(student=graph.id_user,
+                            teacher=current_user.id,
+                            datetimes=today - delta,
+                            prize=db.session.query(Info).filter(Info.id == graph.id_user).first().value,
+                            teacher_prize=t_prize)
+            stud = db.session.query(Info).filter(Info.id == graph.id_user).first()
+            stud.pay_already = stud.pay_already - stud.value
+            stud.pass_lesson += 1
+            db.session.add(stud)
+
+            db.session.add(lesson)
+            db.session.commit()
+
+            return redirect(url_for('main.information',))
+        else:
+            flash('Please choose lessons')
+            return redirect(url_for('main.information',))
     else:
         pass
     return redirect(url_for('main.information',))
