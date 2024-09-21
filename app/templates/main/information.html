@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block app_content %}
 
-<h1>Information</h1>
+<h1 xmlns="http://www.w3.org/1999/html">Information</h1>
 {% if not(info.id_user) %}
     <a href="{{ url_for('main.secsesfuly', id=info.id) }}">Lessons</a>
 {% endif %}
@@ -48,11 +48,14 @@
         {% for gra in graph %}
             <p> {{gra.alt_key[gra.weekday]}} {{gra.hour}}:{{gra.minute}}
                 {% if role > 1%}
-                <a href="{{ url_for('main.edit_graph',id = gra.id) }}">edit graph</a>
+                    {% if current_user.id != info.id_user %}
+                    <a href="{{ url_for('main.edit_graph',id = gra.id) }}">edit graph</a>
+                    {% endif %}
                 {% endif %}
-                {% if role > 2%}
-                <a href="{{ url_for('main.dell_graph',id = gra.id) }}">delete</a>
+                {% if (role > 2) or current_user.id == info.id_user %}
+                    <a href="{{ url_for('main.dell_graph',id = gra.id) }}">delete</a>
                 {% endif %}
+
             </p>
         {% endfor %}
         {% if role >2 or current_user.id == info.id_user%}
@@ -62,62 +65,18 @@
 
 {% if role > 1 and info.role() == 1 %}
     <div style="color: black; background-color: green; width: 300px; height: 100px;">Teacher:
-
-
         {% for teacher in teachers %}
             <a href="{{ url_for('main.information', id = teacher.id) }}">{{ teacher.name }}</a>
             {% if role >2 %}
-            <a href="{{ url_for('main.del_teacher', stud=info.id , teach=teacher.id_user) }}"> delete</a>
+                <a href="{{ url_for('main.del_teacher', stud=info.id , teach=teacher.id_user) }}"> delete</a>
             {% endif %}
         {% endfor %}
         {% if role >2 %}
-        <a href="{{ url_for('main.chouse_teacher',id=info.id) }}">add new</a>
+            <a href="{{ url_for('main.chouse_teacher',id=info.id) }}">add new</a>
         {% endif %}
 
         </div>
-    <p>Lessons executed</p>
-    <table>
-        {% for lesson in lessons %}
-            <tr>
-                <td>{{ lesson.teacher_name() }}</td>
-                <td>{{ lesson.datetime }}</td>
-            </tr>
-        {% endfor %}
-    </table>
-
 {% endif %}
-
-{% if role > 1 and info.role()==2 %}
-    <p>Executed lesson</p>
-
-    {% for week in lessons %}
-    <table>
-        <tr>
-            <td>Monday</td>
-            <td>Tuesday</td>
-            <td>Wednesday</td>
-            <td>Thursday</td>
-            <td>Friday</td>
-            <td>Saturday</td>
-            <td>Sunday</td>
-        </tr>
-        <tr>
-            {% for i in range(6) %}
-            <td>
-                    <ul>
-                    {% for less in week[i]%}
-                        <li>
-                        {{ less.student_name() }}
-                        {{ less.daytime_output() }}
-                        </li>
-                    {% endfor %}
-                    </ul>
-            </td>
-            {% endfor %}
-        </tr>
-    </table>
-    {% endfor %}
-
-{% endif %}
+    <p><a href="{{ url_for('main.lessons_past',id = info.id) }}"> Lessons executed</a></p>
 
 {% endblock %}

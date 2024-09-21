@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block app_content %}
+{{ info.name }} pass lessons
+{% if info.id_user == None %}
+    {% for les in lessons %}
+        <p>{{ les.Lesson.datetimes }} <a href="{{ url_for('main.information', id=les.Info.id) }}">{{ les.Info.name }}</a></p>
+    {% endfor %}
+{% else %}
+    <p><a href="{{ url_for('main.check_lesson', id=info.id) }}">Red lessons</a></p>
+    <p>Executed lesson</p>
+    {% if tot_les != -1 %}
+        <p>Total {{ tot_les }}</p>
+    {% endif %}
+    {% for week in lessons %}
+    <p>Week total - {{ week.7 }}</p>
+    <table>
+        <tr>
+            <td>Monday</td>
+            <td>Tuesday</td>
+            <td>Wednesday</td>
+            <td>Thursday</td>
+            <td>Friday</td>
+            <td>Saturday</td>
+            <td>Sunday</td>
+        </tr>
+        <tr>
+            {% for i in range(6) %}
+            <td>
+                    <ul>
+                    {% for less in week[i]%}
+                        <li>
+                        {{ less.student_name() }}
+                        {{ less.daytime_output() }}
+                        </li>
+                    {% endfor %}
+                    </ul>
+            </td>
+            {% endfor %}
+        </tr>
+    </table>
+    {% endfor %}
+
+{% endif %}
+
+{% endblock %}

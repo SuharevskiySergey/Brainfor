@@ -46,34 +46,7 @@ def information():
     if info.role() == 1:
         lessons = db.session.query(Lesson).filter(Lesson.student == user_id).all()
     else:
-        lessons_all = db.session.query(Lesson).filter(Lesson.teacher == info.id_user).order_by(Lesson.datetimes.desc()).all()
-
-        j = 0
-        lessons = []
-        lessons.append({0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []})
-
-        for i in range(len(lessons_all)-1):
-
-            lessons[j][lessons_all[i].datetimes.weekday()].append(lessons_all[i])
-
-            if lessons_all[i].datetimes.weekday() < lessons_all[i+1].datetimes.weekday() or \
-                    (lessons_all[i].datetimes - lessons_all[i+1].datetimes).days > 6:
-                #lessons.append(week[j])
-                j += 1
-                lessons.append({0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []})
-        #addinglast
-        if len(lessons_all) > 1:
-            if lessons_all[-2].datetimes.weekday() < lessons_all[-1].datetimes.weekday() or \
-                    (lessons_all[-2].datetimes - lessons_all[-1].datetimes).days > 6:
-                lessons.append({0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []})
-                lessons[-1][lessons_all[-1].datetimes.weekday()].append(lessons_all[-1])
-            else:
-                lessons[-1][lessons_all[-1].datetimes.weekday()].append(lessons_all[-1])
-        elif len(lessons_all) == 1:
-            lessons[-1][lessons_all[-1].datetimes.weekday()].append(lessons_all[-1])
-
-        # without last
-
+        pass
     graph = db.session.query(Graficks).filter(Graficks.id_user == user_id).order_by(Graficks.weekday).all()
 
     paids = db.session.query(Cashflows).filter(Cashflows.id_info == user_id).all()
@@ -90,10 +63,61 @@ def information():
         for les in week_less:
             salar += les.teacher_prize
             w_l_c += 1
+    if info.id_user != None:
+        tot_les = len(db.session.query(Lesson).filter(Lesson.teacher == info.id).all())
 
+    else:
+        tot_les = -1
 
     return render_template('main/information.html', info=info,  role=current_user.role, teachers=teachers,
-                           lessons=lessons, day=0, graph=graph, summe=summe, salar=salar, w_l_c=w_l_c)
+                           day=0, graph=graph, summe=summe, salar=salar, w_l_c=w_l_c, tot_les=tot_les)
+
+
+@bp.route('/lesons_past/<int:id>')
+@login_required
+def lessons_past(id):
+    # права доступу
+    if current_user.role < 3:
+        if id != db.session.query(Info).filter(Info.id_user == current_user.id).first().id:
+            return redirect(url_for('main.index'))
+
+    info = db.session.query(Info).filter(Info.id == id).first()
+    if info.id_user == None :
+        lessons = db.session.query(Lesson, Info).filter(Lesson.student == id).join(Info, Info.id_user == Lesson.teacher).all()
+        tot_les = len(lessons)
+    else:
+        lessons_all = db.session.query(Lesson).filter(Lesson.teacher == info.id_user).order_by(
+            Lesson.datetimes.desc()).all()
+        tot_les = len(lessons_all)
+        j = 0
+        lessons = []
+        # 7 total
+        lessons.append({0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: 0})
+
+        for i in range(len(lessons_all) - 1):
+
+            lessons[j][lessons_all[i].datetimes.weekday()].append(lessons_all[i])
+            lessons[j][7] += 1
+
+            if lessons_all[i].datetimes.weekday() < lessons_all[i + 1].datetimes.weekday() or \
+                    (lessons_all[i].datetimes - lessons_all[i + 1].datetimes).days > 6:
+                # lessons.append(week[j])
+                j += 1
+                # 7 total
+                lessons.append({0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: 0})
+        # addinglast
+        if len(lessons_all) > 1:
+            if lessons_all[-2].datetimes.weekday() < lessons_all[-1].datetimes.weekday() or \
+                    (lessons_all[-2].datetimes - lessons_all[-1].datetimes).days > 6:
+                lessons.append({0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [], 7: 0})
+                lessons[-1][lessons_all[-1].datetimes.weekday()].append(lessons_all[-1])
+            else:
+                lessons[-1][lessons_all[-1].datetimes.weekday()].append(lessons_all[-1])
+        elif len(lessons_all) == 1:
+            lessons[-1][lessons_all[-1].datetimes.weekday()].append(lessons_all[-1])
+        lessons[(len(lessons) - 1)][7] += 1
+
+    return render_template('main/lesons_past.html', info=info, lessons=lessons, tot_les=tot_les)
 
 
 @bp.route('/change_info/<int:user_id>', methods=['GET', 'POST'])
@@ -189,14 +213,13 @@ def dell_graph(id):
 def edit_graph(id):
     if current_user.role < 4:
         g = db.session.query(Graficks).filter(Graficks.id == id).first()
-        t_id = db.session.query(Teacher_To_Student).filter(Teacher_To_Student.id_Student == g.id_user)\
-            .first().id_Teacher
+        t_id = db.session.query(Teacher_To_Student).filter(Teacher_To_Student.id_Student == g.id_user).first().id_Teacher
         if current_user.id != t_id:
             flash("you can edit this graph")
             return redirect(url_for('main.index'))
 
     g = db.session.query(Graficks).filter(Graficks.id == id).first()
-    less = db.session.query(Lesson).filter(Lesson.datetimes > (date.today()- timedelta(days=date.today().weekday())))
+    less = db.session.query(Lesson).filter(Lesson.datetimes > (date.today()-timedelta(days=date.today().weekday())))
     for les in less:
         if les.datetimes.weekday() == g.weekday:
             if les.datetimes.hour == g.hour:
@@ -209,7 +232,7 @@ def edit_graph(id):
         g.weekday = {'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3, 'Friday': 4, 'Saturday': 5, 'Sunday': 6}[form.weekday.data]
         g.hour = form.houer.data
         g.minute = form.minute.data
-        print(form.weekday.data, form.houer.data, form.minute.data)
+        #print(form.weekday.data, form.houer.data, form.minute.data)
         db.session.add(g)
         db.session.commit()
         return redirect(url_for('main.index'))
@@ -219,6 +242,9 @@ def edit_graph(id):
     form.houer.data = g.hour
     form.minute.data = g.minute
     return render_template('/main/chouse_graph.html', form=form)
+
+
+
 
 
 @login_required

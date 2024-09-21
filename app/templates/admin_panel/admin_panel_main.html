@@ -11,6 +11,7 @@
     <table>Students
         <tr>
             <td>№</td>
+            <td>id</td>
             <td>Name</td>
             <td>Country</td>
             <td>City</td>
@@ -25,6 +26,7 @@
         {% for info in infos %}
         <tr>
             <td> {{ info[2] }}</td>
+            <td> {{ info[0].id }}</td>
             <td><a href="{{ url_for('main.information', id=info[0].id) }}">{{ info[0].name }}</a></td>
             <td>{{ info[0].country }}</td>
             <td>{{ info[0].city }}</td>
