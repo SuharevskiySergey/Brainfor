@@ -161,6 +161,7 @@ def sudo_graph():
     to_total = {0: {"Total": 0, "list": []}, 1: {"Total": 0, "list": []}, 2: {"Total": 0, "list": []},
                 3: {"Total": 0, "list": []}, 4: {"Total": 0, "list": []}, 5: {"Total": 0, "list": []},
                 6: {"Total": 0, "list": []}, 7: {"Total": 0}, "list": []}
+    less = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
     if role == "student":
         graph = db.session.query(Graficks, Info) \
             .order_by(Graficks.weekday) \
@@ -169,6 +170,13 @@ def sudo_graph():
             .join(Info)\
             .filter(Info.id_user == None)\
             .filter(Info.activa).all()
+
+
+        les_all = db.session.query(Lesson).filter(Lesson.datetimes >= date.today()-timedelta(days=date.today().weekday())).order_by(Lesson.datetimes).all()
+        less = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] }
+        for les in les_all:
+
+            less[les.datetimes.weekday()].append(les)
 
         # generete key of Student to teacher
         stud_teach = {s_t.id_Student: db.session.query(Info).filter(Info.id_user == s_t.id_Teacher).first()
@@ -187,8 +195,9 @@ def sudo_graph():
                 to_total[g.Graficks.weekday][stud_teach[g.Graficks.id_user].name] = 1
 
         lenss = len(graph)
+
         return render_template('admin_panel/sudo_graph.html', graph=graph, rolee=role, stud_teach=stud_teach,
-                               lenss=lenss, to_total=to_total)
+                               lenss=lenss, to_total=to_total, less=less)
 
     else:
         graph = db.session.query(Graficks, Info) \
@@ -206,7 +215,7 @@ def sudo_graph():
                 to_total[g.Graficks.weekday][g.Info.name] = 1
                 to_total[g.Graficks.weekday]["list"].append(g.Info.name)
         lenss = len(graph)
-        return render_template('admin_panel/sudo_graph.html', graph=graph, rolee=role, lenss=lenss, to_total=to_total)
+        return render_template('admin_panel/sudo_graph.html', graph=graph, rolee=role, lenss=lenss, to_total=to_total, less=less)
 
 
 

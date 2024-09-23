@@ -31,19 +31,28 @@
         {% for i in range(graph[0].Graficks.weekday ) %}
             <td></td>
         {% endfor %}
-        <td>
+        <td><ul>
         {% for i in range(lenss) %}
 
                     {% if i>0  %}
                         {% if graph[i].Graficks.weekday > graph[i-1].Graficks.weekday %}
                             {% for j in range (graph[i].Graficks.weekday-graph[i-1].Graficks.weekday)%}
-                                </td><td>
+                                </ul></td><td><ul>
                             {% endfor %}
                         {% endif %}
                     {% endif %}
-        <ul>
+
             {% if not graph[i].Info.id_user and rolee == 'student'%}
-            <li>
+            <li style="{% for les in less[graph[i].Graficks.weekday]%}
+                {% if (les.datetimes.hour == graph[i].Graficks.hour) %}
+                    {% if(les.datetimes.minute == graph[i].Graficks.minute) %}
+                            {% if(les.student ==  graph[i].Info.id) %}
+                                background-color: lightgreen
+                            {% endif %}
+                    {% endif %}
+                {% endif %}
+                {% endfor %}
+                ">
                         {{ graph[i].Graficks.hour }}
                         {% if graph[i].Graficks.minute == 0 %}
                             00
@@ -61,9 +70,9 @@
                             {{ graph[i].Info.name }}
                 {% endif %}
                 </li>
-            </ul>
+
         {% endfor %}
-        </td>
+        </ul></td>
     </tr>
 </table>
 {% endblock %}

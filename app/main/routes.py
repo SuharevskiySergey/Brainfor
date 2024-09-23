@@ -244,9 +244,6 @@ def edit_graph(id):
     return render_template('/main/chouse_graph.html', form=form)
 
 
-
-
-
 @login_required
 @bp.route('/graphicks/<int:id>')
 def graphic(id):
