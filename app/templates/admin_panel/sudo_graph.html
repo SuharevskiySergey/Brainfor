@@ -9,6 +9,7 @@
         <td>
             <ul>
                 <li>Total {{ to_total[i]["Total"] }}</li>
+                <li>Total pass lessons {{ tot_pass[i] }}</li>
                 {% for teach in to_total[i]["list"] %}
                 <li>
                     {{ teach }} {{ to_total[i][teach] }}

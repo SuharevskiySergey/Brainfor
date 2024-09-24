@@ -162,6 +162,7 @@ def sudo_graph():
                 3: {"Total": 0, "list": []}, 4: {"Total": 0, "list": []}, 5: {"Total": 0, "list": []},
                 6: {"Total": 0, "list": []}, 7: {"Total": 0}, "list": []}
     less = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
+    tot_pass = {0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0}
     if role == "student":
         graph = db.session.query(Graficks, Info) \
             .order_by(Graficks.weekday) \
@@ -173,10 +174,11 @@ def sudo_graph():
 
 
         les_all = db.session.query(Lesson).filter(Lesson.datetimes >= date.today()-timedelta(days=date.today().weekday())).order_by(Lesson.datetimes).all()
-        less = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: [] }
+        less = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
+        tot_pass ={0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0, 6: 0}
         for les in les_all:
-
             less[les.datetimes.weekday()].append(les)
+            tot_pass[les.datetimes.weekday()] += 1
 
         # generete key of Student to teacher
         stud_teach = {s_t.id_Student: db.session.query(Info).filter(Info.id_user == s_t.id_Teacher).first()
@@ -197,7 +199,7 @@ def sudo_graph():
         lenss = len(graph)
 
         return render_template('admin_panel/sudo_graph.html', graph=graph, rolee=role, stud_teach=stud_teach,
-                               lenss=lenss, to_total=to_total, less=less)
+                               lenss=lenss, to_total=to_total, less=less, tot_pass=tot_pass)
 
     else:
         graph = db.session.query(Graficks, Info) \
