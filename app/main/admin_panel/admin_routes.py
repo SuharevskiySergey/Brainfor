@@ -273,8 +273,8 @@ def finansal_post():
 
             teachers = [i.name for i in db.session.query(Info).filter(
                 Info.id_user.in_([s.id for s in db.session.query(User).filter(User.role >= 2).all()])).all()]
-        print(totaly)
-        print(to_output)
+        # print(totaly)
+        # print(to_output)
         return render_template('admin_panel/fin_exe.html',
                                form=form, days=days,
                                to_output=to_output, teachers=teachers,
