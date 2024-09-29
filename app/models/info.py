@@ -15,9 +15,11 @@ class Info(db.Model):
 
     speed = db.Column(db.String(120), default="Slow")
     value = db.Column(db.Integer, default=0)
-    source = db.Column(db.String(100), default="Slow")
+    source = db.Column(db.String(100), default="")
     pay_already = db.Column(db.Float, default=0)
     pass_lesson = db.Column(db.Integer, default=0)
+    monobank = db.Column(db.String(30))
+    privatbank = db.Column(db.String(30))
 
     city = db.Column(db.String(100))
     occupation = db.Column(db.String(100))
@@ -29,7 +31,6 @@ class Info(db.Model):
     coursess = db.relationship('Cource', backref='cource', lazy='dynamic')
     cash_flow = db.relationship('Cashflows', backref='cashflow', lazy='dynamic')
 
-    was_pay_for_lesson = db.Column(db.Integer)
 
     def role(self):
         temp = db.session.query(User).filter(User.id == self.id_user).first()
@@ -100,8 +101,8 @@ class Graficks(db.Model):
     weekday = db.Column(db.Integer)
     hour = db.Column(db.Integer)
     minute = db.Column(db.Integer)
-    key = {'Monday': 0, 'Tuesday': 1, 'Wednessday': 2, 'Thirthday': 3, 'Friday': 4, 'Sartuday': 5, 'Sunday': 6}
-    alt_key = {0: 'Monday', 1: 'Tuesday', 2: 'Wednessday', 3: 'Thirthday', 4: 'Friday', 5: 'Sartuday', 6: 'Sunday'}
+    key = {'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3, 'Friday': 4, 'Saturday': 5, 'Sunday': 6}
+    alt_key = {0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3: 'Thursday', 4: 'Friday', 5: 'Saturday', 6: 'Sunday'}
 
 
 class Part_Course(db.Model):

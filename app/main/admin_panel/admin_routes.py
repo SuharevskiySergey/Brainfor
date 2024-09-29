@@ -241,7 +241,7 @@ def finansal_post():
         to_output = []
         days = []
         totaly = {i.name: {'get': 0, 'paid': 0, 'count': 0} for i in db.session.query(Info).filter(
-            Info.id_user.in_([j.id for j in db.session.query(User).filter(User.role >= 2).all()])).all()}
+            Info.id_user.in_([j.id for j in db.session.query(User).filter(User.role > 1).all()])).all()}
         totaly['Total'] = {'get': 0, 'paid': 0, 'count': 0}
         while start < finish:
             days.append(start)
@@ -272,12 +272,13 @@ def finansal_post():
             start = start+delta
 
             teachers = [i.name for i in db.session.query(Info).filter(
-                Info.id_user.in_([s.id for s in db.session.query(User).filter(User.role > 2).all()])).all()]
-
+                Info.id_user.in_([s.id for s in db.session.query(User).filter(User.role >= 2).all()])).all()]
+        print(totaly)
+        print(to_output)
         return render_template('admin_panel/fin_exe.html',
                                form=form, days=days,
                                to_output=to_output, teachers=teachers,
-                               totaly = totaly)
+                               totaly=totaly)
     else:
         pass
 

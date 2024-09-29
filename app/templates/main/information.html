@@ -1,14 +1,15 @@
 {% extends 'base.html' %}
 {% block app_content %}
 
-<h1 xmlns="http://www.w3.org/1999/html">Information</h1>
-{% if not(info.id_user) %}
-    <a href="{{ url_for('main.secsesfuly', id=info.id) }}">Lessons</a>
-{% endif %}
+
 
 <h2> General info</h2>
     <a href="{{ url_for('main.change_info', user_id=info.id) }}">Edit info</a>
-
+{% if not(info.id_user) %}
+    <a href="{{ url_for('main.secsesfuly', id=info.id) }}">Lessons</a>
+{% else %}
+    <a href="{{ url_for('main.graphic', id=info.id) }}">Timetable</a>
+{% endif %}
 
     <p>Full name: {{ info.name }}</p>
     <p>Country: {{ info.country }}</p>
@@ -44,7 +45,7 @@
         <p>Left {{ info.pay_already // info.value }}</p>
     {% endif %}
 {% endif %}
-    <div style="color: black; background-color: gray; width: 300px; height: 150px;">
+    <div style="color: black; background-color: gray; width: 300px; height: 200px;">
         {% for gra in graph %}
             <p> {{gra.alt_key[gra.weekday]}} {{gra.hour}}:{{gra.minute}}
                 {% if role > 1%}
