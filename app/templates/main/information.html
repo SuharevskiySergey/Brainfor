@@ -22,14 +22,15 @@
 
     <h2>info for teacher</h2>
     {% if not(info.id_user) %}
-        <p> Speed - {{ info.speed }}</p>
+        <p> Speed: {{ info.speed }}</p>
     {% endif %}
     {% if info.id_user %}
-        <p> Rate {{ info.value }}</p>
-        <p>Lessons {{ w_l_c }}</p>
+        <p>Rate: {{ info.value }}</p>
+        <p>Lessons: {{ w_l_c }}</p>
+        <p>Bank: {{ bank_inf.name_bank }} Cart: {{ bank_inf.number }} <a href="{{ url_for('main.ed_carts', id=info.id_user) }}">Change</a></p>
         <p><a href="{{ url_for('main.get_paid',id=info.id) }}">Salary {{ salar }}</a><p>
     {% endif %}
-{% endif %}
+    {% endif %}
 
 
 {% if role >2 %}

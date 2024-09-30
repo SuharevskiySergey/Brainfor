@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block app_content %}
+<p>{{ info.name }}: Bank data </p>
+<form action="" method="post" novalidate>
+    {{ form.hidden_tag() }}
+    {{ form.csrf_token() }}
+
+    <p>
+        {{ form.bank_name.label }}
+        {{ form.bank_name(size=32) }}
+    </p>
+    <p>
+        {{ form.cart.label }}
+        {{ form.cart(size=32) }}
+    </p>
+    <p>
+        {{ form.submit() }}
+    </p>
+</form>
+{% endblock %}

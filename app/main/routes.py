@@ -12,7 +12,7 @@ from app.main.forms import GraphForm
 from app.models.info import Cource, Part_Course
 from app.main.forms import Change_progress_data
 from datetime import datetime, timedelta, date
-
+from app.models.info import BankInfo
 
 @bp.route('/')
 @bp.route('/index')
@@ -69,8 +69,9 @@ def information():
     else:
         tot_les = -1
 
+    bank_inf = db.session.query(BankInfo).filter(BankInfo.id_user == info.id_user).first()
     return render_template('main/information.html', info=info,  role=current_user.role, teachers=teachers,
-                           day=0, graph=graph, summe=summe, salar=salar, w_l_c=w_l_c, tot_les=tot_les)
+                           day=0, graph=graph, summe=summe, salar=salar, w_l_c=w_l_c, tot_les=tot_les, bank_inf=bank_inf)
 
 
 @bp.route('/lesons_past/<int:id>')
@@ -118,6 +119,33 @@ def lessons_past(id):
         lessons[(len(lessons) - 1)][7] += 1
 
     return render_template('main/lesons_past.html', info=info, lessons=lessons, tot_les=tot_les)
+
+
+from app.main.forms import BankForm
+
+
+@bp.route('/edit_carts/<int:id>', methods=['GET', 'POST'])
+@login_required
+def ed_carts(id):
+    if (current_user.role < 4) and (current_user.id != id):
+        return redirect(url_for('main.index'))
+    bank_data = db.session.query(BankInfo).filter(BankInfo.id_user == id).first()
+    form = BankForm()
+    info = db.session.query(Info).filter(Info.id_user == id).first()
+    if form.validate_on_submit():
+        if bank_data == None:
+            bank_data = BankInfo(id_user=id)
+        bank_data.name_bank = form.bank_name.data
+        bank_data.number = form.cart.data
+        db.session.add(bank_data)
+        db.session.commit()
+        return redirect(url_for("main.information", id=info.id))
+    print(bank_data)
+    if bank_data != None :
+        form.cart.data = bank_data.number
+        form.bank_name.data = bank_data.name_bank
+
+    return render_template('main/edit_bank_data.html', form=form, info=info)
 
 
 @bp.route('/change_info/<int:user_id>', methods=['GET', 'POST'])

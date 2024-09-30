@@ -34,7 +34,6 @@ class GraphForm(FlaskForm):
     submit = wtforms.fields.SubmitField('Submit')
 
 
-
 class PartyForm(wtforms.Form):
     ids = wtforms.fields.HiddenField('ids')
     rypma = wtforms.fields.BooleanField('rypma', default=False)
@@ -63,4 +62,10 @@ class ProcessForm(FlaskForm):
 
 class Change_progress_data(FlaskForm):
     date = wtforms.fields.DateField('Change to')
+    submit = wtforms.fields.SubmitField('Submit')
+
+
+class BankForm(FlaskForm):
+    cart = wtforms.fields.StringField("Cart")
+    bank_name = wtforms.fields.StringField("Bank")
     submit = wtforms.fields.SubmitField('Submit')

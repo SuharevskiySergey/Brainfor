@@ -18,8 +18,6 @@ class Info(db.Model):
     source = db.Column(db.String(100), default="")
     pay_already = db.Column(db.Float, default=0)
     pass_lesson = db.Column(db.Integer, default=0)
-    monobank = db.Column(db.String(30))
-    privatbank = db.Column(db.String(30))
 
     city = db.Column(db.String(100))
     occupation = db.Column(db.String(100))
@@ -146,3 +144,11 @@ class Cashflows(db.Model):
     sum = db.Column(db.Float)
     date = db.Column(db.Date(), default=date.today())
     coment = db.Column(db.String(150))
+
+
+class BankInfo(db.Model):
+    __tablename__ = "bankcarty"
+    id = db.Column(db.Integer, primary_key=True, index=True)
+    id_user = db.Column(db.Integer, db.ForeignKey('user.id'))
+    number = db.Column(db.String(20))
+    name_bank = db.Column(db.String(20))
