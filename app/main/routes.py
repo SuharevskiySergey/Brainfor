@@ -140,7 +140,6 @@ def ed_carts(id):
         db.session.add(bank_data)
         db.session.commit()
         return redirect(url_for("main.information", id=info.id))
-    print(bank_data)
     if bank_data != None :
         form.cart.data = bank_data.number
         form.bank_name.data = bank_data.name_bank
@@ -425,47 +424,20 @@ def clearlesson(id, numb):
     return redirect(url_for('main.secsesfuly', id=i.id))
 
 
-
-import xlrd
 @bp.route('/tempfix')
 @login_required
 def tempfix():
     if current_user.role < 4:
         return redirect(url_for('main.index'))
+    infos = db.session.query(Info).all()
+    for i in infos:
+        i.lessons = 0
 
-    book = xlrd.open_workbook('temp.xls')
-    sh = book.sheet_by_index(0)
-    i = 1
-    nows = date.today()
-    while sh.cell_value(rowx=i, colx=0) != 'end':
-
-        ids = db.session.query(Cource).filter(Cource.to_student == int(sh.cell_value(rowx=i, colx=0))).first().id
-        keys = sh.cell_value(rowx=i, colx=1)
-        for j in range(80):
-            if sh.cell_value(rowx=i, colx=j + 2) == "done":
-                les = db.session.query(Part_Course).filter(Part_Course.id_course == ids).filter(Part_Course.number == j).first()
-                if keys == "rypma":
-                    les.rypma = nows
-                if keys == "repetition":
-                    les.repetition = nows
-                if keys == "reading":
-                    les.reading = nows
-                if keys == "speaking":
-                    les.speaking = nows
-                if keys == "qetion":
-                    les.qetion = nows
-                if keys == "topics":
-                    les.topics = nows
-                if keys == "associations":
-                    les.associations = nows
-                if keys == "assrep":
-                    les.assrep = nows
-                if keys == "grammar":
-                    les.grammar = nows
-
-                db.session.add(les)
-                db.session.commit()
-
-        i += 1
-
+    cashe = db.session.query(Cashflows).all()
+    for c in cashe:
+        c.lessons = 0
+    db.session.add_all(cashe)
+    db.session.commit()
+    db.session.add_all(infos)
+    db.session.commit()
     return redirect(url_for('main.index'))

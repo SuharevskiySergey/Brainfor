@@ -127,27 +127,6 @@ def make_admin(id):
     return redirect(url_for('main.admin_users'))
 
 
-@bp.route('/admin_user/<int:id>', methods=['GET', 'POST'])
-@login_required
-def admin_user(id):
-    user = db.session.query(User, Info).join(Info).filter_by(User.id == id).first()
-    form = user
-
-
-@bp.route('/temp')
-@login_required
-def temp():
-    s = [2, 5, 6, 9]
-    for i in s:
-        course = Cource(to_student=i)
-        db.session.add(course)
-        db.session.commit()
-        course = db.session.query(Cource).filter(Cource.to_student == i).first()
-        course.initialization()
-        db.session.commit()
-    return redirect(url_for('main.index'))
-
-
 @bp.route('/sudo_graph')
 @login_required
 def sudo_graph():
@@ -155,7 +134,6 @@ def sudo_graph():
         return redirect(url_for('main.index'))
 
     role = request.args.get('role', 'student', type=str)
-
 
     #orgenaize data to output
     to_total = {0: {"Total": 0, "list": []}, 1: {"Total": 0, "list": []}, 2: {"Total": 0, "list": []},
@@ -322,15 +300,16 @@ def get_paid(id):
             if current_user.role < 4:
                 flash('incorrect data sum can be less then zero')
                 return redirect(url_for('main.get_paid', id=id))
-        c = Cashflows(date=form.date.data, id_info=id, sum=form.money.data, coment=form.coment.data)
-
-
+        c = Cashflows(date=form.date.data, id_info=id, sum=form.money.data, lessons=form.lessons.data, coment=form.coment.data)
+        info.lessons += form.lessons.data
         info.pay_already += form.money.data
         db.session.add(info)
         db.session.add(c)
         db.session.commit()
+    form.money.data = 0
+    form.lessons.data = 0
     form.date.data = date.today()
-    cah_flows = db.session.query(Cashflows).filter(Cashflows.id_info == id).order_by(Cashflows.date).all()
+    cah_flows = db.session.query(Cashflows).filter(Cashflows.id_info == id).order_by(Cashflows.date.desc()).all()
 
     return render_template('admin_panel/finperson.html', form=form, info=info, cah_flows=cah_flows)
 

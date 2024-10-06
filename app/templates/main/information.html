@@ -43,7 +43,7 @@
         <p><a href="{{ url_for('main.get_paid',id=info.id) }}">Paid</a> -  {{ summe }} </p>
         <p>Balance {{ info.pay_already }}</p>
         <p>Passed - {{ info.pass_lesson }}</p>
-        <p>Left {{ info.pay_already // info.value }}</p>
+        <p>Left {{ info.lessons - info.pass_lesson }}</p>
     {% endif %}
 {% endif %}
     <div style="color: black; background-color: gray; width: 300px; height: 250px;">

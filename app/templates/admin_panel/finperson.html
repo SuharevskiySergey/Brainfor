@@ -5,6 +5,8 @@
         <p>
             <a href="{{ url_for('main.information', id=info.id) }}">{{ info.name }}</a> Paid<br>
             {{ form.money(size=32) }}<br>
+            lessons<br>
+            {{ form.lessons(size=32) }}<br>
             {{ form.coment.label }}<br>
             {{ form.coment(size=32) }}
             {{ form.date }}
@@ -15,12 +17,15 @@
     <tr>
         <td>Date</td>
         <td>Sum</td>
+        <td>Lessons</td>
         <td>Comment</td>
+        <td></td>
     </tr>
     {% for cah_flow in cah_flows %}
     <tr>
         <td>{{ cah_flow.date }}</td>
         <td>{{ cah_flow.sum }}</td>
+        <td>{{ cah_flow.lessons }}</td>
         <td>{{ cah_flow.coment }}</td>
     </tr>
     {% endfor %}
