@@ -4,6 +4,16 @@
         {{ form.hidden_tag() }}
         <p>
             <a href="{{ url_for('main.information', id=info.id) }}">{{ info.name }}</a> Paid<br>
+            {% if info.id_user %}
+                <p>Було виплачено: {{ paid }}</p>
+                <p>Заробила: {{ sume }}</p>
+                <p>Вина вчителю: {{ sume - paid }}</p>
+            {% else %}
+                <p>Заплатив: {{ paid }}</p>
+                <p>Пройшов уроки на :{{ sume }}</p>
+                <p>Ще винен: {{ sume - paid }}</p>
+                <p>баланс уроків уроків: {{ info.lessons }}   </p>
+            {% endif %}
             {{ form.money(size=32) }}<br>
             lessons<br>
             {{ form.lessons(size=32) }}<br>

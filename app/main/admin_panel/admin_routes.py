@@ -309,9 +309,16 @@ def get_paid(id):
     form.money.data = 0
     form.lessons.data = 0
     form.date.data = date.today()
-    cah_flows = db.session.query(Cashflows).filter(Cashflows.id_info == id).order_by(Cashflows.date.desc()).all()
 
-    return render_template('admin_panel/finperson.html', form=form, info=info, cah_flows=cah_flows)
+    cah_flows = db.session.query(Cashflows).filter(Cashflows.id_info == id).order_by(Cashflows.date.desc()).all()
+    paid = sum([i.sum for i in cah_flows])
+    if info.id_user:
+        sume = sum([i.teacher_prize for i in db.session.query(Lesson).filter(Lesson.teacher == info.id_user).all()])
+
+    else:
+        sume = sum([i.prize for i in db.session.query(Lesson).filter(Lesson.student == info.id).all()])
+
+    return render_template('admin_panel/finperson.html', form=form, info=info, cah_flows=cah_flows, sume=sume, paid=paid)
 
 
 @bp.route('/deactivate/<int:id>')
@@ -350,29 +357,35 @@ def total_finance():
 
     yeare = request.args.get('year', date.today().year, type=int)
     # to shown
-    key = {1: 'Jan', 2: 'Feb', 3: 'Murch', 4: 'Apr', 5: 'May', 6: 'June',
+    key = {1: 'Jan', 2: 'Feb', 3: 'March', 4: 'Apr', 5: 'May', 6: 'June',
            7: 'July', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'}
     to_output_income = {}
     to_output_outcome = {}
-    for mon in range(1,13):
+    for mon in range(1, 13):
         income = 0
         outcome = 0
         if mon != 12:
-            inc = db.session.query(Cashflows.sum).filter(Cashflows.date >= date(day=1, month=mon, year=yeare))\
-                .filter(Cashflows.date < date(day=1, month=mon+1, year=yeare)).all()
+            inc = db.session.query(Cashflows.sum, Info).\
+                filter(Cashflows.date >= date(day=1, month=mon, year=yeare)).\
+                filter(Cashflows.date < date(day=1, month=mon+1, year=yeare)).\
+                join(Info).filter(Info.id_user == None).all()
+            out = db.session.query(Cashflows.sum, Info). \
+                filter(Cashflows.date >= date(day=1, month=mon, year=yeare)). \
+                filter(Cashflows.date < date(day=1, month=mon + 1, year=yeare)). \
+                join(Info).filter(Info.id_user != None).all()
         else:
-            inc = db.session.query(Cashflows.sum).filter(Cashflows.date >= date(day=1, month=mon, year=yeare)) \
-                .filter(Cashflows.date < date(day=1, month=1, year=yeare+1)).all()
+            inc = db.session.query(Cashflows.sum, Info).\
+                filter(Cashflows.date >= date(day=1, month=mon, year=yeare)) \
+                .filter(Cashflows.date < date(day=1, month=1, year=yeare+1)).\
+                join(Info).filter(Info.id_user == None).all()
+            out = db.session.query(Cashflows.sum, Info). \
+                filter(Cashflows.date >= date(day=1, month=mon, year=yeare)) \
+                .filter(Cashflows.date < date(day=1, month=1, year=yeare+1)).\
+                join(Info).filter(Info.id_user != None).all()
         to_output_income[key[mon]] = sum([i.sum for i in inc])
 
         # calculating output
-        if mon != 12:
-            out = db.session.query(Lesson).filter(Lesson.datetimes >= date(day=1, month=mon, year=yeare)).\
-                filter(Lesson.datetimes < date(day=1, month=mon+1, year=yeare)).all()
-        else:
-            out = db.session.query(Lesson).filter(Lesson.datetimes >= date(day=1, month=mon, year=yeare)).\
-                filter(Lesson.datetimes < date(day=1, month=1, year=yeare+1)).all()
-        to_output_outcome[key[mon]] = sum([o.teacher_prize for o in out])
+        to_output_outcome[key[mon]] = sum([i.sum for i in out])
 
     years = [y for y in range(2023, date.today().year+1)]
 

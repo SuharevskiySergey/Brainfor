@@ -47,3 +47,6 @@ Traceback (most recent call last):
     {% for i in range(1, 13 %}
 jinja2.exceptions.TemplateSyntaxError: unexpected '}', expected ')'
 2024-09-26 19:18:34,477 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-10-10 00:30:16,402 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-10-10 00:35:45,261 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
+2024-10-13 11:37:25,328 INFO: Microblog startup [in C:\Users\abifa\Desktop\Brainfor\app\__init__.py:57]
