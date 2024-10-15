@@ -13,6 +13,8 @@
             <td>phone</td>
             <td>Rate</td>
             <td>Paid</td>
+            <td>сумма переводів</td>
+            <td>Провела уроків на</td>
             <td>Passed</td>
         </tr>
         {% for info in infos %}
@@ -24,6 +26,8 @@
             <td>{{ info.phone_number }}</td>
             <td>{{ info.value }}</td>
             <td>{{ info.pay_already }}</td>
+            <td>{{ money[info.id][0] }}</td>
+            <td>{{ money[info.id][1] }}</td>
             <td>{{ info.pass_lesson }}</td>
             <td><a href="{{ url_for('main.graphic', id=info.id) }}">Timetable</a></td>
             <td><a href="{{ url_for('main.lessons_past',id = info.id) }}">Lessons</a></td>

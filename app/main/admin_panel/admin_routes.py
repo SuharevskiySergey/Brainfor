@@ -28,7 +28,15 @@ def admin_panel_teachers():
         teach_id.append(i.id)
     infos = db.session.query(Info).filter(Info.id_user.in_(teach_id)).order_by(Info.id_user).all()
 
-    return render_template('admin_panel/admin_teachers.html', infos=infos)
+    money = {}
+    for i in infos:
+        Cashflows.sum
+        Lesson.teacher_prize
+        paid = sum([j.sum for j in db.session.query(Cashflows).filter(Cashflows.id_info == i.id).all()])
+        earn = sum([j.teacher_prize for j in db.session.query(Lesson).filter(Lesson.teacher == i.id_user).all()])
+        money[i.id] = [paid, earn]
+    #print(money)
+    return render_template('admin_panel/admin_teachers.html', infos=infos, money=money)
 
 
 @bp.route('/admin_panel_main')
