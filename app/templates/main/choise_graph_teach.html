@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block app_content %}
+pipisca<br>
+{% for teach in teachs %}
+<p><a href="{{ url_for('main.add_graficks', id=id, teach=teach.id_user) }}">{{ teach.name }}</a></p>
+{% endfor %}
+{% endblock %}
