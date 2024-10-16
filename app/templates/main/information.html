@@ -61,7 +61,7 @@
             </p>
         {% endfor %}
         {% if role >2 or current_user.id == info.id_user%}
-            <a href="{{url_for('main.add_graficks', id=info.id)}}">add graph </a>
+            <a href="{{url_for('main.chose_teach_to_graph', id=info.id)}}">add graph </a>
         {% endif %}
     </div>
 

@@ -204,16 +204,32 @@ def change_info(user_id):
     return render_template('main/change_information.html', form=form, role=current_user.role, info=info)
 
 
+@bp.route("/chouse_teach_graph/<int:id>")
 @login_required
-@bp.route('/add_graph_to/<int:id>', methods=['GET', 'POST'])
-def add_graficks(id):
+def chose_teach_to_graph(id):
+    if current_user.role <4:
+        return redirect(url_for('main.index'))
+
+    teach_id = [i.id_Teacher for i in db.session.query(Teacher_To_Student).filter(Teacher_To_Student.id_Student == id).all()]
+
+    #only teacher
+    if len(teach_id) == 1:
+        pass
+
+    teachs = db.session.query(Info).filter(Info.id_user.in_(teach_id)).all()
+    return render_template('main/choise_graph_teach.html', teachs=teachs, id=id)
+
+
+@bp.route('/add_graph_to/<int:id>/<int:teach>', methods=['GET', 'POST'])
+@login_required
+def add_graficks(id, teach):
     if current_user.role < 3:
         if id != db.session.query(Info).filter(Info.id_user == current_user.id).first().id:
             return redirect(url_for('main.index'))
     form = GraphForm()
     if form.validate_on_submit():
         graph = Graficks(id_user=id, weekday={'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3, 'Friday': 4, 'Saturday': 5, 'Sunday': 6}[form.weekday.data],
-                         hour=form.houer.data, minute=form.minute.data)
+                         hour=form.houer.data, minute=form.minute.data, id_Teacher=teach)
         db.session.add(graph)
         db.session.commit()
         return redirect(url_for('main.information', id=id))

@@ -100,8 +100,10 @@ class Graficks(db.Model):
     weekday = db.Column(db.Integer)
     hour = db.Column(db.Integer)
     minute = db.Column(db.Integer)
+    id_Teacher = db.Column(db.Integer, db.ForeignKey('user.id'))
     key = {'Monday': 0, 'Tuesday': 1, 'Wednesday': 2, 'Thursday': 3, 'Friday': 4, 'Saturday': 5, 'Sunday': 6}
     alt_key = {0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3: 'Thursday', 4: 'Friday', 5: 'Saturday', 6: 'Sunday'}
+
 
 
 class Part_Course(db.Model):
