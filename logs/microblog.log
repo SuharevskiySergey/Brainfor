@@ -42,3 +42,4 @@ Traceback (most recent call last):
 jinja2.exceptions.UndefinedError: 'add_graficks' is undefined
 2024-10-16 14:13:20,320 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
 2024-10-16 14:14:21,542 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-16 14:20:35,384 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
