@@ -2,6 +2,7 @@ from app.main import bp
 from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_required, current_user
 from app import db
+from app.main.admin_panel.admin_routes import fim_month_out
 from app.models.info import Info, Lesson
 from app.models.user import User
 from app.models.info import Teacher_To_Student
@@ -207,14 +208,23 @@ def change_info(user_id):
 @bp.route("/chouse_teach_graph/<int:id>")
 @login_required
 def chose_teach_to_graph(id):
+    info = db.session.query(Info).filter(Info.id == id).first()
     if current_user.role <4:
-        return redirect(url_for('main.index'))
+        if info.id_user != current_user.id:
+            return redirect(url_for('main.index'))
+
+    if info.id_user != None:
+        return redirect(url_for('main.add_graficks', id=id, teach=info.id_user))
 
     teach_id = [i.id_Teacher for i in db.session.query(Teacher_To_Student).filter(Teacher_To_Student.id_Student == id).all()]
 
     #only teacher
-    if len(teach_id) == 1:
-        pass
+
+    if len(teach_id) == 0:
+        flash("this stud hasn't any teacher")
+        return redirect(url_for('main.information', id=id))
+    elif len(teach_id) == 1:
+        return redirect(url_for('main.add_graficks', id=id, teach=teach_id[0]))
 
     teachs = db.session.query(Info).filter(Info.id_user.in_(teach_id)).all()
     return render_template('main/choise_graph_teach.html', teachs=teachs, id=id)
@@ -290,49 +300,34 @@ def edit_graph(id):
 @login_required
 @bp.route('/graphicks/<int:id>')
 def graphic(id):
-    def retern_hour(list_elem):
-        return list_elem.Graficks.hour
 
     if id == 0:
         id = db.session.query(Info).filter(Info.id_user == current_user.id).first().id
 
-    output = {0: [], 1: [], 2: [], 3: [], 4: [], 5: [], 6: []}
+    output = {}
+    less={}
     info = db.session.query(Info).filter(Info.id == id).first()
-    if db.session.query(Info.id_user):
-        tempgraph = db.session.query(Graficks, Info.name, Info.id, Info.activa
-                                     ).order_by(Graficks.minute).filter(Graficks.id_user == info.id)\
-            .join(Info).all()
-        for i in tempgraph:
-            output[i.Graficks.weekday].append(i)
-
-        stud = []
-        for t in db.session.query(Teacher_To_Student.id_Student).filter(Teacher_To_Student.id_Teacher == info.id_user).all():
-            if db.session.query(Info).filter(Info.id == t.id_Student).first().activa:
-                stud.append(t.id_Student)
-
-        tempss = db.session.query(Graficks, Info.name, Info.id).order_by(Graficks.minute)\
-            .filter(Graficks.id_user.in_(stud))\
-            .join(Info).all()
-        for i in tempss:
-            output[i.Graficks.weekday].append(i)
-
-        #sort
-        for day in range(7):
-            output[day].sort(key=retern_hour)
-
-    else:
-        tempgraph = db.session.query(Graficks).filter(Graficks.id_user == id).order_by(Graficks.minute).all()
-        for temp in tempgraph:
-             output[temp.weekday].append(temp)
     if info.id_user:
-        ids = info.id_user
-        pass_lesson = db.session.query(Lesson).filter(Lesson.teacher == ids)\
-            .filter(Lesson.datetimes > date.today() - timedelta(date.today().weekday())).all()
+        for i in range(7):
+            output[i] = (db.session.query(Graficks, Info).filter(Graficks.id_Teacher == info.id_user).filter(Graficks.weekday == i)
+                         .join(Info).
+                         all())
 
+            start = date.today() - timedelta(date.today().weekday()+i)
+            less[i] = (db.session.query(Lesson)
+                       .filter(Lesson.teacher == info.id_user)
+                       .filter(Lesson.datetimes>(date.today() - timedelta(date.today().weekday()-i)))
+                       .filter((Lesson.datetimes<=(date.today() - timedelta(date.today().weekday()-i-1))))
+                       .all())
+    print(less)
     out_pass_less = []
-    for less in pass_lesson:
-        out_pass_less.append([less.datetimes.weekday(), less.datetimes.hour, less.datetimes.minute])
-
+    for i in range(7):
+        temp = []
+        #out_pass_less.append()
+        for les in less[i]:
+            temp.append({'hour': les.datetimes.hour, 'minute': les.datetimes.minute})
+        out_pass_less.append(temp)
+    print(out_pass_less)
     return render_template('/main/graphics.html', output=output, info=info, out_pass_less=out_pass_less)
 
 

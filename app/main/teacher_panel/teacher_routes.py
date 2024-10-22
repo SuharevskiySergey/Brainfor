@@ -275,6 +275,12 @@ def del_teacher(stud, teach):
 
     i = db.session.query(Teacher_To_Student).filter(Teacher_To_Student.id_Student == stud, Teacher_To_Student.id_Teacher == teach).first()
     db.session.delete(i)
+    db.session.commit()
+    less = (db.session.query(Graficks)
+           .filter(Graficks.id_user == stud).
+           filter(Graficks.id_Teacher == teach)).all()
+    for les in less:
+        db.session.delete(les)
 
     db.session.commit()
     return redirect(url_for('main.information', id=stud))
@@ -285,7 +291,13 @@ def add_teach_to_student(teach, id):
 
     if current_user.role < 3:
         return redirect(url_for('main.index'))
+    check = (db.session.query(Teacher_To_Student).
+             filter(Teacher_To_Student.id_Teacher == teach).
+             filter(Teacher_To_Student.id_Student == id).first())
 
+    if check != None :
+        flash("this conection is alredy ocupate")
+        return redirect(url_for('main.information', id=id))
     toadd = Teacher_To_Student(id_Teacher=teach, id_Student=id)
     db.session.add(toadd)
     db.session.commit()
