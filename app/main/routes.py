@@ -319,7 +319,6 @@ def graphic(id):
                        .filter(Lesson.datetimes>(date.today() - timedelta(date.today().weekday()-i)))
                        .filter((Lesson.datetimes<=(date.today() - timedelta(date.today().weekday()-i-1))))
                        .all())
-    print(less)
     out_pass_less = []
     for i in range(7):
         temp = []
@@ -327,7 +326,6 @@ def graphic(id):
         for les in less[i]:
             temp.append({'hour': les.datetimes.hour, 'minute': les.datetimes.minute})
         out_pass_less.append(temp)
-    print(out_pass_less)
     return render_template('/main/graphics.html', output=output, info=info, out_pass_less=out_pass_less)
 
 
