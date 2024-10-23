@@ -167,8 +167,9 @@ def sudo_graph():
             tot_pass[les.datetimes.weekday()] += 1
 
         # generete key of Student to teacher
-        stud_teach = {s_t.id_Student: db.session.query(Info).filter(Info.id_user == s_t.id_Teacher).first()
-                      for s_t in db.session.query(Teacher_To_Student).all()}
+        teacher_key = {temp.id_user : temp
+                       for temp in [db.session.query(Info).filter(Info.id_user == i.id).first()
+                                    for i in db.session.query(User).filter(User.role > 1).all()]}
 
         # counting total
         for g in graph:
@@ -176,15 +177,16 @@ def sudo_graph():
             to_total[g.Graficks.weekday]["Total"] += 1
 
             # count by teacher
-            if stud_teach[g.Graficks.id_user].name in to_total[g.Graficks.weekday]["list"]:
-                to_total[g.Graficks.weekday][stud_teach[g.Graficks.id_user].name] += 1
+            # teacher_key[g.Graficks.id_Teacher].name
+            if teacher_key[g.Graficks.id_Teacher].name in to_total[g.Graficks.weekday]["list"]:
+                to_total[g.Graficks.weekday][teacher_key[g.Graficks.id_Teacher].name] += 1
             else:
-                to_total[g.Graficks.weekday]["list"].append(stud_teach[g.Graficks.id_user].name)
-                to_total[g.Graficks.weekday][stud_teach[g.Graficks.id_user].name] = 1
+                to_total[g.Graficks.weekday]["list"].append(teacher_key[g.Graficks.id_Teacher].name)
+                to_total[g.Graficks.weekday][teacher_key[g.Graficks.id_Teacher].name] = 1
 
         lenss = len(graph)
 
-        return render_template('admin_panel/sudo_graph.html', graph=graph, rolee=role, stud_teach=stud_teach,
+        return render_template('admin_panel/sudo_graph.html', graph=graph, rolee=role, teacher_key=teacher_key,
                                lenss=lenss, to_total=to_total, less=less, tot_pass=tot_pass)
 
     else:

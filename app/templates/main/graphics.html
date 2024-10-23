@@ -34,7 +34,7 @@ Timetable {{ info.name }}
                         {% else %}
                             {{ temp.Graficks.minute }}{{ temp.Graficks.minute }}
                         {% endif %}
-                    </a>-  <a href="{{ url_for('main.information',id=temp.id) }}">{{ temp.Info.name }}</a></p>
+                    </a>-  <a href="{{ url_for('main.information',id=temp.Graficks.id_user) }}">{{ temp.Info.name }}</a></p>
                 </li>
             {% endfor %}
             </ul>

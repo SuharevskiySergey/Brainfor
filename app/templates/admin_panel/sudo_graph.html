@@ -61,7 +61,7 @@
                             {{ graph[i].Graficks.minute }}
                         {% endif %}
                         {{ graph[i].Info.name }}
-                        {{ stud_teach[graph[i].Info.id].name }}
+                        {{ teacher_key[graph[i].Graficks.id_Teacher].name }}
                     {% endif %}
 
                 {% if rolee== 'teacher' and graph[i].Info.id_user%}

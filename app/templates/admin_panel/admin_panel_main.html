@@ -43,7 +43,7 @@
             <td>
                 {% for g in info[1] %}
 
-                <a href="{{ url_for('main.create_lesson_get',graphid=g.id) }}">
+
                     {% if g.weekday==0 %}
                         Monday
                     {% elif g.weekday==1 %}
@@ -60,7 +60,7 @@
                         Sunday
                     {% endif %}
                     {{g.hour}}:{{g.minute}}
-                </a>
+
 
                 {% endfor %}
 

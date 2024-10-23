@@ -266,8 +266,8 @@ def dell_graph(id):
 def edit_graph(id):
     if current_user.role < 4:
         g = db.session.query(Graficks).filter(Graficks.id == id).first()
-        t_id = db.session.query(Teacher_To_Student).filter(Teacher_To_Student.id_Student == g.id_user).first().id_Teacher
-        if current_user.id != t_id:
+        # Graficks.id_Teacher
+        if current_user.id != g.id_Teacher:
             flash("you can edit this graph")
             return redirect(url_for('main.index'))
 
@@ -438,15 +438,30 @@ def clearlesson(id, numb):
 def tempfix():
     if current_user.role < 4:
         return redirect(url_for('main.index'))
-    infos = db.session.query(Info).all()
-    for i in infos:
-        i.lessons = 0
+    #teacher part
+    teacher_graph = db.session.query(Graficks, Info).join(Info).filter(Info.id_user != None).all()
+    # print(teacher_graph)
+    for t_g in teacher_graph:
+        t_g.Graficks.id_Teacher = t_g.Info.id_user
+        print(t_g.Info.id_user)
 
-    cashe = db.session.query(Cashflows).all()
-    for c in cashe:
-        c.lessons = 0
-    db.session.add_all(cashe)
+    to_fix = [i.Graficks for i in teacher_graph]
+    db.session.add_all(to_fix)
     db.session.commit()
-    db.session.add_all(infos)
+
+    #student_part
+    stud_graph = db.session.query(Graficks, Info).join(Info).filter(Info.id_user == None).all()
+    key = {i.id_Student: i.id_Teacher for i in  db.session.query(Teacher_To_Student).all()}
+    print(stud_graph)
+    fixed = []
+    for i in stud_graph:
+        i.Graficks.id_Teacher = key[i.Graficks.id_user]
+        fixed.append(i.Graficks)
+
+    print(fixed)
+    for i in fixed:
+        print(i.id_user, i.id_Teacher)
+    db.session.add_all(fixed)
     db.session.commit()
+
     return redirect(url_for('main.index'))

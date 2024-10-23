@@ -48,7 +48,16 @@
 {% endif %}
     <div style="color: black; background-color: gray; width: 300px; height: 250px;">
         {% for gra in graph %}
-            <p> {{gra.alt_key[gra.weekday]}} {{gra.hour}}:{{gra.minute}}
+            <p> {{gra.alt_key[gra.weekday]}} {{gra.hour}} :{% if gra.minute != 0 %}
+                    {{gra.minute}}
+                {% else %}
+                    00
+                {% endif %}
+                {% for teachere in teachers %}
+                    {% if gra.id_Teacher == teachere.id_user %}
+                        {{ teachere.name }}
+                    {% endif  %}
+                {% endfor %}
                 {% if role > 1%}
                     {% if current_user.id != info.id_user %}
                     <a href="{{ url_for('main.edit_graph',id = gra.id) }}">edit graph</a>
