@@ -90,3 +90,4 @@ Traceback (most recent call last):
     raise exc.UnmappedInstanceError(instance) from err
 sqlalchemy.orm.exc.UnmappedInstanceError: Class 'builtins.list' is not mapped
 2024-10-23 15:29:51,907 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-23 15:47:02,982 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
