@@ -309,7 +309,9 @@ def graphic(id):
     info = db.session.query(Info).filter(Info.id == id).first()
     if info.id_user:
         for i in range(7):
-            output[i] = (db.session.query(Graficks, Info).filter(Graficks.id_Teacher == info.id_user).filter(Graficks.weekday == i)
+            output[i] = (db.session.query(Graficks, Info).filter(Graficks.id_Teacher == info.id_user)
+                         .filter(Graficks.weekday == i)
+                         .order_by(Graficks.hour).order_by(Graficks.minute)
                          .join(Info).
                          all())
 
