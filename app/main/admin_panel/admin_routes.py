@@ -324,11 +324,14 @@ def get_paid(id):
     paid = sum([i.sum for i in cah_flows])
     if info.id_user:
         sume = sum([i.teacher_prize for i in db.session.query(Lesson).filter(Lesson.teacher == info.id_user).all()])
-
+        num_less = len(db.session.query(Lesson).filter(Lesson.teacher == info.id_user).all())
     else:
         sume = sum([i.prize for i in db.session.query(Lesson).filter(Lesson.student == info.id).all()])
+        num_less = len(db.session.query(Lesson).filter(Lesson.student == info.id).all())
+    paid_lessons = sum([i.lessons for i in cah_flows])
 
-    return render_template('admin_panel/finperson.html', form=form, info=info, cah_flows=cah_flows, sume=sume, paid=paid)
+    return render_template('admin_panel/finperson.html', form=form, info=info, cah_flows=cah_flows,
+                           sume=sume, paid=paid, num_less=num_less, paid_lessons=paid_lessons)
 
 
 @bp.route('/deactivate/<int:id>')

@@ -185,13 +185,23 @@ def create_lesson_post(graphid):
 
             db.session.add(lesson)
             db.session.commit()
+            stud1 = db.session.query(Info).filter(Info.id == graph.id_user).first()
+            teach1 = db.session.query(Info).filter(Info.id_user == graph.id_Teacher).first()
+            stud1.lessons = stud1.lessons - 1
+            teach1.lessons += 1
+            db.session.add(stud1)
+            db.session.add(teach1)
+            db.session.commit()
 
             return redirect(url_for('main.information',))
         else:
             flash('Please choose lessons')
             return redirect(url_for('main.information',))
+        #Info.
     else:
         pass
+
+
     return redirect(url_for('main.information',))
 
 

@@ -441,29 +441,18 @@ def tempfix():
     if current_user.role < 4:
         return redirect(url_for('main.index'))
     #teacher part
-    teacher_graph = db.session.query(Graficks, Info).join(Info).filter(Info.id_user != None).all()
-    # print(teacher_graph)
-    for t_g in teacher_graph:
-        t_g.Graficks.id_Teacher = t_g.Info.id_user
-        print(t_g.Info.id_user)
+    print("start-fixed")
+    infos = db.session.query(Info).all()
+    for info in infos:
+        if info.id_user:
+            info.lessons = (len(db.session.query(Lesson).filter(Lesson.teacher == info.id_user).all()) +
+                           sum([i.lessons for i in
+                                db.session.query(Cashflows).filter(Cashflows.id_info == info.id).all()]))
+        else:
+            info.lessons = (sum([i.lessons for i in db.session.query(Cashflows).filter(Cashflows.id_info == info.id).all()]) -
+                                len(db.session.query(Lesson).filter(Lesson.student == info.id).all()))
 
-    to_fix = [i.Graficks for i in teacher_graph]
-    db.session.add_all(to_fix)
-    db.session.commit()
-
-    #student_part
-    stud_graph = db.session.query(Graficks, Info).join(Info).filter(Info.id_user == None).all()
-    key = {i.id_Student: i.id_Teacher for i in  db.session.query(Teacher_To_Student).all()}
-    print(stud_graph)
-    fixed = []
-    for i in stud_graph:
-        i.Graficks.id_Teacher = key[i.Graficks.id_user]
-        fixed.append(i.Graficks)
-
-    print(fixed)
-    for i in fixed:
-        print(i.id_user, i.id_Teacher)
-    db.session.add_all(fixed)
-    db.session.commit()
+        db.session.add_all(infos)
+        db.session.commit()
 
     return redirect(url_for('main.index'))

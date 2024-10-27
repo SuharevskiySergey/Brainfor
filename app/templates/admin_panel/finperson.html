@@ -12,8 +12,12 @@
                 <p>Заплатив: {{ paid }}</p>
                 <p>Пройшов уроки на :{{ sume }}</p>
                 <p>Ще винен: {{ sume - paid }}</p>
-                <p>баланс уроків уроків: {{ info.lessons }}   </p>
+                <p>Пройшов уроків {{ num_less }} </p>
+                <p> Сума проплачених уроків {{ paid_lessons }}</p>
+                <p>баланс уроків: {{ info.lessons }} </p>
+
             {% endif %}
+            Гроші<br>
             {{ form.money(size=32) }}<br>
             lessons<br>
             {{ form.lessons(size=32) }}<br>
