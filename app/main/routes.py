@@ -266,7 +266,7 @@ def dell_graph(id):
 def edit_graph(id):
     if current_user.role < 4:
         g = db.session.query(Graficks).filter(Graficks.id == id).first()
-        # Graficks.id_user
+        # Graficks.
         if current_user.id != g.id_Teacher:
             flash("you can edit this graph")
             return redirect(url_for('main.information', id=g.id_user))
