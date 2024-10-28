@@ -43,3 +43,26 @@ jinja2.exceptions.UndefinedError: 'tot_pass' is undefined
 2024-10-28 02:04:38,422 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
 2024-10-28 02:05:02,691 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
 2024-10-28 02:09:16,903 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-28 13:22:01,916 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-28 13:22:20,038 ERROR: Exception on /edit_graph/18 [POST] [in C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py:838]
+Traceback (most recent call last):
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\Desktop\Brainfor\app\main\routes.py", line 291, in edit_graph
+    return redirect(url_for('main.information', id=id_user))
+                                                   ^^^^^^^
+NameError: name 'id_user' is not defined
+2024-10-28 13:23:00,790 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]

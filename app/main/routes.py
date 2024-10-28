@@ -266,10 +266,10 @@ def dell_graph(id):
 def edit_graph(id):
     if current_user.role < 4:
         g = db.session.query(Graficks).filter(Graficks.id == id).first()
-        # Graficks.id_Teacher
+        # Graficks.id_user
         if current_user.id != g.id_Teacher:
             flash("you can edit this graph")
-            return redirect(url_for('main.index'))
+            return redirect(url_for('main.information', id=g.id_user))
 
     g = db.session.query(Graficks).filter(Graficks.id == id).first()
     less = db.session.query(Lesson).filter(Lesson.datetimes > (date.today()-timedelta(days=date.today().weekday())))
@@ -278,7 +278,7 @@ def edit_graph(id):
             if les.datetimes.hour == g.hour:
                 if les.datetimes.minute == g.minute:
                     flash("This lesson was executet you can edit it next week")
-                    return redirect(url_for('main.index'))
+                    return redirect(url_for('main.information', id=g.id_user))
 
     form = GraphForm()
     if form.validate_on_submit():
@@ -288,7 +288,7 @@ def edit_graph(id):
         #print(form.weekday.data, form.houer.data, form.minute.data)
         db.session.add(g)
         db.session.commit()
-        return redirect(url_for('main.index'))
+        return redirect(url_for('main.information', id=g.id_user))
 
     form.weekday.data = {0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3: 'Thursday', 4: 'Friday',
                          5: 'Saturday', 6: 'Sunday'}[g.weekday]
