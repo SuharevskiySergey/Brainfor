@@ -34,7 +34,13 @@
             <td>{{ info[0].speed }}</td>
             <td>{{ info[0].value }}</td>
             <td>{{ info[0].source }}</td>
-            <td>{{ info[0].lessons- info[0].pass_lesson }}</td>
+            <td bgcolor="
+            {% if info[0].lessons < 0 %}
+                F1C0BC
+            {% else %}
+                79DD57
+            {% endif %}">
+            {{ info[0].lessons }}</td>
             {% if info[0].has_teacher() == False %}
             <td><a href="{{ url_for('main.chouse_teacher',id=info[0].id) }}">not active</a></td>
             {% else  %}

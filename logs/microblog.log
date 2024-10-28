@@ -39,3 +39,6 @@ Traceback (most recent call last):
     return obj[argument]
            ~~~^^^^^^^^^^
 jinja2.exceptions.UndefinedError: 'tot_pass' is undefined
+2024-10-28 02:01:34,809 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-28 02:04:38,422 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-28 02:05:02,691 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
