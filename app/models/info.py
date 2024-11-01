@@ -54,6 +54,14 @@ class Info(db.Model):
             teacher.append(db.session.query(Info.name).filter(Info.id_user == con.id_Teacher).first().name)
         return teacher
 
+    def to_dick(self):
+        data = {
+            "id": self.id,
+            "name": self.name,
+            "lessons": self.lessons,
+            "activa": self.activa
+        }
+        return data
 
 class Lesson(db.Model):
     __tablename__ = 'lessons'

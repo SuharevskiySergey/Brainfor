@@ -64,15 +64,18 @@ def information():
         for les in week_less:
             salar += les.teacher_prize
             w_l_c += 1
+        week_lesse = len(week_less)
     if info.id_user != None:
         tot_les = len(db.session.query(Lesson).filter(Lesson.teacher == info.id).all())
+
 
     else:
         tot_les = -1
 
     bank_inf = db.session.query(BankInfo).filter(BankInfo.id_user == info.id_user).first()
     return render_template('main/information.html', info=info,  role=current_user.role, teachers=teachers,
-                           day=0, graph=graph, summe=summe, salar=salar, w_l_c=w_l_c, tot_les=tot_les, bank_inf=bank_inf)
+                           week_lesse=week_lesse, day=0, graph=graph, summe=summe, salar=salar, w_l_c=w_l_c,
+                           tot_les=tot_les, bank_inf=bank_inf)
 
 
 @bp.route('/lesons_past/<int:id>')

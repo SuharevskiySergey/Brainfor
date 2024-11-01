@@ -66,3 +66,13 @@ Traceback (most recent call last):
                                                    ^^^^^^^
 NameError: name 'id_user' is not defined
 2024-10-28 13:23:00,790 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-28 15:34:27,145 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-29 00:20:30,010 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-29 03:03:35,941 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-29 03:04:08,240 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-29 03:07:29,854 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-31 19:08:13,010 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-11-01 02:57:42,138 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-11-01 02:57:58,499 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-11-01 02:59:40,874 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-11-01 03:00:47,725 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]

@@ -26,7 +26,7 @@
     {% endif %}
     {% if info.id_user %}
         <p>Rate: {{ info.value }}</p>
-        <p>Lessons: {{ info.lessons }}</p>
+        <p>Lessons(week): {{ week_lesse }}</p>
         <p>Bank: {{ bank_inf.name_bank }} Cart: {{ bank_inf.number }} <a href="{{ url_for('main.ed_carts', id=info.id_user) }}">Change</a></p>
         <p><a href="{{ url_for('main.get_paid',id=info.id) }}">Salary {{ salar }}</a><p>
     {% endif %}
@@ -88,6 +88,6 @@
 
         </div>
 {% endif %}
-    <p><a href="{{ url_for('main.lessons_past',id = info.id) }}"> Lessons executed</a></p>
+    <p><a href="{{ url_for('main.lessons_past',id = info.id) }}"> Lessons executed: {{ info.lessons }}</a></p>
 
 {% endblock %}
