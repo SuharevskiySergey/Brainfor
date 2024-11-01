@@ -70,7 +70,6 @@ def information():
 
     if info.id_user != None:
         tot_les = len(db.session.query(Lesson).filter(Lesson.teacher == info.id).all())
-
     else:
         tot_les = -1
 
