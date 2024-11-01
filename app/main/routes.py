@@ -56,8 +56,8 @@ def information():
         summe += paid.sum
     salar = 0
     w_l_c = 0
+    st = date.today() - timedelta(days=date.today().weekday())
     if info.id_user != None:
-        st = date.today() - timedelta(days=date.today().weekday())
 
         week_less = db.session.query(Lesson).filter(Lesson.teacher == info.id_user)\
             .filter(Lesson.datetimes >= st).all()
@@ -65,6 +65,9 @@ def information():
             salar += les.teacher_prize
             w_l_c += 1
         week_lesse = len(week_less)
+    else:
+        week_lesse = len(db.session.query(Lesson).filter(Lesson.student == info.id).filter(Lesson.datetimes >= st).all())
+
     if info.id_user != None:
         tot_les = len(db.session.query(Lesson).filter(Lesson.teacher == info.id).all())
 
