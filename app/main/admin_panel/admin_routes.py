@@ -135,6 +135,18 @@ def make_admin(id):
     return redirect(url_for('main.admin_users'))
 
 
+@bp.route("/make_noone<int:id>")
+@login_required
+def make_noone(id):
+    if current_user.role < 4:
+        return redirect(url_for('main.index'))
+    us = db.session.query(User).filter(User.id == id).first()
+    us.role = 1
+    db.session.add(us)
+    db.session.commit()
+    return redirect(url_for('main.admin_users'))
+
+
 @bp.route('/sudo_graph')
 @login_required
 def sudo_graph():

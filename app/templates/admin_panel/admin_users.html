@@ -33,6 +33,7 @@
             {% if user.User.role < 4 %}
             <td><a href="{{ url_for('main.make_teacher', id=user.User.id) }}">make teacher </a></td>
             <td><a href="{{ url_for('main.make_admin', id=user.User.id) }}">make admin </a></td>
+            <td><a href="{{ url_for('main.make_noone', id=user.User.id) }}">make noone </a></td>
             {% endif %}
         </tr>
         {% endfor %}
