@@ -66,7 +66,7 @@ def admin_panel_main():
 @bp.route('/add_new', methods=['GET', 'POST'])
 @login_required
 def add_new():
-    if current_user.role < 3:
+    if current_user.role < 2:
         return redirect(url_for('main.index'))
     id = request.args.get('id', 0, type=int)
 
@@ -80,11 +80,25 @@ def add_new():
         form.date_of_birth.data = info.date_of_birth
         form.phone_number.data = info.phone_number
 
+    if current_user.role == 2:
+        form.prize.data = 300
+
     if form.validate_on_submit():
         info = Info(name=form.name.data, date_of_birth=form.date_of_birth.data, country=form.country.data,
                     phone_number=form.phone_number.data, speed=form.speed.data, source=form.source.data,
                     value=form.prize.data, occupation=form.occupation.data, city=form.city.data)
-
+        if current_user.role == 2:
+            db.session.add(info)
+            db.session.commit()
+            course = Cource(to_student=info.id)
+            db.session.add(course)
+            db.session.commit()
+            course.initialization()
+            db.session.commit()
+            t_st = Teacher_To_Student(id_Teacher=current_user.id, id_Student = info.id)
+            db.session.add(t_st)
+            db.session.commit()
+            return redirect(url_for('main.teacher_panel'))
 
         db.session.add(info)
         db.session.commit()

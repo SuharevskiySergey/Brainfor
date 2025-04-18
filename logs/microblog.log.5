@@ -1,13 +1,9 @@
-2024-10-23 14:43:48,947 ERROR: Exception on /tempfix [GET] [in C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py:838]
+2024-10-23 14:54:04,525 ERROR: Exception on /tempfix [GET] [in C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py:838]
 Traceback (most recent call last):
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
-    self.dialect.do_execute(
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
-    cursor.execute(statement, parameters)
-psycopg2.errors.DatatypeMismatch: ОШИБКА:  аргумент конструкции WHERE должен иметь тип boolean, а не integer
-LINE 3: WHERE info.id_user
-              ^
-
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 3473, in add
+    state = attributes.instance_state(instance)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute '_sa_instance_state'
 
 The above exception was the direct cause of the following exception:
 
@@ -27,55 +23,23 @@ Traceback (most recent call last):
   File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sergey\Desktop\Brainfor\app\main\routes.py", line 441, in tempfix
-    teacher_graph = db.session.query(Graficks, Info).join(Info).filter(Info.id_user).all()
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\query.py", line 2673, in all
-    return self._iter().all()  # type: ignore
-           ^^^^^^^^^^^^
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\query.py", line 2827, in _iter
-    result: Union[ScalarResult[_T], Result[_T]] = self.session.execute(
-                                                  ^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 2362, in execute
-    return self._execute_internal(
-           ^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 2247, in _execute_internal
-    result: Result[Any] = compile_state_cls.orm_execute_statement(
-                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\context.py", line 305, in orm_execute_statement
-    result = conn.execute(
-             ^^^^^^^^^^^^^
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1418, in execute
-    return meth(
-           ^^^^^
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\sql\elements.py", line 515, in _execute_on_connection
-    return connection._execute_clauseelement(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1640, in _execute_clauseelement
-    ret = self._execute_context(
-          ^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1846, in _execute_context
-    return self._exec_single_context(
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1986, in _exec_single_context
-    self._handle_dbapi_exception(
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
-    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1967, in _exec_single_context
-    self.dialect.do_execute(
-  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\default.py", line 941, in do_execute
-    cursor.execute(statement, parameters)
-sqlalchemy.exc.ProgrammingError: (psycopg2.errors.DatatypeMismatch) ОШИБКА:  аргумент конструкции WHERE должен иметь тип boolean, а не integer
-LINE 3: WHERE info.id_user
-              ^
+  File "C:\Users\Sergey\Desktop\Brainfor\app\main\routes.py", line 448, in tempfix
+    db.session.add(teacher_graph)
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\scoping.py", line 378, in add
+    return self._proxied.add(instance, _warn=_warn)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 3475, in add
+    raise exc.UnmappedInstanceError(instance) from err
+sqlalchemy.orm.exc.UnmappedInstanceError: Class 'builtins.list' is not mapped
+2024-10-23 14:56:22,716 ERROR: Exception on /tempfix [GET] [in C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py:838]
+Traceback (most recent call last):
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 3473, in add
+    state = attributes.instance_state(instance)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'list' object has no attribute '_sa_instance_state'
 
-[SQL: SELECT graficks.id AS graficks_id, graficks.id_user AS graficks_id_user, graficks.weekday AS graficks_weekday, graficks.hour AS graficks_hour, graficks.minute AS graficks_minute, graficks."id_Teacher" AS "graficks_id_Teacher", info.id AS info_id, info.id_user AS info_id_user, info.name AS info_name, info.country AS info_country, info.date_of_birth AS info_date_of_birth, info.phone_number AS info_phone_number, info.speed AS info_speed, info.value AS info_value, info.source AS info_source, info.pay_already AS info_pay_already, info.pass_lesson AS info_pass_lesson, info.lessons AS info_lessons, info.city AS info_city, info.occupation AS info_occupation, info.activa AS info_activa 
-FROM graficks JOIN info ON info.id = graficks.id_user 
-WHERE info.id_user]
-(Background on this error at: https://sqlalche.me/e/20/f405)
-2024-10-23 14:44:15,198 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
-2024-10-23 14:46:19,220 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
-2024-10-23 14:46:27,626 ERROR: Exception on /tempfix [GET] [in C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py:838]
+The above exception was the direct cause of the following exception:
+
 Traceback (most recent call last):
   File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
     response = self.full_dispatch_request()
@@ -92,8 +56,58 @@ Traceback (most recent call last):
   File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
     return current_app.ensure_sync(func)(*args, **kwargs)
            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "C:\Users\Sergey\Desktop\Brainfor\app\main\routes.py", line 443, in tempfix
-    teacher_graph.Grafiks.id_Teacher = teacher_graph.Info.id_user
-                                       ^^^^^^^^^^^^^^^^^^
-AttributeError: 'list' object has no attribute 'Info'
-2024-10-23 14:47:40,523 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+  File "C:\Users\Sergey\Desktop\Brainfor\app\main\routes.py", line 448, in tempfix
+    db.session.commit()
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\scoping.py", line 378, in add
+    return self._proxied.add(instance, _warn=_warn)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\orm\session.py", line 3475, in add
+    raise exc.UnmappedInstanceError(instance) from err
+sqlalchemy.orm.exc.UnmappedInstanceError: Class 'builtins.list' is not mapped
+2024-10-23 14:57:22,869 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-23 15:18:54,923 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-23 15:19:13,698 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-23 15:19:18,010 ERROR: Exception on /tempfix [GET] [in C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py:838]
+Traceback (most recent call last):
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\Desktop\Brainfor\app\main\routes.py", line 453, in tempfix
+    stud_graph = db.session.query(Graficks, Info).join(Info).filter(Info.Id_user == None).all()
+                                                                    ^^^^^^^^^^^^
+AttributeError: type object 'Info' has no attribute 'Id_user'
+2024-10-23 15:19:30,212 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
+2024-10-23 15:20:23,883 ERROR: Exception on /sudo_graph [GET] [in C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py:838]
+Traceback (most recent call last):
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 1473, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 882, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 880, in full_dispatch_request
+    rv = self.dispatch_request()
+         ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask\app.py", line 865, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)  # type: ignore[no-any-return]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\AppData\Local\Programs\Python\Python311\Lib\site-packages\flask_login\utils.py", line 290, in decorated_view
+    return current_app.ensure_sync(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Sergey\Desktop\Brainfor\app\main\admin_panel\admin_routes.py", line 181, in sudo_graph
+    if teacher_key[g.Graficks.id_Teacher].name in to_total[g.Graficks.weekday]["list"]:
+       ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: None
+2024-10-23 15:27:43,610 INFO: Microblog startup [in C:\Users\Sergey\Desktop\Brainfor\app\__init__.py:57]
