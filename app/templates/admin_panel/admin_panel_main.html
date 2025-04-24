@@ -74,7 +74,7 @@
             <td><a href="{{ url_for('main.secsesfuly', id=info[0].id) }}">Lessons</a> </td>
             <td><a href="{{ url_for('main.get_paid',id=info[0].id) }}">Paid</a></td>
             {% if info[0].activa == True %}
-                <td><a href="{{ url_for('main.deactivate',id=info[0].id,act=act)  }}"> Deactivate </a></td>
+                <td><a href="{{ url_for('main.deactivate',id=info[0].id, act=act)  }}"> Deactivate </a></td>
             {% else %}
                 <td><a href="{{ url_for('main.activate',id=info[0].id, act=act) }}"> Activate </a></td>
             {% endif %}

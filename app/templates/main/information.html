@@ -10,6 +10,13 @@
 {% else %}
     <a href="{{ url_for('main.graphic', id=info.id) }}">Timetable</a>
 {% endif %}
+{% if not info.id_user %}
+    {% if info.activa == True %}
+        <td><a href="{{ url_for('main.deactivate',id=info.id)  }}"> Deactivate </a></td>
+    {% else %}
+        <td><a href="{{ url_for('main.activate',id=info.id) }}"> Activate </a></td>
+    {% endif %}
+{% endif %}
 
     <p>Full name: {{ info.name }}</p>
     <p>Country: {{ info.country }}</p>
@@ -69,7 +76,7 @@
 
             </p>
         {% endfor %}
-        {% if role >2 or current_user.id == info.id_user%}
+        {% if role >1 or current_user.id == info.id_user%}
             <a href="{{url_for('main.chose_teach_to_graph', id=info.id)}}">add graph </a>
         {% endif %}
     </div>

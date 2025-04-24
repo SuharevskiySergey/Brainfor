@@ -23,3 +23,11 @@ def send_password_reset_email(user):
                recipients=[user.email],
                text_body=render_template('email/reset_password.txt', user=user, token=token),
                html_body=render_template('email/reset_password.html', user=user, token=token))
+
+
+def teach_create_stud(teach, stud, adminemail):
+    send_email('created new stud',
+               sender=current_app.config['ADMINS'][0],
+               recipients=[adminemail],
+               text_body=render_template('email/created_stud_teach.txt', teach=teach, stud=stud),
+               html_body=render_template('email/created_stud.html', teach=teach, stud=stud))

@@ -213,7 +213,7 @@ def change_info(user_id):
 @login_required
 def chose_teach_to_graph(id):
     info = db.session.query(Info).filter(Info.id == id).first()
-    if current_user.role <4:
+    if current_user.role <2:
         if info.id_user != current_user.id:
             return redirect(url_for('main.index'))
 
@@ -237,7 +237,7 @@ def chose_teach_to_graph(id):
 @bp.route('/add_graph_to/<int:id>/<int:teach>', methods=['GET', 'POST'])
 @login_required
 def add_graficks(id, teach):
-    if current_user.role < 3:
+    if current_user.role < 2:
         if id != db.session.query(Info).filter(Info.id_user == current_user.id).first().id:
             return redirect(url_for('main.index'))
     form = GraphForm()
@@ -439,24 +439,24 @@ def clearlesson(id, numb):
     return redirect(url_for('main.secsesfuly', id=i.id))
 
 
-@bp.route('/tempfix')
-@login_required
-def tempfix():
-    if current_user.role < 4:
-        return redirect(url_for('main.index'))
-    #teacher part
-    print("start-fixed")
-    infos = db.session.query(Info).all()
-    for info in infos:
-        if info.id_user:
-            info.lessons = (len(db.session.query(Lesson).filter(Lesson.teacher == info.id_user).all()) +
-                           sum([i.lessons for i in
-                                db.session.query(Cashflows).filter(Cashflows.id_info == info.id).all()]))
-        else:
-            info.lessons = (sum([i.lessons for i in db.session.query(Cashflows).filter(Cashflows.id_info == info.id).all()]) -
-                                len(db.session.query(Lesson).filter(Lesson.student == info.id).all()))
-
-        db.session.add_all(infos)
-        db.session.commit()
-
-    return redirect(url_for('main.index'))
+# @bp.route('/tempfix')
+# @login_required
+# def tempfix():
+#     if current_user.role < 4:
+#         return redirect(url_for('main.index'))
+#     #teacher part
+#     print("start-fixed")
+#     infos = db.session.query(Info).all()
+#     for info in infos:
+#         if info.id_user:
+#             info.lessons = (len(db.session.query(Lesson).filter(Lesson.teacher == info.id_user).all()) +
+#                            sum([i.lessons for i in
+#                                 db.session.query(Cashflows).filter(Cashflows.id_info == info.id).all()]))
+#         else:
+#             info.lessons = (sum([i.lessons for i in db.session.query(Cashflows).filter(Cashflows.id_info == info.id).all()]) -
+#                                 len(db.session.query(Lesson).filter(Lesson.student == info.id).all()))
+#
+#         db.session.add_all(infos)
+#         db.session.commit()
+#
+#     return redirect(url_for('main.index'))

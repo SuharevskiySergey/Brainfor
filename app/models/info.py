@@ -63,6 +63,7 @@ class Info(db.Model):
         }
         return data
 
+
 class Lesson(db.Model):
     __tablename__ = 'lessons'
     id = db.Column(db.Integer, primary_key=True, index=True)

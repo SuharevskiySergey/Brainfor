@@ -42,11 +42,12 @@
                 {{ form.occupation.label }}<br>
                 {{ form.occupation(size=32) }}
             </p>
-
+            {% if current_user.role > 2 %}
             <p>
                 {{ form.prize.label }}<br>
                 {{ form.prize(size=32) }}
             </p>
+            {% endif %}
             <p>
                 {{ form.submit }}
             </p>

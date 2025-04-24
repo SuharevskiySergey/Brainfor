@@ -14,7 +14,7 @@ from datetime import datetime, timedelta, date
 from app.models.info import Lesson, Cashflows
 from app.main.admin_panel.forms import GetPaidForm
 from sqlalchemy import desc
-
+from app.email import teach_create_stud
 
 
 @bp.route('/admin_panel_teachers')
@@ -86,7 +86,7 @@ def add_new():
     if form.validate_on_submit():
         info = Info(name=form.name.data, date_of_birth=form.date_of_birth.data, country=form.country.data,
                     phone_number=form.phone_number.data, speed=form.speed.data, source=form.source.data,
-                    value=form.prize.data, occupation=form.occupation.data, city=form.city.data)
+                    value=form.prize.data, occupation=form.occupation.data, city=form.city.data, activa=False)
         if current_user.role == 2:
             db.session.add(info)
             db.session.commit()
@@ -98,6 +98,13 @@ def add_new():
             t_st = Teacher_To_Student(id_Teacher=current_user.id, id_Student = info.id)
             db.session.add(t_st)
             db.session.commit()
+
+            #rozcilka
+            admins = db.session.query(User).filter(User.role>2).all()
+            teach = db.session.query(Info).filter(Info.id_user == current_user.id).first()
+            admins += teach
+            for adms in admins:
+                teach_create_stud(teach=teach, stud=info, adminemail = adms.email)
             return redirect(url_for('main.teacher_panel'))
 
         db.session.add(info)
@@ -120,8 +127,12 @@ def admin_users():
 
     users_info = db.session.query(User, Info).join(Info).all()
         #(Info).filter(User.role < current_user.role).all()
-
     return render_template('admin_panel/admin_users.html', users_info=users_info)
+
+    # if current_user.role >2:
+    #     return redirect(url_for('main.admin_panel_main'))
+    # else:
+    #     return redirect(url_for('main.admin_panel_teachers'))
 
 
 @bp.route("/make_teacher<int:id>")
@@ -363,7 +374,7 @@ def get_paid(id):
 @bp.route('/deactivate/<int:id>')
 @login_required
 def deactivate(id):
-    if current_user.role < 3:
+    if current_user.role < 2:
         return redirect(url_for('main.index'))
     act = request.args.get('act', 'tru', type=str)
     i = db.session.query(Info).filter(Info.id == id).first()
@@ -376,7 +387,7 @@ def deactivate(id):
 @bp.route('/activate/<int:id>')
 @login_required
 def activate(id):
-    if current_user.role < 3:
+    if current_user.role < 2:
         return redirect(url_for('main.index'))
     act = request.args.get('act', 'tru', type=str)
     i = db.session.query(Info).filter(Info.id == id).first()
