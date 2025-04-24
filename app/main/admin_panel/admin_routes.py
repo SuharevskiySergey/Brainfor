@@ -20,7 +20,7 @@ from app.email import teach_create_stud
 @bp.route('/admin_panel_teachers')
 @login_required
 def admin_panel_teachers():
-    if current_user.role < 2:
+    if current_user.role < 3:
         return redirect(url_for('main.index'))
     teach = db.session.query(User.id).filter(User.role == 2).all()
     teach_id = []
@@ -42,7 +42,7 @@ def admin_panel_teachers():
 @bp.route('/admin_panel_main')
 @login_required
 def admin_panel_main():
-    if current_user.role < 2:
+    if current_user.role < 3:
         return redirect(url_for('main.index'))
 
     act = request.args.get('act', 'tru', type=str)
@@ -381,7 +381,13 @@ def deactivate(id):
     i.activa = False
     db.session.add(i)
     db.session.commit()
-    return redirect(url_for("main.admin_panel_main", act=act))
+
+    # return redirect(url_for("main.admin_panel_main"))
+    if current_user.role > 2:
+        return redirect(url_for("main.admin_panel_main"))
+    else:
+        return redirect(url_for('main.teacher_panel'))
+
 
 
 @bp.route('/activate/<int:id>')
@@ -394,9 +400,11 @@ def activate(id):
     i.activa = True
     db.session.add(i)
     db.session.commit()
-    return redirect(url_for("main.admin_panel_main", act=act))
-
-
+    # return redirect(url_for("main.admin_panel_main"))
+    if current_user.role > 2:
+        return redirect(url_for("main.admin_panel_main"))
+    else:
+        return redirect(url_for('main.teacher_panel'))
 
 
 @bp.route("/total_finance")
