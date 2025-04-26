@@ -122,6 +122,7 @@ def add_new():
     form.occupation.data = '-'
     form.phone_number.data = '-'
     form.source.data = '-'
+
     return render_template('admin_panel/student_page.html', form=form)
 
 
