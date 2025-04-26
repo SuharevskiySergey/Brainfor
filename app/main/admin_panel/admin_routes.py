@@ -116,6 +116,12 @@ def add_new():
         db.session.commit()
         return redirect(url_for('main.admin_panel_main'))
 
+    form.name.data = '-'
+    form.country.data = '-'
+    form.city.data = '-'
+    form.occupation.data = '-'
+    form.phone_number.data = '-'
+    form.source.data = '-'
     return render_template('admin_panel/student_page.html', form=form)
 
 
