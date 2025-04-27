@@ -1,0 +1,7 @@
+
+Ku {{ teach.name }}
+just created {{ stud.name }}
+link
+{{ url_for('main.information', id=stud.id, _external=True) }}
+he's not activate
+please confirm it
