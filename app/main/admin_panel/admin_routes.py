@@ -86,7 +86,7 @@ def add_new():
     if form.validate_on_submit():
         info = Info(name=form.name.data, date_of_birth=form.date_of_birth.data, country=form.country.data,
                     phone_number=form.phone_number.data, speed=form.speed.data, source=form.source.data,
-                    value=form.prize.data, occupation=form.occupation.data, city=form.city.data, activa=False)
+                    value=form.prize.data, occupation=form.occupation.data, city=form.city.data, activa=True)
         if current_user.role == 2:
             db.session.add(info)
             db.session.commit()
@@ -102,9 +102,9 @@ def add_new():
             #rozcilka
             admins = db.session.query(User).filter(User.role>2).all()
             teach = db.session.query(Info).filter(Info.id_user == current_user.id).first()
-            admins += teach
             for adms in admins:
                 teach_create_stud(teach=teach, stud=info, adminemail = adms.email)
+            teach_create_stud(teach=teach, stud=info, adminemail=teach)
             return redirect(url_for('main.teacher_panel'))
 
         db.session.add(info)
