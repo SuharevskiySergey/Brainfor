@@ -102,8 +102,8 @@ def add_new():
             #rozcilka
             admins = db.session.query(User).filter(User.role>2).all()
             teach = db.session.query(Info).filter(Info.id_user == current_user.id).first()
-            for adms in admins:
-                teach_create_stud(teach=teach, stud=info, adminemail = adms.email)
+            for adm in admins:
+                teach_create_stud(teach=teach, stud=info, adminemail = adm.email)
             teach_create_stud(teach=teach, stud=info, adminemail=teach)
             return redirect(url_for('main.teacher_panel'))
 

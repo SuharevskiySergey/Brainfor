@@ -33,7 +33,7 @@ class User(UserMixin, db.Model):
         s = jwt.encode(
             {'reset_password': self.id, 'exp': time()+expires_in},
             current_app.config['SECRET_KEY'], algorithm='HS256')
-        print(s)
+        # print(s)
         return s
 
     @staticmethod
