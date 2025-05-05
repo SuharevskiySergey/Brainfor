@@ -316,8 +316,9 @@ def graphic(id):
             output[i] = (db.session.query(Graficks, Info).filter(Graficks.id_Teacher == info.id_user)
                          .filter(Graficks.weekday == i)
                          .order_by(Graficks.hour).order_by(Graficks.minute)
-                         .join(Info).
-                         all())
+                         .join(Info)
+                         .filter(Info.activa)
+                         .all())
 
             start = date.today() - timedelta(date.today().weekday()+i)
             less[i] = (db.session.query(Lesson)
